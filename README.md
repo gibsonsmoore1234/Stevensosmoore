@@ -40,69 +40,86 @@ A professional, modern art portfolio website for Stevensosmoore, featuring oil p
 
 ## Tech Stack
 
-**Backend:**
-- Node.js with Express.js
-- SQLite3 database
-- JWT authentication
-- Bcrypt password hashing
-- Multer for file uploads
-
 **Frontend:**
 - HTML5
 - CSS3 with CSS Grid and Flexbox
 - Vanilla JavaScript
 - Responsive design
 
-## Installation
+**Backend:**
+- Vercel Serverless Functions (Node.js)
+- Supabase PostgreSQL database
+- Supabase Storage for images
+- JWT authentication
+- Bcrypt password hashing
+
+**Deployment:**
+- Vercel (hosting)
+- Supabase (database & storage)
+- GitHub (version control)
+- Custom domain (stevensosmoore.com)
+
+## Installation & Setup
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- npm
+- GitHub account
+- Supabase account (free)
+- Vercel account (free)
+- Custom domain (optional)
 
-### Setup Steps
+### Quick Start
 
-1. **Navigate to the project directory:**
+**Follow the Supabase Setup Guide:**
 ```bash
-cd /home/user/Stevensosmoore
+cat SETUP_SUPABASE.md
 ```
 
-2. **Install dependencies:**
-```bash
-npm install
-```
-
-3. **Start the server:**
-```bash
-npm start
-```
-
-The server will run on `http://localhost:5000`
+This guide covers:
+1. Creating a Supabase project
+2. Setting up database tables
+3. Creating storage bucket
+4. Configuring environment variables
+5. Deploying to Vercel
 
 ## Project Structure
 
 ```
 /
 ├── public/
-│   ├── index.html         # Main HTML file
-│   ├── styles.css         # All styling
-│   ├── app.js            # Frontend JavaScript
-│   ├── uploads/          # Uploaded artwork images
-│   └── ...
-├── data/
-│   └── art_portfolio.db  # SQLite database
-├── server.js             # Express backend
-├── package.json          # Dependencies
-├── .env                  # Environment variables
-└── README.md            # This file
+│   ├── index.html              # Main HTML file
+│   ├── styles.css              # All styling
+│   └── app.js                  # Frontend JavaScript
+├── api/
+│   ├── auth/
+│   │   ├── login.js            # Login endpoint
+│   │   └── change-password.js  # Password change endpoint
+│   ├── artworks.js             # Get artworks endpoint
+│   ├── artworks/
+│   │   ├── [id].js             # Get/delete single artwork
+│   │   └── upload.js           # Upload artwork endpoint
+│   └── admin/
+│       └── artworks.js         # Get all artworks (admin)
+├── vercel.json                 # Vercel configuration
+├── package.json                # Dependencies
+├── .env.local                  # Local environment variables
+├── SETUP_SUPABASE.md          # Supabase setup guide
+└── README.md                   # This file
 ```
 
 ## Usage
 
 ### Access the Website
-- **Home**: http://localhost:5000
-- **Oil Paintings**: http://localhost:5000/oil-paintings
-- **Other Media**: http://localhost:5000/other-media
-- **Admin Panel**: http://localhost:5000/admin
+- **Live Site**: https://www.stevensosmoore.com
+- **Local Dev**: `vercel dev` (requires Vercel CLI)
+
+### API Endpoints
+- `POST /api/auth/login` - Admin login
+- `POST /api/auth/change-password` - Change password
+- `GET /api/artworks` - Get public artworks
+- `GET /api/artworks?category=Oil%20Painting` - Filter by category
+- `POST /api/artworks/upload` - Upload artwork (admin)
+- `DELETE /api/artworks/[id]` - Delete artwork (admin)
+- `GET /api/admin/artworks` - Get all artworks (admin)
 
 ### Default Admin Credentials
 - **Username**: `admin`

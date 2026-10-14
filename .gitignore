@@ -2,18 +2,15 @@
 node_modules/
 npm-debug.log
 yarn-error.log
+package-lock.json
 
 # Environment
 .env
 .env.local
+.env.*.local
 
-# Database
-data/
-*.db
-
-# Uploads
-public/uploads/
-uploads/
+# Vercel
+.vercel/
 
 # OS
 .DS_Store
@@ -24,6 +21,8 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+*.sublime-project
+*.sublime-workspace
 
 # Logs
 logs/
@@ -32,7 +31,4 @@ logs/
 # Cache
 .cache/
 .npm/
-
-# Build
 dist/
-build/

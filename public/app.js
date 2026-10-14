@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = '/api';
 let authToken = localStorage.getItem('authToken');
 let currentArtwork = null;
 
@@ -209,7 +209,7 @@ function handleUpload(event) {
     formData.append('price', document.getElementById('artwork-price').value || 0);
     formData.append('image', document.getElementById('artwork-image').files[0]);
 
-    fetch(`${API_BASE}/artworks`, {
+    fetch(`${API_BASE}/artworks/upload`, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${authToken}`
