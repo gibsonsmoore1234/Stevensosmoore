@@ -85,6 +85,15 @@ const airship = `
 
 const road = (cls = "") => `<svg class="road ${cls}" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 90 C 180 20, 360 110, 600 60 S 980 0, 1210 70" /></svg>`;
 
+function wallWidth(work) {
+  const m = String(work.dimensions || "").match(/(\d+(?:\.\d+)?)\s*[x×]\s*(\d+(?:\.\d+)?)\s*(cm|in|")?/i);
+  if (!m) return 34;
+  let [a, b] = [Number(m[1]), Number(m[2])];
+  if (/cm/i.test(m[3] || "")) (a /= 2.54), (b /= 2.54);
+  const widthIn = (work.image_width || 1) >= (work.image_height || 1) ? Math.max(a, b) : Math.min(a, b);
+  return Math.max(8, Math.min(90, (widthIn / 84) * 70));
+}
+
 /* -------------------------------------------------------------- inquiry form */
 
 function inquiryForm({ work = null, kind = "general", settings, compact = false }) {
@@ -112,7 +121,7 @@ function inquiryForm({ work = null, kind = "general", settings, compact = false 
       <p class="inquiry__error" role="alert" hidden></p>
       <div class="inquiry__actions">
         <button class="btn" type="submit">Send message</button>
-        <span class="inquiry__alt">or ${email ? `email <a href="mailto:${esc(email)}">${esc(email)}</a> · ` : ""}DM <a href="${igUrl(settings)}" target="_blank" rel="noopener">@${esc(settings.instagram || "stevensosmoore")}</a></span>
+        <span class="inquiry__alt">or ${email ? `email <a href="mailto:${esc(email)}">${esc(email)}</a> · ` : ""}${settings.contact_phone ? `call/text <a href="tel:${esc(settings.contact_phone.replace(/[^\d+]/g, ""))}">${esc(settings.contact_phone)}</a> · ` : ""}DM <a href="${igUrl(settings)}" target="_blank" rel="noopener">@${esc(settings.instagram || "stevensosmoore")}</a></span>
       </div>
     </form>`;
 }
@@ -174,16 +183,18 @@ async function homeView() {
 
   return `
     <section class="hero">
-      <div class="hero__sky" aria-hidden="true"><span class="hero__sun"></span>${airship}</div>
+      <div class="hero__sky" aria-hidden="true"><span class="hero__sun"></span></div>
+      <button class="hero__airship" type="button" data-airship aria-label="Launch the airship">${airship}</button>
       <div class="hero__inner">
         <div class="hero__text">
-          <p class="eyebrow">Original paintings · Available to collect</p>
+          <p class="eyebrow">${esc(settings.price_range || "Original paintings")}</p>
           <h1 class="hero__title">Strange skies,<br><em>winding roads.</em></h1>
           <p class="hero__lede">${esc(settings.tagline)}</p>
           <div class="hero__cta">
             <a class="btn" href="/oil-paintings">View oil paintings</a>
             <a class="btn btn--ghost" href="/other-media">Other media</a>
           </div>
+          <button class="wander" type="button" data-wander><span aria-hidden="true">✦</span> Take me somewhere strange</button>
         </div>
         ${
           hero
@@ -257,7 +268,7 @@ async function oilView(params) {
     <section class="page-head">
       <p class="eyebrow">Gallery I</p>
       <h1>Oil paintings</h1>
-      <p class="page-head__lede">Thick, saturated, made by hand. Every painting is an original — collect one directly or send an inquiry.</p>
+      <p class="page-head__lede">Thick, saturated, made by hand. Every painting is an original — ${esc(settings.price_range || "")}. Collect one directly or send an inquiry.</p>
       <nav class="chips" aria-label="Filter oil paintings">
         ${OIL_FILTERS.filter((x) => x.id === "all" || counts[x.id] > 0)
           .map((x) => `<a class="chip" href="/oil-paintings${x.id === "all" ? "" : `?show=${x.id}`}" ${x.id === f ? 'aria-current="true"' : ""}>${x.label} <span>${counts[x.id]}</span></a>`)
@@ -322,7 +333,19 @@ async function workView(id) {
           ${img(work, { size: "full", eager: true, sizes: "(min-width: 1000px) 60vw, 100vw" })}
           ${work.status === "sold" ? '<span class="red-dot red-dot--large" aria-hidden="true"></span>' : ""}
           <span class="work__zoom-hint" aria-hidden="true">⤢ Enlarge</span>
+          <span class="loupe" aria-hidden="true" data-loupe style="background-image:url('${esc(imageFor(work, "full"))}')"></span>
         </button>
+        <div class="stage-tools">
+          <button class="chip" type="button" data-wall aria-pressed="false">🛋 View on a wall</button>
+          <button class="chip" type="button" data-wander>✦ Surprise me</button>
+        </div>
+        <div class="wall" data-wall-view hidden>
+          <div class="wall__room">
+            <img class="wall__art" src="${esc(imageFor(work, "full"))}" alt="" style="--w:${wallWidth(work)}%">
+            <svg class="wall__sofa" viewBox="0 0 400 120" aria-hidden="true"><path d="M20 50q0-20 20-20h320q20 0 20 20v30H20z" fill="#6f8a8a"/><rect x="0" y="60" width="400" height="45" rx="14" fill="#5d7676"/><rect x="24" y="104" width="10" height="16" fill="#3b2f2a"/><rect x="366" y="104" width="10" height="16" fill="#3b2f2a"/></svg>
+          </div>
+          <p class="wall__note">${work.dimensions ? `Shown to scale above a 7-foot sofa (${esc(work.dimensions)}).` : "Approximate scale — ask for exact dimensions."}</p>
+        </div>
       </div>
       <div class="work__info">
         <p class="eyebrow">${esc(categoryLabel(work.category))}</p>
@@ -397,7 +420,7 @@ async function contactView(params) {
       <aside class="contact__aside">
         <div><p class="eyebrow">Commissions</p><p>Portraits, pets, places and stories, painted in my style. Tell me the idea, the size you're imagining and any timing.</p></div>
         <div><p class="eyebrow">Collecting</p><p>Available works can be bought straight from each painting's page. Ask anything about framing, shipping or pickup.</p></div>
-        <div><p class="eyebrow">Elsewhere</p><p><a href="${igUrl(settings)}" target="_blank" rel="noopener">Instagram @${esc(settings.instagram)}</a>${settings.contact_email ? `<br><a href="mailto:${esc(settings.contact_email)}">${esc(settings.contact_email)}</a>` : ""}</p></div>
+        <div><p class="eyebrow">Elsewhere</p><p><a href="${igUrl(settings)}" target="_blank" rel="noopener">Instagram @${esc(settings.instagram)}</a>${settings.contact_email ? `<br><a href="mailto:${esc(settings.contact_email)}">${esc(settings.contact_email)}</a>` : ""}${settings.contact_phone ? `<br><a href="tel:${esc(settings.contact_phone.replace(/[^\d+]/g, ""))}">${esc(settings.contact_phone)}</a>` : ""}</p></div>
       </aside>
     </section>`;
 }
@@ -413,6 +436,110 @@ function notFoundView() {
       <a class="btn" href="/">Back to the paintings</a>
     </section>`;
 }
+
+/* ------------------------------------------------------------------- playful */
+
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+function playful() {
+  // Surprise me: jump to a random painting
+  view.querySelectorAll("[data-wander]").forEach((b) =>
+    b.addEventListener("click", async () => {
+      const works = (await getArtworks()).filter((w) => !location.pathname.startsWith(`/work/${w.id}`));
+      if (!works.length) return;
+      const pick = works[Math.floor(Math.random() * works.length)];
+      b.classList.add("is-spinning");
+      setTimeout(() => navigate(workPath(pick)), reduceMotion ? 0 : 450);
+    }),
+  );
+
+  // Airship: click to launch it across the sky
+  const ship = view.querySelector("[data-airship]");
+  if (ship) {
+    ship.addEventListener("click", () => {
+      if (ship.classList.contains("is-launched")) return;
+      ship.classList.add("is-launched");
+      toast("Bon voyage! ✦");
+      setTimeout(() => ship.classList.remove("is-launched"), 4200);
+    });
+  }
+
+  // Hero painting tilts toward the cursor
+  const hero = view.querySelector(".hero__work");
+  if (hero && finePointer && !reduceMotion) {
+    const frame = hero.querySelector(".hero__frame");
+    hero.addEventListener("pointermove", (e) => {
+      const r = hero.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      frame.style.transform = `perspective(900px) rotateY(${x * 8}deg) rotateX(${-y * 6}deg) translateY(-4px)`;
+    });
+    hero.addEventListener("pointerleave", () => (frame.style.transform = ""));
+  }
+
+  // Magnifying loupe for brushwork
+  const zoom = view.querySelector(".work__zoom");
+  const loupe = view.querySelector("[data-loupe]");
+  if (zoom && loupe && finePointer) {
+    const imgEl = zoom.querySelector("img");
+    zoom.addEventListener("pointermove", (e) => {
+      const r = imgEl.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      if (x < 0 || y < 0 || x > r.width || y > r.height) return loupe.classList.remove("is-on");
+      const zr = zoom.getBoundingClientRect();
+      loupe.classList.add("is-on");
+      loupe.style.left = `${e.clientX - zr.left}px`;
+      loupe.style.top = `${e.clientY - zr.top}px`;
+      loupe.style.backgroundSize = `${r.width * 2.6}px ${r.height * 2.6}px`;
+      loupe.style.backgroundPosition = `${-(x * 2.6 - 80)}px ${-(y * 2.6 - 80)}px`;
+    });
+    zoom.addEventListener("pointerleave", () => loupe.classList.remove("is-on"));
+  }
+
+  // View on a wall
+  const wallBtn = view.querySelector("[data-wall]");
+  if (wallBtn) {
+    const wall = view.querySelector("[data-wall-view]");
+    wallBtn.addEventListener("click", () => {
+      const on = wall.hidden;
+      wall.hidden = !on;
+      zoom.hidden = on;
+      wallBtn.setAttribute("aria-pressed", String(on));
+      wallBtn.textContent = on ? "⤢ Back to painting" : "🛋 View on a wall";
+    });
+  }
+
+  // The oxblood road paints itself as you scroll
+  const roads = [...document.querySelectorAll(".road path")];
+  roads.forEach((p) => p.setAttribute("pathLength", "1"));
+  drawRoads();
+}
+
+function drawRoads() {
+  if (reduceMotion) return;
+  document.querySelectorAll(".road").forEach((svg) => {
+    const r = svg.getBoundingClientRect();
+    const t = Math.min(1, Math.max(0, (window.innerHeight - r.top) / (window.innerHeight * 0.7)));
+    svg.querySelector("path").style.strokeDashoffset = String(1 - t);
+  });
+}
+window.addEventListener("scroll", () => requestAnimationFrame(drawRoads), { passive: true });
+
+function toast(msg) {
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = msg;
+  document.querySelector("[data-toasts]").append(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+// Arrow keys flip through works on an artwork page
+document.addEventListener("keydown", (e) => {
+  if (view.dataset.route !== "work" || !lb.hidden || e.target.closest("input, textarea, select")) return;
+  const rel = e.key === "ArrowLeft" ? "prev" : e.key === "ArrowRight" ? "next" : null;
+  const a = rel && view.querySelector(`.pager a[rel="${rel}"]`);
+  if (a) navigate(a.getAttribute("href"));
+});
 
 /* -------------------------------------------------------------------- router */
 
@@ -472,6 +599,7 @@ function enhance(settings) {
     }),
   );
   view.querySelectorAll("[data-zoom]").forEach((b) => b.addEventListener("click", () => openLightbox(b.dataset.zoom, b.dataset.zoomAlt, b)));
+  playful();
   const items = view.querySelectorAll(".reveal");
   if (reduceMotion || !("IntersectionObserver" in window)) return items.forEach((el) => el.classList.add("is-in"));
   const io = new IntersectionObserver(

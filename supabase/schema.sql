@@ -117,6 +117,8 @@ create table if not exists public.site_settings (
   hero_artwork_id  bigint references public.artworks (id) on delete set null,
   updated_at       timestamptz not null default now()
 );
+alter table public.site_settings add column if not exists contact_phone text check (char_length(contact_phone) <= 40);
+alter table public.site_settings add column if not exists price_range text check (char_length(price_range) <= 120);
 insert into public.site_settings (id) values (1) on conflict (id) do nothing;
 
 drop trigger if exists site_settings_touch on public.site_settings;

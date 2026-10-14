@@ -30,7 +30,9 @@ export const DEFAULT_SETTINGS = {
     "I'm a painter and a student at Duke University. I work mostly in thick, saturated oil, with acrylic, charcoal and graphite close behind.\n\n" +
     "My paintings are crowded with figures, creatures and invented landscapes — burning skies, roads that wind somewhere else, cities stacked like glass. Every piece here is an original, made by hand.\n\n" +
     "If a work speaks to you, you can collect it directly or send an inquiry. I'm also open to commissions.",
-  contact_email: "",
+  contact_email: "gibson.moore@duke.edu",
+  contact_phone: "470-533-7922",
+  price_range: "Originals from $250 to $10,000",
   instagram: "stevensosmoore",
   hero_artwork_id: null,
 };

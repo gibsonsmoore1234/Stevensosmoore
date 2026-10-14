@@ -666,7 +666,11 @@ async function siteView(main) {
       <div class="field"><label for="s-tag">Tagline</label><textarea class="textarea input" id="s-tag" name="tagline" maxlength="300" style="min-height:80px" placeholder="${esc(DEFAULT_SETTINGS.tagline)}">${esc(s.tagline || "")}</textarea><span class="hint">Shown under the headline on the home page.</span></div>
       <div class="field"><label for="s-about">About</label><textarea class="textarea input" id="s-about" name="about" maxlength="6000" style="min-height:220px" placeholder="${esc(DEFAULT_SETTINGS.about)}">${esc(s.about || "")}</textarea><span class="hint">Leave a blank line between paragraphs. Leave empty to use the default text.</span></div>
       <div class="grid2">
-        <div class="field"><label for="s-email">Public contact email</label><input class="input" id="s-email" name="contact_email" type="email" maxlength="320" value="${esc(s.contact_email || "")}"><span class="hint">Optional — shown next to forms.</span></div>
+        <div class="field"><label for="s-email">Public contact email</label><input class="input" id="s-email" name="contact_email" type="email" maxlength="320" value="${esc(s.contact_email || "")}" placeholder="${esc(DEFAULT_SETTINGS.contact_email)}"><span class="hint">Shown next to forms.</span></div>
+        <div class="field"><label for="s-phone">Public phone</label><input class="input" id="s-phone" name="contact_phone" type="tel" maxlength="40" value="${esc(s.contact_phone || "")}" placeholder="${esc(DEFAULT_SETTINGS.contact_phone)}"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="s-range">Price range line</label><input class="input" id="s-range" name="price_range" maxlength="120" value="${esc(s.price_range || "")}" placeholder="${esc(DEFAULT_SETTINGS.price_range)}"></div>
         <div class="field"><label for="s-ig">Instagram handle</label><input class="input" id="s-ig" name="instagram" maxlength="60" value="${esc(s.instagram || "stevensosmoore")}"></div>
       </div>
       <div class="field"><label for="s-hero">Home page hero painting</label><select class="select input" id="s-hero" name="hero_artwork_id"><option value="">Automatic (first featured work)</option>${works.map((w) => `<option value="${w.id}" ${String(w.id) === String(s.hero_artwork_id) ? "selected" : ""}>${esc(w.title)}</option>`).join("")}</select></div>
@@ -682,6 +686,8 @@ async function siteView(main) {
       tagline: d.tagline.trim() || null,
       about: d.about.trim() || null,
       contact_email: d.contact_email.trim() || null,
+      contact_phone: d.contact_phone.trim() || null,
+      price_range: d.price_range.trim() || null,
       instagram: d.instagram.trim().replace(/^@/, "") || "stevensosmoore",
       hero_artwork_id: d.hero_artwork_id ? Number(d.hero_artwork_id) : null,
     };
