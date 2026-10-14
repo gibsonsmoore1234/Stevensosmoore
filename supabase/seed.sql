@@ -18,7 +18,7 @@ select 'The Dragon Duel', 'oil', 'Oil on canvas', 'A man in a red cap fires a la
 where not exists (select 1 from public.artworks where image_url = '/images/works/the-dragon-duel.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
-select 'The Dog Pile', 'oil', 'Oil on canvas', 'Three dogs, white, grey and black-and-white, piled together in thick impasto on a green ground.', '/images/works/the-dog-pile.jpg', '/images/works/the-dog-pile.jpg', 910, 744, true, 50, 'available', true
+select 'Three Good Dogs', 'oil', 'Oil on canvas', 'Three dogs — a yellow lab, a grey terrier on a blue leash and a black-and-white pup — sit side by side on a green ground, painted in thick impasto.', '/images/works/the-dog-pile.jpg', '/images/works/the-dog-pile.jpg', 1400, 1122, true, 50, 'available', true
 where not exists (select 1 from public.artworks where image_url = '/images/works/the-dog-pile.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
