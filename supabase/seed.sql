@@ -78,9 +78,14 @@ select 'Lady with a Tree Hat', 'drawing', 'Graphite on paper', 'A sketchbook dra
 where not exists (select 1 from public.artworks where image_url = '/images/works/lady-with-a-tree-hat.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
-select 'Moon Faces', 'drawing', 'Graphite on paper', 'A graphite drawing of round faces drifting among dark planets.', '/images/works/moon-faces.jpg', '/images/works/moon-faces.jpg', 374, 318, false, 200, 'available', true
+select 'Comet of Faces', 'charcoal', 'Charcoal and white pastel on paper', 'A charcoal drawing of a huge comet-like face streaking through a starry sky above a crowd of strange heads.', '/images/works/moon-faces.jpg', '/images/works/moon-faces.jpg', 1037, 1261, false, 200, 'available', true
 where not exists (select 1 from public.artworks where image_url = '/images/works/moon-faces.jpg');
 
 update public.site_settings set hero_artwork_id = (select id from public.artworks where image_url = '/images/works/airship-over-the-glass-city.jpg' order by id limit 1) where id = 1 and hero_artwork_id is null;
 update public.artworks set detail_urls = array['/images/details/the-long-fall-1.jpg','/images/details/the-long-fall-2.jpg'] where image_url = '/images/works/the-long-fall.jpg' and coalesce(cardinality(detail_urls),0) = 0;
 update public.artworks set detail_urls = array['/images/details/cowboy-in-the-clouds-1.jpg'] where image_url = '/images/works/cowboy-in-the-clouds.jpg' and coalesce(cardinality(detail_urls),0) = 0;
+
+insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
+select 'The Red Cyclops', 'oil', 'Oil on canvas', 'Against a churning crimson ground, a bearded figure with a giant eye for a torso raises an arm above a huge sideways face and a small red-haired figure.', '/images/works/the-red-cyclops.jpg', '/images/works/the-red-cyclops.jpg', 1115, 1400, true, 15, 'available', true
+where not exists (select 1 from public.artworks where image_url = '/images/works/the-red-cyclops.jpg');
+update public.artworks set detail_urls = array['/images/details/moon-faces-1.jpg','/images/details/moon-faces-2.jpg','/images/details/moon-faces-3.jpg'] where image_url = '/images/works/moon-faces.jpg' and coalesce(cardinality(detail_urls),0) = 0;
