@@ -301,3 +301,8 @@ main > * { padding-inline: var(--gutter); }
 .wall__note { font-size: var(--step--1); color: var(--text-muted); margin-top: var(--space-xs); }
 .work__zoom[hidden], .wall[hidden] { display: none; }
 .wall__art { object-fit: cover; }
+.details { margin-top: var(--space-m); }
+.details__row { display: flex; gap: var(--space-2xs); margin-top: var(--space-2xs); flex-wrap: wrap; }
+.details__btn { width: 88px; height: 88px; overflow: hidden; border-radius: 4px; box-shadow: var(--shadow-hang); cursor: zoom-in; }
+.details__btn img { width: 100%; height: 100%; object-fit: cover; transition: transform 400ms var(--ease); }
+.details__btn:hover img { transform: scale(1.12); }

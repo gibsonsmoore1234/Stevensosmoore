@@ -80,6 +80,7 @@ create table if not exists public.artworks (
   created_at    timestamptz not null default now(),
   updated_at    timestamptz not null default now()
 );
+alter table public.artworks add column if not exists detail_urls text[] not null default '{}';
 alter table public.artworks add column if not exists alt_text text check (char_length(alt_text) <= 600);
 create index if not exists artworks_public_idx on public.artworks (published, sort_order, created_at desc);
 

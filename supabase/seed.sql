@@ -82,3 +82,5 @@ select 'Moon Faces', 'drawing', 'Graphite on paper', 'A graphite drawing of roun
 where not exists (select 1 from public.artworks where image_url = '/images/works/moon-faces.jpg');
 
 update public.site_settings set hero_artwork_id = (select id from public.artworks where image_url = '/images/works/airship-over-the-glass-city.jpg' order by id limit 1) where id = 1 and hero_artwork_id is null;
+update public.artworks set detail_urls = array['/images/details/the-long-fall-1.jpg','/images/details/the-long-fall-2.jpg'] where image_url = '/images/works/the-long-fall.jpg' and coalesce(cardinality(detail_urls),0) = 0;
+update public.artworks set detail_urls = array['/images/details/cowboy-in-the-clouds-1.jpg'] where image_url = '/images/works/cowboy-in-the-clouds.jpg' and coalesce(cardinality(detail_urls),0) = 0;

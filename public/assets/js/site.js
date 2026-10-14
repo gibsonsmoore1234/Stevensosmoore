@@ -335,6 +335,7 @@ async function workView(id) {
           <span class="work__zoom-hint" aria-hidden="true">⤢ Enlarge</span>
           <span class="loupe" aria-hidden="true" data-loupe style="background-image:url('${esc(imageFor(work, "full"))}')"></span>
         </button>
+        ${(work.detail_urls || []).length ? `<div class="details"><p class="eyebrow">Details</p><div class="details__row">${work.detail_urls.map(safeUrl).filter(Boolean).map((u, i) => `<button type="button" class="details__btn" data-zoom="${esc(u)}" data-zoom-alt="Detail ${i + 1} of ${esc(work.title)}" aria-label="Enlarge detail ${i + 1}"><img src="${esc(u)}" alt="" loading="lazy"></button>`).join("")}</div></div>` : ""}
         <div class="stage-tools">
           <button class="chip" type="button" data-wall aria-pressed="false">🛋 View on a wall</button>
           <button class="chip" type="button" data-wander>✦ Surprise me</button>
