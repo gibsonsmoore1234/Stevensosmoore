@@ -1,296 +1,130 @@
-# Stevensosmoore - Artist Portfolio Website
+# Stevensosmoore
 
-A professional, modern art portfolio website for Stevensosmoore, featuring oil paintings, acrylics, charcoal, and mixed media works with an admin dashboard for managing artwork listings.
+Portfolio and shop for the painter **Stevensosmoore** — live at **https://www.stevensosmoore.com**.
 
-## Features
-
-✨ **Gallery Pages**
-- Oil Paintings gallery (for sale)
-- Other Media gallery (Acrylics, Charcoal, Mixed Media, etc.)
-- Featured works on home page
-- Beautiful responsive design
-
-🎨 **Professional Design**
-- Clean, modern interface
-- Smooth animations and transitions
-- Mobile-responsive layout
-- Professional color scheme
-
-🔐 **Admin Dashboard**
-- Secure login system
-- Upload new artworks with images
-- Manage existing artworks
-- Change password functionality
-- View all artworks with pricing
-
-💰 **E-commerce Features**
-- Product pricing management
-- Add to cart functionality
-- Professional product cards
-- Detailed artwork views
-
-📱 **Responsive Design**
-- Works on desktop, tablet, and mobile
-- Touch-friendly interface
-- Optimized images
-
-🔗 **Social Integration**
-- Instagram link in navigation
-- Direct links to social profiles
-
-## Tech Stack
-
-**Frontend:**
-- HTML5
-- CSS3 with CSS Grid and Flexbox
-- Vanilla JavaScript
-- Responsive design
-
-**Backend:**
-- Vercel Serverless Functions (Node.js)
-- Supabase PostgreSQL database
-- Supabase Storage for images
-- JWT authentication
-- Bcrypt password hashing
-
-**Deployment:**
-- Vercel (hosting)
-- Supabase (database & storage)
-- GitHub (version control)
-- Custom domain (stevensosmoore.com)
-
-## Installation & Setup
-
-### Prerequisites
-- GitHub account
-- Supabase account (free)
-- Vercel account (free)
-- Custom domain (optional)
-
-### Quick Start
-
-**Follow the Supabase Setup Guide:**
-```bash
-cat SETUP_SUPABASE.md
-```
-
-This guide covers:
-1. Creating a Supabase project
-2. Setting up database tables
-3. Creating storage bucket
-4. Configuring environment variables
-5. Deploying to Vercel
-
-## Project Structure
-
-```
-/
-├── public/
-│   ├── index.html              # Main HTML file
-│   ├── styles.css              # All styling
-│   └── app.js                  # Frontend JavaScript
-├── api/
-│   ├── auth/
-│   │   ├── login.js            # Login endpoint
-│   │   └── change-password.js  # Password change endpoint
-│   ├── artworks.js             # Get artworks endpoint
-│   ├── artworks/
-│   │   ├── [id].js             # Get/delete single artwork
-│   │   └── upload.js           # Upload artwork endpoint
-│   └── admin/
-│       └── artworks.js         # Get all artworks (admin)
-├── vercel.json                 # Vercel configuration
-├── package.json                # Dependencies
-├── .env.local                  # Local environment variables
-├── SETUP_SUPABASE.md          # Supabase setup guide
-└── README.md                   # This file
-```
-
-## Usage
-
-### Access the Website
-- **Live Site**: https://www.stevensosmoore.com
-- **Local Dev**: `vercel dev` (requires Vercel CLI)
-
-### API Endpoints
-- `POST /api/auth/login` - Admin login
-- `POST /api/auth/change-password` - Change password
-- `GET /api/artworks` - Get public artworks
-- `GET /api/artworks?category=Oil%20Painting` - Filter by category
-- `POST /api/artworks/upload` - Upload artwork (admin)
-- `DELETE /api/artworks/[id]` - Delete artwork (admin)
-- `GET /api/admin/artworks` - Get all artworks (admin)
-
-### Default Admin Credentials
-- **Username**: `admin`
-- **Password**: `password123`
-
-⚠️ **IMPORTANT**: Change the default password immediately after first login for security.
-
-### Admin Dashboard
-
-#### Upload Artwork
-1. Go to Admin > Upload Artwork tab
-2. Fill in:
-   - Title
-   - Description
-   - Category (Oil Painting, Acrylic, Charcoal, Mixed Media, Drawing)
-   - Price (optional)
-   - Upload image file
-3. Click "Upload Artwork"
-
-#### Manage Artworks
-1. Go to Admin > Manage Artworks tab
-2. View all uploaded artworks
-3. Delete artworks (archived, not permanently deleted)
-4. Edit functionality coming soon
-
-#### Account Settings
-1. Go to Admin > Settings tab
-2. Change your admin password
-3. Enter old password, new password, and confirm
-
-## API Endpoints
-
-### Authentication
-- `POST /api/auth/login` - Admin login
-- `POST /api/auth/change-password` - Change admin password
-
-### Artworks
-- `GET /api/artworks` - Get all public artworks
-- `GET /api/artworks?category=Oil Painting` - Get artworks by category
-- `GET /api/artworks/:id` - Get single artwork details
-- `POST /api/artworks` - Upload new artwork (requires auth)
-- `PUT /api/artworks/:id` - Update artwork (requires auth)
-- `DELETE /api/artworks/:id` - Delete artwork (requires auth)
-- `GET /api/admin/artworks` - Get all artworks including archived (requires auth)
-
-## Categories
-
-Artworks can be organized into these categories:
-- Oil Painting
-- Acrylic
-- Charcoal
-- Mixed Media
-- Drawing
-
-## Customization
-
-### Change Colors
-Edit the CSS variables in `public/styles.css`:
-```css
-:root {
-    --primary-color: #2c3e50;        /* Main color */
-    --secondary-color: #d4a574;      /* Accent color */
-    --accent-color: #e8b4a8;         /* Additional accent */
-    --text-color: #333;              /* Text color */
-    --light-bg: #f8f7f4;            /* Light background */
-}
-```
-
-### Change Artist Name
-Update in `public/index.html`:
-- `.logo-text` - Main name in navigation
-- `<title>` - Browser tab title
-- About section content
-
-### Change Social Links
-Update Instagram link in `public/index.html`:
-```html
-<a href="https://instagram.com/YOUR_HANDLE" target="_blank">
-```
-
-## Security Notes
-
-1. **Change Default Password**: The default admin password must be changed immediately
-2. **Use HTTPS**: In production, always use HTTPS
-3. **JWT Secret**: Change the `JWT_SECRET` in `.env` file
-4. **Database**: Keep the database file secure and backed up
-5. **Image Uploads**: Validate image files on the server (already done)
-
-## Deployment
-
-### For Production:
-
-1. **Update environment variables:**
-```bash
-cp .env.example .env
-# Edit .env with production values
-```
-
-2. **Set NODE_ENV:**
-```bash
-NODE_ENV=production
-```
-
-3. **Use a process manager:**
-```bash
-npm install -g pm2
-pm2 start server.js --name "art-portfolio"
-```
-
-4. **Setup reverse proxy** (Nginx/Apache)
-
-5. **Use HTTPS** with SSL certificate
-
-## Features to Add
-
-- [ ] Image editing/cropping
-- [ ] Advanced search and filtering
-- [ ] Wish list functionality
-- [ ] Customer reviews/ratings
-- [ ] Email notifications
-- [ ] Payment integration (Stripe, PayPal)
-- [ ] Blog/news section
-- [ ] Contact form
-- [ ] Analytics tracking
-
-## Troubleshooting
-
-### Port Already in Use
-```bash
-# On Linux/Mac
-lsof -i :5000
-kill -9 <PID>
-
-# On Windows
-netstat -ano | findstr :5000
-taskkill /PID <PID> /F
-```
-
-### Database Issues
-Delete the database file and restart:
-```bash
-rm data/art_portfolio.db
-npm start
-```
-
-### Image Upload Not Working
-Ensure the `public/uploads` directory exists and is writable:
-```bash
-mkdir -p public/uploads
-chmod 755 public/uploads
-```
-
-## Support & Contact
-
-- **Instagram**: @STEVENSOSMOORE
-- **Email**: gibson.moore@duke.edu
-- **Duke University** - Student Artist
-
-## License
-
-© 2024 Stevensosmoore. All rights reserved.
-
-## Notes for Development
-
-- Frontend runs on port 5000
-- Backend API also on port 5000 (same server)
-- All uploads are stored in `public/uploads/`
-- Database is SQLite for simplicity and portability
-- JWT tokens expire after 7 days
-- Artworks are soft-deleted (archived) not permanently removed
+- **Oil paintings** for sale, plus **other media** (acrylic, charcoal, drawings, mixed media)
+- Artwork pages with gallery-style wall labels, "Purchase" (optional Stripe Payment Link) or "Inquire" buttons, and a red dot when a work is sold
+- A private **Studio** admin at `/admin` to upload, edit, reorder, price and mark works sold, read inquiries, and edit the site's text
+- Static site on **Vercel**, data + images + login on **Supabase**, deploys from **GitHub** `main`
 
 ---
 
-**Built with ❤️ for the art community**
+## How it fits together
+
+```
+GitHub (main) ──push──▶ Vercel ──serves──▶ www.stevensosmoore.com
+                          │ build: scripts/build.mjs writes public/env.js
+                          │        (public Supabase URL + anon key only)
+                          ▼
+                       Supabase
+                         • Postgres: artworks, inquiries, site_settings, admins
+                         • Storage:  "artworks" bucket (uploaded images)
+                         • Auth:     your admin login (email + password)
+```
+
+There are no servers to run. Visitors read published artworks straight from Supabase with the public key. Row Level Security means only accounts listed in the `admins` table can change anything.
+
+```
+public/
+  index.html             public site (single page: home, galleries, work pages, about, contact)
+  admin.html             the Studio admin (/admin)
+  404.html
+  assets/css/base.css    shared design tokens — palette sampled from the artist's paintings
+  assets/js/api.js       public data layer (Supabase REST, falls back to the starter collection)
+  assets/vendor/         Supabase JS (bundled, used only by /admin)
+  data/starter-works.json
+  images/works/          starter collection images
+supabase/schema.sql      tables, security policies, storage bucket — run once
+supabase/seed.sql        loads the starter collection — run once (optional)
+scripts/build.mjs        Vercel build step: env vars → public/env.js
+scripts/dev.mjs          local preview server (mirrors vercel.json routing)
+vercel.json              routing, headers, build settings
+```
+
+---
+
+## Launch checklist
+
+### 1. Supabase — create the database (5 min)
+
+1. Open your project at [supabase.com/dashboard](https://supabase.com/dashboard) → **SQL Editor** → **New query**.
+2. Paste all of [`supabase/schema.sql`](supabase/schema.sql) → **Run**. It is safe to run again later. (If you ran the old prototype's SQL, its tables are renamed to `*_legacy_v1` so nothing is lost.)
+3. New query → paste [`supabase/seed.sql`](supabase/seed.sql) → **Run**. This loads the starter collection so the site isn't empty on day one. Skip it if you'd rather start blank.
+
+### 2. Supabase — create your admin login
+
+1. **Authentication → Users → Add user → Create new user.** Enter your email and a strong password, and tick **Auto Confirm User**.
+2. **SQL Editor**, run (with your email):
+   ```sql
+   insert into public.admins (user_id)
+   select id from auth.users where email = 'you@example.com'
+   on conflict do nothing;
+   ```
+3. Recommended: **Authentication → Sign In / Providers → Email** → turn off **Allow new users to sign up**. Even if left on, strangers who sign up can't edit anything, because they aren't in `admins`.
+4. **Authentication → URL Configuration**: set **Site URL** to `https://www.stevensosmoore.com` and add `https://www.stevensosmoore.com/admin` under **Redirect URLs** (needed for "Forgot password" emails).
+
+### 3. Vercel — check settings
+
+In your Vercel project → **Settings**:
+
+- **Environment Variables**: the Supabase integration usually adds these automatically. The site needs:
+  - `SUPABASE_URL` (or `NEXT_PUBLIC_SUPABASE_URL`)
+  - `SUPABASE_ANON_KEY` (or `NEXT_PUBLIC_SUPABASE_ANON_KEY` / `SUPABASE_PUBLISHABLE_KEY`)
+
+  Only the **public anon/publishable** key is sent to browsers. The build refuses to publish a `service_role`/secret key.
+- **Build & Deployment**: Framework Preset **Other**. Build command and output folder come from `vercel.json`; leave the overrides off.
+- **Git → Production Branch**: `main`.
+- **Domains**: `www.stevensosmoore.com` (and `stevensosmoore.com` redirecting to it).
+
+After changing environment variables, **redeploy** (Deployments → ⋯ → Redeploy) so the build picks them up.
+
+### 4. Go live
+
+Merge this branch into `main`. Vercel deploys automatically. Then:
+
+1. Visit `https://www.stevensosmoore.com/admin` and sign in.
+2. **Artworks**: replace the starter images with high-resolution photos, set real titles, years, dimensions, prices and status.
+3. **Site**: edit the tagline, About text and contact email.
+4. Send a test inquiry from any artwork page and check it appears under **Inquiries**.
+
+---
+
+## Selling work
+
+Each artwork has a **status** (Available, On hold, Sold, Not for sale) and an optional **price**. Leave the price blank to show "Price on request".
+
+- **Inquire (default):** visitors send a message about a specific work, which lands in **Studio → Inquiries**. Reply by email, then send an invoice or a payment link.
+- **Purchase button (optional):** create a [Stripe Payment Link](https://dashboard.stripe.com/payment-links) for a work, paste it into that work's **Purchase link** field, and the page shows "Purchase — $X" that goes straight to Stripe checkout. Mark the work **Sold** afterwards (the red dot appears).
+
+**Getting emailed about new inquiries (optional):** in Supabase → **Database → Webhooks**, add a webhook on `inquiries` INSERT that posts to an email service such as Zapier, Make or Resend.
+
+---
+
+## Photographing work for the site
+
+Shoot paintings straight on in soft, even daylight (no flash). Crop to the canvas edge, then upload at up to ~6000 px. The admin resizes images in your browser (2400 px for the full view, 900 px for thumbnails), so large phone photos upload quickly.
+
+---
+
+## Local preview
+
+```bash
+cp .env.example .env.local   # optional — fill in your Supabase URL + anon key
+npm run dev                  # http://localhost:3000
+```
+
+Without Supabase settings the site shows the bundled starter collection, and `/admin` explains how to connect.
+
+---
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| Site shows the starter collection after you've added works | Vercel env vars missing or added after the last deploy → add them and **Redeploy**. Check the build log for "✔ Supabase connected". |
+| `/admin` says "not on the admin list" | Run the `insert into public.admins …` query from step 2 with the exact email you signed in with. |
+| Upload fails with "new row violates row-level security" | Same as above — the account isn't in `admins`, or `schema.sql` wasn't run. |
+| "Forgot password" email link goes to the wrong site | Set Site URL + Redirect URLs (step 2.4). |
+| Build fails with "SECRET (service_role) key" | An env var holds the secret key. Replace it with the anon/publishable key. |
+
+© Stevensosmoore. All artwork images are the property of the artist.
