@@ -26,7 +26,7 @@ select 'Angels at the Gate', 'oil', 'Oil on canvas', 'Figures in blue and green 
 where not exists (select 1 from public.artworks where image_url = '/images/works/angels-at-the-gate.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
-select 'Cowboy in the Clouds', 'oil', 'Oil on canvas', 'A cowboy on a brown horse rides through white clouds in a deep blue sky.', '/images/works/cowboy-in-the-clouds.jpg', '/images/works/cowboy-in-the-clouds.jpg', 660, 446, true, 70, 'available', true
+select 'Cowboy in the Clouds', 'oil', 'Oil on canvas', 'A cowboy on a brown horse rides through white clouds in a deep blue sky.', '/images/works/cowboy-in-the-clouds.jpg', '/images/works/cowboy-in-the-clouds.jpg', 1400, 959, true, 70, 'available', true
 where not exists (select 1 from public.artworks where image_url = '/images/works/cowboy-in-the-clouds.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
@@ -62,7 +62,7 @@ select 'Falling Through Water', 'acrylic', 'Acrylic on canvas', 'A green figure 
 where not exists (select 1 from public.artworks where image_url = '/images/works/falling-through-water.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
-select 'The Long Fall', 'oil', 'Oil on canvas', 'A tall narrow canvas of a figure in green shorts falling through dark red and grey.', '/images/works/the-long-fall.jpg', '/images/works/the-long-fall.jpg', 318, 840, false, 160, 'available', true
+select 'The Long Fall', 'oil', 'Oil on canvas', 'A tall narrow canvas of a figure in green shorts falling through dark red and grey.', '/images/works/the-long-fall.jpg', '/images/works/the-long-fall.jpg', 429, 1400, false, 160, 'available', true
 where not exists (select 1 from public.artworks where image_url = '/images/works/the-long-fall.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
