@@ -73,7 +73,7 @@ function card(work, i = 0) {
     </a>`;
 }
 
-const grid = (works) => (works.length ? `<div class="works-grid">${works.map(card).join("")}</div>` : `<p class="empty">New work is on the easel — check back soon, or follow along on Instagram.</p>`);
+const grid = (works) => (works.length ? `<div class="works-grid">${works.map(card).join("")}</div>` : `<p class="empty">More work coming soon. Follow along on Instagram.</p>`);
 
 const airship = `
   <svg class="airship" viewBox="0 0 120 60" aria-hidden="true">
@@ -188,13 +188,13 @@ async function homeView() {
       <div class="hero__inner">
         <div class="hero__text">
           <p class="eyebrow">${esc(settings.price_range || "Original paintings")}</p>
-          <h1 class="hero__title">Strange skies,<br><em>winding roads.</em></h1>
+          <h1 class="hero__title">Original<br><em>paintings.</em></h1>
           <p class="hero__lede">${esc(settings.tagline)}</p>
           <div class="hero__cta">
             <a class="btn" href="/oil-paintings">View oil paintings</a>
             <a class="btn btn--ghost" href="/other-media">Other media</a>
           </div>
-          <button class="wander" type="button" data-wander><span aria-hidden="true">✦</span> Take me somewhere strange</button>
+          <button class="wander" type="button" data-wander><span aria-hidden="true">✦</span> Show me a random painting</button>
         </div>
         ${
           hero
@@ -231,13 +231,13 @@ async function homeView() {
     <section class="section about-teaser">
       <div class="about-teaser__text">
         <p class="eyebrow">About the artist</p>
-        <h2>Painted by hand, <em>thick and strange.</em></h2>
+        <h2>About <em>the artist</em></h2>
         ${paragraphs(settings.about.split(/\n{2,}/).slice(0, 2).join("\n\n"))}
         <a class="link-arrow" href="/about">More about me</a>
       </div>
       <div class="about-teaser__cta">
         <p class="eyebrow">Commissions</p>
-        <p class="about-teaser__big">Have a wall, a story or a strange idea? Let's paint it.</p>
+        <p class="about-teaser__big">Want a painting made just for you? Ask about a commission.</p>
         <a class="btn btn--amber" href="/contact?kind=commission">Ask about a commission</a>
       </div>
     </section>
@@ -268,7 +268,7 @@ async function oilView(params) {
     <section class="page-head">
       <p class="eyebrow">Gallery I</p>
       <h1>Oil paintings</h1>
-      <p class="page-head__lede">Thick, saturated, made by hand. Every painting is an original — ${esc(settings.price_range || "")}. Collect one directly or send an inquiry.</p>
+      <p class="page-head__lede">Every painting is an original — ${esc(settings.price_range || "")}. Collect one directly or send an inquiry.</p>
       <nav class="chips" aria-label="Filter oil paintings">
         ${OIL_FILTERS.filter((x) => x.id === "all" || counts[x.id] > 0)
           .map((x) => `<a class="chip" href="/oil-paintings${x.id === "all" ? "" : `?show=${x.id}`}" ${x.id === f ? 'aria-current="true"' : ""}>${x.label} <span>${counts[x.id]}</span></a>`)
@@ -289,7 +289,7 @@ async function otherView(params) {
     <section class="page-head">
       <p class="eyebrow">Gallery II</p>
       <h1>Other media</h1>
-      <p class="page-head__lede">Acrylic, charcoal, graphite and whatever else is within reach — where many of the oil paintings begin.</p>
+      <p class="page-head__lede">Acrylic paintings, charcoal and drawings.</p>
       <nav class="chips" aria-label="Filter by medium">
         <a class="chip" href="/other-media" ${m === "all" ? 'aria-current="true"' : ""}>All <span>${others.length}</span></a>
         ${present.map((c) => `<a class="chip" href="/other-media?medium=${c.id}" ${c.id === m ? 'aria-current="true"' : ""}>${c.plural} <span>${others.filter((w) => w.category === c.id).length}</span></a>`).join("")}
@@ -338,7 +338,7 @@ async function workView(id) {
         ${(work.detail_urls || []).length ? `<div class="details"><p class="eyebrow">Details</p><div class="details__row">${work.detail_urls.map(safeUrl).filter(Boolean).map((u, i) => `<button type="button" class="details__btn" data-zoom="${esc(u)}" data-zoom-alt="Detail ${i + 1} of ${esc(work.title)}" aria-label="Enlarge detail ${i + 1}"><img src="${esc(u)}" alt="" loading="lazy"></button>`).join("")}</div></div>` : ""}
         <div class="stage-tools">
           <button class="chip" type="button" data-wall aria-pressed="false">🛋 View on a wall</button>
-          <button class="chip" type="button" data-wander>✦ Surprise me</button>
+          <button class="chip" type="button" data-wander>✦ Random painting</button>
         </div>
         <div class="wall" data-wall-view hidden>
           <div class="wall__room">
@@ -415,7 +415,7 @@ async function contactView(params) {
   setMeta({ title: "Contact & Commissions", path: "/contact", description: "Inquire about an original painting or a commission from Stevensosmoore." });
   return `
     <section class="page-head"><p class="eyebrow">Contact</p><h1>Say hello</h1>
-      <p class="page-head__lede">Questions about a painting, a commission, or just a strange idea — every message is read by me.</p></section>
+      <p class="page-head__lede">Questions about a painting or a commission? Send a message and I will get back to you.</p></section>
     <section class="contact">
       <div class="contact__form">${work ? `<p class="contact__about">About: <a href="${workPath(work)}"><i>${esc(work.title)}</i></a></p>` : ""}${inquiryForm({ work, kind, settings })}</div>
       <aside class="contact__aside">
@@ -427,13 +427,13 @@ async function contactView(params) {
 }
 
 function notFoundView() {
-  setMeta({ title: "Lost in the clouds", path: location.pathname, description: "This page drifted away." });
+  setMeta({ title: "Page not found", path: location.pathname, description: "Page not found." });
   return `
     <section class="lost">
       ${airship}
       <p class="eyebrow">404</p>
-      <h1>Lost in the clouds.</h1>
-      <p>This page drifted off somewhere over the mountains.</p>
+      <h1>Page not found.</h1>
+      <p>This page doesn't exist.</p>
       <a class="btn" href="/">Back to the paintings</a>
     </section>`;
 }
@@ -460,7 +460,7 @@ function playful() {
     ship.addEventListener("click", () => {
       if (ship.classList.contains("is-launched")) return;
       ship.classList.add("is-launched");
-      toast("Bon voyage! ✦");
+      
       setTimeout(() => ship.classList.remove("is-launched"), 4200);
     });
   }

@@ -25,10 +25,10 @@ export const STATUSES = {
 };
 
 export const DEFAULT_SETTINGS = {
-  tagline: "Oil paintings, charcoal and works on paper — strange skies, winding roads, and the figures who wander through them.",
+  tagline: "Original oil paintings, charcoal and drawings by Stevensosmoore.",
   about:
-    "I'm a painter and a student at Duke University. I work mostly in thick, saturated oil, with acrylic, charcoal and graphite close behind.\n\n" +
-    "My paintings are crowded with figures, creatures and invented landscapes — burning skies, roads that wind somewhere else, cities stacked like glass. Every piece here is an original, made by hand.\n\n" +
+    "I'm a painter and a student at Duke University. I work mostly in oil, and also in acrylic, charcoal and graphite.\n\n" +
+    "My paintings are full of figures, animals and imagined landscapes. Every piece here is an original.\n\n" +
     "If a work speaks to you, you can collect it directly or send an inquiry. I'm also open to commissions.",
   contact_email: "gibson.moore@duke.edu",
   contact_phone: "470-533-7922",
