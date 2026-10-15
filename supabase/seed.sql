@@ -14,7 +14,7 @@ select 'The Procession', 'oil', 'Oil on canvas', 'A blue-haired figure draped in
 where not exists (select 1 from public.artworks where image_url = '/images/works/the-procession.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
-select 'The Dragon Duel', 'oil', 'Oil on canvas', 'A man in a red cap fires a laser from a hose at two green dragons breathing fire across a red canyon.', '/images/works/the-dragon-duel.jpg', '/images/works/the-dragon-duel.jpg', 744, 908, true, 40, 'available', true
+select 'The Dragon Duel', 'acrylic', 'Acrylic on canvas', 'A man in a red cap fires a laser from a hose at two green dragons breathing fire across a red canyon.', '/images/works/the-dragon-duel.jpg', '/images/works/the-dragon-duel.jpg', 744, 908, true, 40, 'available', true
 where not exists (select 1 from public.artworks where image_url = '/images/works/the-dragon-duel.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
@@ -50,11 +50,11 @@ select 'Golden Face', 'oil', 'Oil on canvas', 'A large ochre face with wide eyes
 where not exists (select 1 from public.artworks where image_url = '/images/works/golden-face.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
-select 'The Pink Whirlpool', 'acrylic', 'Acrylic on canvas', 'Three figures, one horned, one in blue, stand above a swirling pink pool under a grey sky.', '/images/works/the-pink-whirlpool.jpg', '/images/works/the-pink-whirlpool.jpg', 534, 730, false, 130, 'available', true
+select 'The Pink Whirlpool', 'oil', 'Oil on canvas', 'Three figures, one horned, one in blue, stand above a swirling pink pool under a grey sky.', '/images/works/the-pink-whirlpool.jpg', '/images/works/the-pink-whirlpool.jpg', 534, 730, false, 130, 'available', true
 where not exists (select 1 from public.artworks where image_url = '/images/works/the-pink-whirlpool.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
-select 'Riders in the Red', 'acrylic', 'Acrylic on canvas', 'An archer on a blue horse and a rider on a black horse cross a red plain beneath yellow clouds.', '/images/works/riders-in-the-red.jpg', '/images/works/riders-in-the-red.jpg', 744, 858, false, 140, 'available', true
+select 'Riders in the Red', 'oil', 'Oil on canvas', 'An archer on a blue horse and a rider on a black horse cross a red plain beneath yellow clouds.', '/images/works/riders-in-the-red.jpg', '/images/works/riders-in-the-red.jpg', 744, 858, false, 140, 'available', true
 where not exists (select 1 from public.artworks where image_url = '/images/works/riders-in-the-red.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
@@ -112,3 +112,9 @@ update public.artworks set dimensions = '18 × 24 in', price = 550, status = 'av
 update public.artworks set dimensions = '9 × 12 in', price = 250, status = 'available' where image_url = '/images/works/lady-with-a-tree-hat.jpg' and price is null;
 update public.artworks set dimensions = '11 × 14 in', price = 400, status = 'available' where image_url = '/images/works/moon-faces.jpg' and price is null;
 update public.artworks set dimensions = '16 × 20 in', price = 2800, status = 'available' where image_url = '/images/works/the-red-cyclops.jpg' and price is null;
+
+-- Medium corrections from the artist.
+update public.artworks set category = 'acrylic', medium = 'Acrylic on canvas' where image_url = '/images/works/the-dragon-duel.jpg';
+update public.artworks set category = 'acrylic', medium = 'Acrylic on canvas' where image_url = '/images/works/falling-through-water.jpg';
+update public.artworks set category = 'oil', medium = 'Oil on canvas' where image_url = '/images/works/the-pink-whirlpool.jpg';
+update public.artworks set category = 'oil', medium = 'Oil on canvas' where image_url = '/images/works/riders-in-the-red.jpg';

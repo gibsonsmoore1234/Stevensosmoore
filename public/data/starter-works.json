@@ -74,8 +74,8 @@
   {
     "id": 4,
     "title": "The Dragon Duel",
-    "category": "oil",
-    "medium": "Oil on canvas",
+    "category": "acrylic",
+    "medium": "Acrylic on canvas",
     "year": null,
     "dimensions": "30 × 40 in",
     "description": null,
@@ -292,8 +292,8 @@
   {
     "id": 13,
     "title": "The Pink Whirlpool",
-    "category": "acrylic",
-    "medium": "Acrylic on canvas",
+    "category": "oil",
+    "medium": "Oil on canvas",
     "year": null,
     "dimensions": "24 × 36 in",
     "description": null,
@@ -316,8 +316,8 @@
   {
     "id": 14,
     "title": "Riders in the Red",
-    "category": "acrylic",
-    "medium": "Acrylic on canvas",
+    "category": "oil",
+    "medium": "Oil on canvas",
     "year": null,
     "dimensions": "24 × 30 in",
     "description": null,
