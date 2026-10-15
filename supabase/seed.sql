@@ -66,7 +66,7 @@ select 'The Long Fall', 'oil', 'Oil on canvas', 'A tall narrow canvas of a figur
 where not exists (select 1 from public.artworks where image_url = '/images/works/the-long-fall.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
-select 'Crowd in Graphite', 'drawing', 'Graphite on paper', 'A dense black-and-white drawing of tangled figures, hands and faces.', '/images/works/crowd-in-graphite.jpg', '/images/works/crowd-in-graphite.jpg', 552, 756, false, 170, 'available', true
+select 'The Woman in Ice Cream World', 'charcoal', 'Charcoal on paper', 'A dense black-and-white drawing of tangled figures, hands and faces.', '/images/works/crowd-in-graphite.jpg', '/images/works/crowd-in-graphite.jpg', 552, 756, false, 170, 'available', true
 where not exists (select 1 from public.artworks where image_url = '/images/works/crowd-in-graphite.jpg');
 
 insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published)
@@ -118,3 +118,4 @@ update public.artworks set category = 'acrylic', medium = 'Acrylic on canvas' wh
 update public.artworks set category = 'acrylic', medium = 'Acrylic on canvas' where image_url = '/images/works/falling-through-water.jpg';
 update public.artworks set category = 'oil', medium = 'Oil on canvas' where image_url = '/images/works/the-pink-whirlpool.jpg';
 update public.artworks set category = 'oil', medium = 'Oil on canvas' where image_url = '/images/works/riders-in-the-red.jpg';
+update public.artworks set title = 'The Woman in Ice Cream World', category = 'charcoal', medium = 'Charcoal on paper' where image_url = '/images/works/crowd-in-graphite.jpg';
