@@ -89,3 +89,26 @@ insert into public.artworks (title, category, medium, alt_text, image_url, thumb
 select 'The Red Cyclops', 'oil', 'Oil on canvas', 'Against a churning crimson ground, a bearded figure with a giant eye for a torso raises an arm above a huge sideways face and a small red-haired figure.', '/images/works/the-red-cyclops.jpg', '/images/works/the-red-cyclops.jpg', 1115, 1400, true, 15, 'available', true
 where not exists (select 1 from public.artworks where image_url = '/images/works/the-red-cyclops.jpg');
 update public.artworks set detail_urls = array['/images/details/moon-faces-1.jpg','/images/details/moon-faces-2.jpg','/images/details/moon-faces-3.jpg'] where image_url = '/images/works/moon-faces.jpg' and coalesce(cardinality(detail_urls),0) = 0;
+
+-- Starter prices, sizes and status (only fills works that have no price yet).
+update public.artworks set dimensions = '30 × 52 in', price = 9500, status = 'available' where image_url = '/images/works/airship-over-the-glass-city.jpg' and price is null;
+update public.artworks set dimensions = '30 × 40 in', price = 4200, status = 'available' where image_url = '/images/works/teal-harlequin.jpg' and price is null;
+update public.artworks set dimensions = '36 × 48 in', price = 5800, status = 'available' where image_url = '/images/works/the-procession.jpg' and price is null;
+update public.artworks set dimensions = '30 × 40 in', price = 4800, status = 'available' where image_url = '/images/works/the-dragon-duel.jpg' and price is null;
+update public.artworks set dimensions = '11 × 14 in', price = 650, status = 'sold' where image_url = '/images/works/the-dog-pile.jpg' and price is null;
+update public.artworks set dimensions = '24 × 36 in', price = 3600, status = 'available' where image_url = '/images/works/angels-at-the-gate.jpg' and price is null;
+update public.artworks set dimensions = '24 × 36 in', price = 3200, status = 'sold' where image_url = '/images/works/cowboy-in-the-clouds.jpg' and price is null;
+update public.artworks set dimensions = '30 × 40 in', price = 6500, status = 'available' where image_url = '/images/works/the-garden-of-everything.jpg' and price is null;
+update public.artworks set dimensions = '12 × 12 in', price = 800, status = 'available' where image_url = '/images/works/master-in-a-suit.jpg' and price is null;
+update public.artworks set dimensions = '16 × 20 in', price = 1400, status = 'available' where image_url = '/images/works/striped-shirt.jpg' and price is null;
+update public.artworks set dimensions = '16 × 20 in', price = 1600, status = 'available' where image_url = '/images/works/pink-hat-and-hound.jpg' and price is null;
+update public.artworks set dimensions = '18 × 24 in', price = 1900, status = 'available' where image_url = '/images/works/golden-face.jpg' and price is null;
+update public.artworks set dimensions = '24 × 36 in', price = 2400, status = 'available' where image_url = '/images/works/the-pink-whirlpool.jpg' and price is null;
+update public.artworks set dimensions = '24 × 30 in', price = 2200, status = 'available' where image_url = '/images/works/riders-in-the-red.jpg' and price is null;
+update public.artworks set dimensions = '24 × 30 in', price = 2100, status = 'available' where image_url = '/images/works/falling-through-water.jpg' and price is null;
+update public.artworks set dimensions = '12 × 36 in', price = 1800, status = 'available' where image_url = '/images/works/the-long-fall.jpg' and price is null;
+update public.artworks set dimensions = '11 × 14 in', price = 450, status = 'available' where image_url = '/images/works/crowd-in-graphite.jpg' and price is null;
+update public.artworks set dimensions = '18 × 24 in', price = 550, status = 'available' where image_url = '/images/works/charcoal-figure.jpg' and price is null;
+update public.artworks set dimensions = '9 × 12 in', price = 250, status = 'available' where image_url = '/images/works/lady-with-a-tree-hat.jpg' and price is null;
+update public.artworks set dimensions = '11 × 14 in', price = 400, status = 'available' where image_url = '/images/works/moon-faces.jpg' and price is null;
+update public.artworks set dimensions = '16 × 20 in', price = 2800, status = 'available' where image_url = '/images/works/the-red-cyclops.jpg' and price is null;

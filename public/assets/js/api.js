@@ -32,7 +32,7 @@ export const DEFAULT_SETTINGS = {
     "If a work speaks to you, you can collect it directly or send an inquiry. I'm also open to commissions.",
   contact_email: "gibson.moore@duke.edu",
   contact_phone: "470-533-7922",
-  price_range: "Originals from $250 to $10,000",
+  price_range: "Prices from $250 to $10,000",
   instagram: "stevensosmoore",
   hero_artwork_id: null,
 };

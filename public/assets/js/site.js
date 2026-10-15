@@ -268,7 +268,7 @@ async function oilView(params) {
     <section class="page-head">
       <p class="eyebrow">Gallery I</p>
       <h1>Oil paintings</h1>
-      <p class="page-head__lede">Every painting is an original — ${esc(settings.price_range || "")}. Collect one directly or send an inquiry.</p>
+      <p class="page-head__lede">Every painting is an original. ${esc(settings.price_range || "")}. Buy one directly or send an inquiry.</p>
       <nav class="chips" aria-label="Filter oil paintings">
         ${OIL_FILTERS.filter((x) => x.id === "all" || counts[x.id] > 0)
           .map((x) => `<a class="chip" href="/oil-paintings${x.id === "all" ? "" : `?show=${x.id}`}" ${x.id === f ? 'aria-current="true"' : ""}>${x.label} <span>${counts[x.id]}</span></a>`)
