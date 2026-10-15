@@ -20,6 +20,32 @@ const announcer = document.querySelector("[data-announcer]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const BASE_TITLE = "Stevensosmoore";
 
+/* --------------------------------------------------------------------- cart */
+
+const CART_KEY = "sosm-cart";
+function readCart() {
+  try {
+    const v = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+    return Array.isArray(v) ? v.map(String) : [];
+  } catch {
+    return [];
+  }
+}
+function writeCart(ids) {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify([...new Set(ids)]));
+  } catch {}
+  updateCartCount();
+}
+function updateCartCount() {
+  const n = readCart().length;
+  document.querySelectorAll("[data-cart-count]").forEach((el) => {
+    el.textContent = n ? String(n) : "";
+    el.hidden = !n;
+  });
+}
+const canBuy = (w) => w.status === "available" && Number(w.price) > 0;
+
 /* ------------------------------------------------------------------ helpers */
 
 const igUrl = (s) => `https://www.instagram.com/${encodeURIComponent((s.instagram || "stevensosmoore").replace(/^@/, ""))}/`;
@@ -317,6 +343,10 @@ async function workView(id) {
   let actions;
   if (work.status === "available" && buy) {
     actions = `<a class="btn" href="${esc(buy)}" target="_blank" rel="noopener">Purchase${price ? ` — ${esc(price)}` : ""}</a><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`;
+  } else if (canBuy(work)) {
+    actions = readCart().includes(String(work.id))
+      ? `<a class="btn" href="/cart">In your cart — view cart</a><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`
+      : `<button class="btn" type="button" data-add="${esc(work.id)}">Add to cart — ${esc(price)}</button><button class="btn btn--ghost" type="button" data-buy="${esc(work.id)}">Buy now</button><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`;
   } else if (work.status === "available") {
     actions = `<button class="btn" type="button" data-open-inquiry>Inquire about this work</button>`;
   } else if (work.status === "reserved") {
@@ -424,6 +454,80 @@ async function contactView(params) {
         <div><p class="eyebrow">Elsewhere</p><p><a href="${igUrl(settings)}" target="_blank" rel="noopener">Instagram @${esc(settings.instagram)}</a>${settings.contact_email ? `<br><a href="mailto:${esc(settings.contact_email)}">${esc(settings.contact_email)}</a>` : ""}${settings.contact_phone ? `<br><a href="tel:${esc(settings.contact_phone.replace(/[^\d+]/g, ""))}">${esc(settings.contact_phone)}</a>` : ""}</p></div>
       </aside>
     </section>`;
+}
+
+async function cartView() {
+  const works = await getArtworks();
+  const ids = readCart();
+  const items = ids.map((id) => works.find((w) => String(w.id) === id)).filter(Boolean);
+  const gone = items.filter((w) => !canBuy(w));
+  const buyable = items.filter(canBuy);
+  if (gone.length) writeCart(buyable.map((w) => String(w.id)));
+  const total = buyable.reduce((t, w) => t + Number(w.price), 0);
+  setMeta({ title: "Cart", path: "/cart", description: "Your cart." });
+  return `
+    <section class="page-head"><p class="eyebrow">Checkout</p><h1>Your cart</h1></section>
+    <section class="cart">
+      ${gone.length ? `<p class="cart__note" role="alert">${gone.map((w) => `<i>${esc(w.title)}</i>`).join(", ")} ${gone.length > 1 ? "are" : "is"} no longer available and ${gone.length > 1 ? "were" : "was"} removed.</p>` : ""}
+      ${
+        buyable.length
+          ? `<ul class="cart__list">${buyable
+              .map(
+                (w) => `<li class="cart__item">
+                  <a href="${workPath(w)}" class="cart__thumb">${img(w, { sizes: "120px" })}</a>
+                  <div><a href="${workPath(w)}" class="cart__title"><i>${esc(w.title)}</i></a><p class="label__medium">${esc([mediumFor(w), w.dimensions].filter(Boolean).join(" · "))}</p><p class="label__medium">Original · 1 of 1</p></div>
+                  <div class="cart__right"><p class="cart__price">${esc(formatPrice(w.price))}</p><button class="linkish" type="button" data-remove="${esc(w.id)}">Remove</button></div>
+                </li>`,
+              )
+              .join("")}</ul>
+            <div class="cart__summary">
+              <div class="cart__row"><span>Subtotal</span><strong>${esc(formatPrice(total))}</strong></div>
+              <p class="label__medium">Shipping and any tax are confirmed at checkout. Secure payment by Stripe.</p>
+              <p class="cart__error" role="alert" hidden></p>
+              <button class="btn" type="button" data-checkout>Checkout securely</button>
+              <a class="link-arrow" href="/oil-paintings">Keep looking</a>
+            </div>`
+          : `<p class="empty">Your cart is empty.</p><a class="btn" href="/oil-paintings">Browse paintings</a>`
+      }
+    </section>`;
+}
+
+async function thankYouView() {
+  writeCart([]);
+  setMeta({ title: "Thank you", path: "/thank-you", description: "Thank you for your purchase." });
+  return `
+    <section class="lost">
+      ${airship}
+      <p class="eyebrow">Order confirmed</p>
+      <h1>Thank you!</h1>
+      <p>Your payment went through and a receipt is on its way to your email. I'll be in touch about shipping soon.</p>
+      <a class="btn" href="/oil-paintings">Back to the paintings</a>
+    </section>`;
+}
+
+async function startCheckout(ids, errEl, btn) {
+  const label = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Opening checkout…";
+  const fail = (m) => {
+    btn.disabled = false;
+    btn.textContent = label;
+    if (errEl) (errEl.textContent = m), (errEl.hidden = false);
+    else toast(m);
+  };
+  try {
+    const r = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ids }) });
+    const data = await r.json().catch(() => ({}));
+    if (r.ok && data.url) return (location.href = data.url);
+    if (r.status === 409 && data.unavailable) {
+      writeCart(readCart().filter((id) => !data.unavailable.includes(id)));
+      return fail("Sorry — something in your cart just sold. Please review your cart.");
+    }
+    if (r.status === 503 || r.status === 404) return fail("Online checkout is coming soon. Please send an inquiry and I'll send you a payment link.");
+    fail(data.error || "Couldn't start checkout. Please try again.");
+  } catch {
+    fail("Couldn't reach checkout. Please check your connection and try again.");
+  }
 }
 
 function notFoundView() {
@@ -551,6 +655,8 @@ function match(pathname) {
   if (p === "/other-media") return { key: "other", run: otherView };
   if (p === "/about") return { key: "about", run: aboutView };
   if (p === "/contact") return { key: "contact", run: contactView };
+  if (p === "/cart") return { key: "cart", run: cartView };
+  if (p === "/thank-you") return { key: "thanks", run: thankYouView };
   const m = p.match(/^\/work\/(\d+)(?:-[a-z0-9-]*)?$/);
   if (m) return { key: "work", run: () => workView(m[1]) };
   return { key: "404", run: notFoundView };
@@ -601,6 +707,23 @@ function enhance(settings) {
   );
   view.querySelectorAll("[data-zoom]").forEach((b) => b.addEventListener("click", () => openLightbox(b.dataset.zoom, b.dataset.zoomAlt, b)));
   playful();
+  updateCartCount();
+  view.querySelectorAll("[data-add]").forEach((b) =>
+    b.addEventListener("click", () => {
+      writeCart([...readCart(), b.dataset.add]);
+      toast("Added to your cart");
+      render();
+    }),
+  );
+  view.querySelectorAll("[data-buy]").forEach((b) => b.addEventListener("click", () => startCheckout([b.dataset.buy], null, b)));
+  view.querySelectorAll("[data-remove]").forEach((b) =>
+    b.addEventListener("click", () => {
+      writeCart(readCart().filter((id) => id !== b.dataset.remove));
+      render();
+    }),
+  );
+  const co = view.querySelector("[data-checkout]");
+  if (co) co.addEventListener("click", () => startCheckout(readCart(), view.querySelector(".cart__error"), co));
   const items = view.querySelectorAll(".reveal");
   if (reduceMotion || !("IntersectionObserver" in window)) return items.forEach((el) => el.classList.add("is-in"));
   const io = new IntersectionObserver(

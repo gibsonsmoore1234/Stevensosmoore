@@ -89,6 +89,22 @@ Merge this branch into `main`. Vercel deploys automatically. Then:
 
 ---
 
+## Turning on the cart & Stripe checkout
+
+The site has a full cart: **Add to cart / Buy now** on every available work with a price → `/cart` → Stripe's secure checkout (card, Apple Pay, Google Pay; collects shipping address and phone). After payment Stripe calls `/api/stripe-webhook`, which marks the works **Sold** and puts the order (buyer, address, amount) in **Studio → Inquiries**. Prices are always checked on the server, so nobody can change them in the browser.
+
+1. Create a Stripe account at [dashboard.stripe.com](https://dashboard.stripe.com) and finish activation (bank account for payouts).
+2. **Developers → API keys** → copy the **Secret key** (`sk_live_…`, or `sk_test_…` to try it first).
+3. **Developers → Webhooks → Add endpoint**: URL `https://www.stevensosmoore.com/api/stripe-webhook`, event `checkout.session.completed`. Copy its **Signing secret** (`whsec_…`).
+4. In Supabase → **Project Settings → API Keys**, copy the **service_role / secret** key (server-only — it never reaches browsers).
+5. In Vercel → **Settings → Environment Variables**, add:
+   - `STRIPE_SECRET_KEY` = `sk_…`
+   - `STRIPE_WEBHOOK_SECRET` = `whsec_…`
+   - `SUPABASE_SERVICE_ROLE_KEY` = the Supabase secret key (the integration may already have added it)
+6. **Redeploy.** Test with a `sk_test_` key and card `4242 4242 4242 4242`, then switch to the live key.
+
+Until `STRIPE_SECRET_KEY` is set, the checkout button tells visitors to send an inquiry instead.
+
 ## Selling work
 
 Each artwork has a **status** (Available, On hold, Sold, Not for sale) and an optional **price**. Leave the price blank to show "Price on request".

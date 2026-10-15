@@ -306,3 +306,20 @@ main > * { padding-inline: var(--gutter); }
 .details__btn { width: 88px; height: 88px; overflow: hidden; border-radius: 4px; box-shadow: var(--shadow-hang); cursor: zoom-in; }
 .details__btn img { width: 100%; height: 100%; object-fit: cover; transition: transform 400ms var(--ease); }
 .details__btn:hover img { transform: scale(1.12); }
+
+/* ---------- Cart ---------- */
+.cart-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; margin-left: 4px; border-radius: 999px; background: var(--oxblood); color: var(--linen); font-size: 11px; }
+.cart-count[hidden] { display: none; }
+.cart { max-width: calc(900px + 2 * var(--gutter)); margin: 0 auto; padding-block: var(--space-l) var(--space-2xl); display: grid; gap: var(--space-l); }
+.cart__note { color: var(--danger); font-weight: 600; }
+.cart__list { list-style: none; padding: 0; border-top: 1px solid var(--line-strong); }
+.cart__item { display: grid; grid-template-columns: 110px 1fr auto; gap: var(--space-m); align-items: center; padding: var(--space-m) 0; border-bottom: 1px solid var(--line); }
+.cart__thumb img { width: 110px; height: 110px; object-fit: cover; box-shadow: var(--shadow-hang); }
+.cart__title { font-family: var(--font-display); font-size: var(--step-1); text-decoration: none; }
+.cart__right { text-align: right; }
+.cart__price { font-weight: 600; font-size: var(--step-1); }
+.linkish { color: var(--text-muted); text-decoration: underline; font-size: var(--step--1); padding: 8px 0; }
+.cart__summary { justify-self: end; width: min(100%, 380px); display: grid; gap: var(--space-s); background: var(--paper); padding: var(--space-l); box-shadow: var(--shadow-hang); }
+.cart__row { display: flex; justify-content: space-between; font-size: var(--step-1); }
+.cart__error { color: var(--danger); font-weight: 600; font-size: var(--step--1); }
+@media (max-width: 560px) { .cart__item { grid-template-columns: 80px 1fr; } .cart__thumb img { width: 80px; height: 80px; } .cart__right { grid-column: 2; text-align: left; } }
