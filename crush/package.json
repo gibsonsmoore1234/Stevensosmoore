@@ -1,0 +1,15 @@
+{
+  "name": "crush",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CRUSH — double-blind crush reveals and local community map. Static site on Vercel, data on Supabase.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

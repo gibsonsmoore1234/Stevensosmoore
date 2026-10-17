@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>CRUSH</title>
+  <meta name="description" content="Double-blind crush reveals and local communities. One-way picks stay sealed; chat opens only when it's mutual.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/vendor/leaflet-1.9.4/leaflet.css">
+  <link rel="stylesheet" href="/assets/css/crush.css">
+  <script src="/env.js"></script>
+  <script src="/assets/vendor/supabase-2.115.0.js"></script>
+  <script src="/assets/vendor/leaflet-1.9.4/leaflet.js"></script>
+  <script src="/assets/vendor/topojson-client-3.1.0.min.js"></script>
+  <script type="module" src="/assets/js/app.js"></script>
+</head>
+<body>
+  <div id="demo-banner" class="demo-banner" hidden>Demo mode — data stays in this browser. Connect Supabase for the real thing.</div>
+
+  <!-- Sign in -->
+  <main data-screen="signin" class="gate" hidden>
+    <div class="gate-card">
+      <h1 class="wordmark">CRUSH</h1>
+      <p class="muted">One-way picks stay sealed. Chat opens only when it's mutual.</p>
+      <form id="signin-form" class="stack">
+        <label>Email or mobile number<input name="contact" required autocomplete="username" placeholder="you@example.com or (555) 123-4567"></label>
+        <button class="btn primary">Send code</button>
+        <p class="err" hidden></p>
+      </form>
+      <form id="code-form" class="stack" hidden>
+        <p>We sent a 6-digit code to <strong id="code-to"></strong>.</p>
+        <label>Code<input name="code" inputmode="numeric" pattern="\d{6}" maxlength="6" required autocomplete="one-time-code"></label>
+        <button class="btn primary">Continue</button>
+        <button type="button" class="link" id="code-back">Use a different email or number</button>
+        <p class="err" hidden></p>
+      </form>
+      <p class="fine">CRUSH is independent and not affiliated with or endorsed by Duke University or any other school.</p>
+    </div>
+  </main>
+
+  <main data-screen="setpin" class="gate" hidden>
+    <div class="gate-card">
+      <h1 class="wordmark">CRUSH</h1>
+      <p>Set a 4–6 digit security PIN. You'll use it instead of a password.</p>
+      <form id="setpin-form" class="stack">
+        <label>PIN<input name="pin" type="password" inputmode="numeric" pattern="\d{4,6}" maxlength="6" required autocomplete="new-password"></label>
+        <label>Confirm PIN<input name="confirm" type="password" inputmode="numeric" pattern="\d{4,6}" maxlength="6" required autocomplete="new-password"></label>
+        <button class="btn primary">Set PIN</button>
+        <p class="err" hidden></p>
+      </form>
+    </div>
+  </main>
+
+  <main data-screen="unlock" class="gate" hidden>
+    <div class="gate-card">
+      <h1 class="wordmark">CRUSH</h1>
+      <form id="unlock-form" class="stack">
+        <label>Security PIN<input name="pin" type="password" inputmode="numeric" pattern="\d{4,6}" maxlength="6" required autocomplete="current-password"></label>
+        <button class="btn primary">Unlock</button>
+        <button type="button" class="link" data-signout>Sign out</button>
+        <p class="err" hidden></p>
+      </form>
+    </div>
+  </main>
+
+  <!-- App -->
+  <div data-screen="app" class="app" hidden>
+    <header class="topbar">
+      <span class="wordmark">CRUSH</span>
+      <div class="top-actions">
+        <button class="icon-btn" id="open-matches" aria-label="Matches">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 5 6.4 5c2 0 3.3 1.1 4 2.2h3.2C14.3 6.1 15.6 5 17.6 5 21 5 23.1 8.4 21.6 11.8 19.5 16.4 12 21 12 21z"/></svg>
+          <i id="match-dot" class="dot" hidden></i>
+        </button>
+        <button class="icon-btn" id="open-profile" aria-label="Profile and PIN">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/></svg>
+        </button>
+        <button class="btn ghost small" data-signout>Sign out</button>
+      </div>
+    </header>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="map">Map</button>
+      <button role="tab" data-tab="hub">Hub, Crushes &amp; Community</button>
+    </nav>
+
+    <section id="tab-map" class="tab-map" hidden>
+      <div id="map"></div>
+      <p class="map-hint">Tap anywhere to place a community bubble</p>
+      <button id="reset-view" class="btn float">Reset view</button>
+      <aside id="drawer" class="drawer" hidden></aside>
+    </section>
+
+    <section id="tab-hub" class="tab-hub" hidden>
+      <nav class="subnav">
+        <button data-section="profile">Profile &amp; Verify</button>
+        <button data-section="crushes">Crushes</button>
+        <button data-section="chat">Messages</button>
+        <button data-section="forums">Forums</button>
+      </nav>
+      <div id="hub-body" class="hub-body"></div>
+    </section>
+  </div>
+</body>
+</html>
