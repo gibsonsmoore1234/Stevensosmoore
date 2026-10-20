@@ -13,6 +13,9 @@ import {
   safeUrl,
   submitInquiry,
   isConfigured,
+  COLLECTION,
+  inCollection,
+  salePrice,
 } from "./api.js";
 
 const view = document.querySelector("[data-view]");
@@ -48,6 +51,20 @@ const canBuy = (w) => w.status === "available" && Number(w.price) > 0;
 
 /* ------------------------------------------------------------------ helpers */
 
+const ttUrl = (h) => `https://www.tiktok.com/@${encodeURIComponent(String(h || "").replace(/^@/, ""))}`;
+const socials = (s) => `
+  <a href="${igUrl(s)}" target="_blank" rel="noopener">Instagram @${esc(s.instagram)}</a><br>
+  <a href="${ttUrl(s.tiktok)}" target="_blank" rel="noopener">TikTok @${esc(s.tiktok)}</a><br>
+  <a href="${ttUrl(s.tiktok_bible)}" target="_blank" rel="noopener">Bible art TikTok @${esc(s.tiktok_bible)}</a>`;
+const salePriceHtml = (w) =>
+  inCollection(w) ? `<s class="was">${esc(formatPrice(w.price))}</s> <span class="sale">${esc(formatPrice(salePrice(w)))}</span>` : esc(formatPrice(w.price) || "Price on request");
+const ORDER_PHONE = "+14705337922";
+const smsLink = (body) => `sms:${ORDER_PHONE}?&body=${encodeURIComponent(body)}`;
+const orderText = (items) => {
+  const lines = items.map((w) => `• ${w.title} (${[mediumFor(w), w.dimensions].filter(Boolean).join(", ")}) — ${formatPrice(salePrice(w))}${inCollection(w) ? " (25% off)" : ""}`);
+  const total = items.reduce((t, w) => t + salePrice(w), 0);
+  return `Hi! I'd like to buy from stevensosmoore.com:\n${lines.join("\n")}\nTotal: ${formatPrice(total)} + shipping\nMy name:\nShip to:`;
+};
 const igUrl = (s) => `https://www.instagram.com/${encodeURIComponent((s.instagram || "stevensosmoore").replace(/^@/, ""))}/`;
 const paragraphs = (text) =>
   String(text || "")
@@ -79,7 +96,7 @@ function priceLine(work) {
   if (work.status === "sold") return `<span class="status status--sold">Sold</span>`;
   if (work.status === "nfs") return `<span class="status status--nfs">Not for sale</span>`;
   if (work.status === "reserved") return `<span class="status status--reserved">On hold</span>`;
-  return `<span class="label__price">${esc(formatPrice(work.price) || "Price on request")}</span>`;
+  return `<span class="label__price">${salePriceHtml(work)}</span>${inCollection(work) && formatPrice(work.price) ? ' <span class="tag-sale">25% off</span>' : ""}`;
 }
 
 function wallLabel(work, tag = "h3") {
@@ -110,11 +127,25 @@ const airship = `
   </svg>`;
 
 const cross = `<svg class="cross" viewBox="0 0 24 32" aria-hidden="true"><path d="M12 2v28M4 10.5h16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>`;
-const verse = `
-  <figure class="verse reveal">
+const VERSES = [
+  ["Whatever you do, work at it with all your heart, as working for the Lord.", "Colossians 3:23"],
+  ["In the beginning God created the heavens and the earth.", "Genesis 1:1"],
+  ["He has made everything beautiful in its time.", "Ecclesiastes 3:11"],
+  ["For we are God’s handiwork, created in Christ Jesus to do good works.", "Ephesians 2:10"],
+  ["The heavens declare the glory of God; the skies proclaim the work of his hands.", "Psalm 19:1"],
+  ["Let your light shine before others, that they may see your good deeds and glorify your Father in heaven.", "Matthew 5:16"],
+  ["My God has sent his angel, and he shut the mouths of the lions.", "Daniel 6:22"],
+  ["When you walk through the fire, you will not be burned; the flames will not set you ablaze.", "Isaiah 43:2"],
+  ["I can do all this through him who gives me strength.", "Philippians 4:13"],
+  ["Yet you, Lord, are our Father. We are the clay, you are the potter; we are all the work of your hand.", "Isaiah 64:8"],
+];
+const verse = (start = 0) => `
+  <figure class="verse reveal" data-verses data-start="${start}">
     ${cross}
-    <blockquote>“Whatever you do, work at it with all your heart, as working for the Lord.”</blockquote>
-    <figcaption>Colossians 3:23</figcaption>
+    <blockquote data-verse-text>“${VERSES[start % VERSES.length][0]}”</blockquote>
+    <figcaption data-verse-ref>${VERSES[start % VERSES.length][1]}</figcaption>
+    <div class="verse__dots" aria-hidden="true">${VERSES.map((_, i) => `<span class="${i === start % VERSES.length ? "on" : ""}"></span>`).join("")}</div>
+    <button class="verse__next" type="button" data-verse-next>Next verse →</button>
   </figure>`;
 
 const christianOffer = `
@@ -128,7 +159,7 @@ const christianOffer = `
         <li><strong>Partly Christian</strong> — for example, a family portrait with crosses and Christian symbols in the background.</li>
         <li><strong>Fully Christian</strong> — a painting completely based on a biblical or historical Christian event.</li>
       </ul>
-      <a class="btn btn--amber" href="/contact?kind=commission&christian=partly">Request a Christian commission</a>
+      <div class="hero__cta"><a class="btn btn--amber" href="${smsLink("Hi! I'd like to request a Christian commission (25% off).\nSize:\nMy idea:")}">Text a Christian commission request</a><a class="btn btn--ghost-light" href="/commissions">See prices</a></div>
     </div>
   </div>`;
 
@@ -180,6 +211,7 @@ function inquiryForm({ work = null, kind = "general", christian = "", size = "",
       <p class="inquiry__error" role="alert" hidden></p>
       <div class="inquiry__actions">
         <button class="btn" type="submit">Send message</button>
+        <a class="btn btn--ghost" href="${esc(smsLink(work ? `Hi! I'm interested in "${work.title}".` : "Hi!"))}">Text me instead</a>
         <span class="inquiry__alt">or ${email ? `email <a href="mailto:${esc(email)}">${esc(email)}</a> · ` : ""}${settings.contact_phone ? `call/text <a href="tel:${esc(settings.contact_phone.replace(/[^\d+]/g, ""))}">${esc(settings.contact_phone)}</a> · ` : ""}DM <a href="${igUrl(settings)}" target="_blank" rel="noopener">@${esc(settings.instagram || "stevensosmoore")}</a></span>
       </div>
     </form>`;
@@ -271,19 +303,22 @@ async function homeView() {
 
     ${
       fresh.length
-        ? `<section class="section collection">
-            <div class="collection__text">
-              <p class="eyebrow">New collection · Coming soon</p>
-              <h2>College <em>Christianity.</em></h2>
-              <p>A new series of faith-centered oil paintings is on the easel. The first piece, <i>${esc(fresh[0].title)}</i>, has already found a home.</p>
-              <a class="btn btn--amber" href="/contact?kind=purchase">Get first look at new work</a>
+        ? `<section class="collection-band">
+            <div class="collection">
+              <div class="collection__text">
+                ${cross}
+                <p class="eyebrow">New collection</p>
+                <h2>College <em>Christianity.</em></h2>
+                <p>Oil paintings of stories from Scripture — the plagues of Egypt, Daniel in the lions’ den, the fiery furnace. <strong>Every piece in the collection is 25% off</strong>, and so are Christian commissions.</p>
+                <div class="hero__cta"><a class="btn btn--amber" href="/college-christianity">See the collection</a><a class="btn btn--ghost-light" href="/commissions">Christian commissions</a></div>
+              </div>
+              <div class="collection__works">${fresh.slice(0, 4).map(card).join("")}</div>
             </div>
-            <div class="collection__works">${fresh.map(card).join("")}<div class="collection__ghost" aria-hidden="true"><span>Next painting<br>coming soon</span></div></div>
           </section>`
         : ""
     }
 
-    <section class="section">
+    <section class="section section--glow">
       <div class="section__head">
         <div><p class="eyebrow">Selected works</p><h2>From the studio</h2></div>
         <a class="link-arrow" href="/oil-paintings">All oil paintings</a>
@@ -293,7 +328,7 @@ async function homeView() {
 
     ${
       other.length
-        ? `<section class="section section--band">
+        ? `<section class="section section--band section--cobalt">
             <div class="section__head">
               <div><p class="eyebrow">Acrylic · Charcoal · Drawing</p><h2>Other media</h2></div>
               <a class="link-arrow" href="/other-media">See everything</a>
@@ -318,13 +353,14 @@ async function homeView() {
     </section>
 
     <section class="section">${christianOffer}</section>
-    <section class="section">${verse}</section>
+    <section class="section">${verse(0)}</section>
 
     <section class="ig-band">
       <div class="ig-band__inner">
         <p class="eyebrow">Fresh off the easel</p>
         <a class="ig-band__handle" href="${igUrl(settings)}" target="_blank" rel="noopener">@${esc(settings.instagram)}</a>
-        <p>Works in progress, studio days and new paintings first on Instagram.</p>
+        <p>Works in progress, studio days and new paintings first on Instagram and TikTok.</p>
+        <div class="ig-band__links"><a class="btn btn--amber" href="${igUrl(settings)}" target="_blank" rel="noopener">Instagram</a><a class="btn btn--ghost-light" href="${ttUrl(settings.tiktok)}" target="_blank" rel="noopener">TikTok @${esc(settings.tiktok)}</a><a class="btn btn--ghost-light" href="${ttUrl(settings.tiktok_bible)}" target="_blank" rel="noopener">Bible art TikTok @${esc(settings.tiktok_bible)}</a></div>
       </div>
     </section>`;
 }
@@ -398,7 +434,7 @@ async function workView(id) {
   } else if (canBuy(work)) {
     actions = readCart().includes(String(work.id))
       ? `<a class="btn" href="/cart">In your cart — view cart</a><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`
-      : `<button class="btn" type="button" data-add="${esc(work.id)}">Add to cart — ${esc(price)}</button><button class="btn btn--ghost" type="button" data-buy="${esc(work.id)}">Buy now</button><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`;
+      : `<button class="btn" type="button" data-add="${esc(work.id)}">Add to cart — ${esc(formatPrice(salePrice(work)))}</button><a class="btn btn--ghost" href="${esc(smsLink(orderText([work])))}">Buy now — text me</a><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`;
   } else if (work.status === "available") {
     actions = `<button class="btn" type="button" data-open-inquiry>Inquire about this work</button>`;
   } else if (work.status === "reserved") {
@@ -441,7 +477,8 @@ async function workView(id) {
           <div><dt>Status</dt><dd><span class="status status--${esc(work.status)}">${esc(statusLabel(work.status))}</span></dd></div>
         </dl>
         ${work.status === "sold" && price ? `<p class="work__sold">Sold · ${esc(price)} plus shipping</p>` : ""}
-        ${work.status === "available" || work.status === "reserved" ? `<p class="work__price">${esc(price || "Price on request")}</p>` : ""}
+        ${inCollection(work) ? `<a class="tag-collection" href="/college-christianity">${cross} College Christianity · 25% off</a>` : ""}
+        ${work.status === "available" || work.status === "reserved" ? `<p class="work__price">${salePriceHtml(work)}</p>` : ""}
         <div class="work__actions">${actions}</div>
         ${work.description ? `<div class="work__desc">${paragraphs(work.description)}</div>` : ""}
         <ul class="work__assure">
@@ -484,9 +521,9 @@ async function aboutView() {
         <div class="about__facts">
           <div><p class="eyebrow">Studies</p><p>Duke University</p></div>
           <div><p class="eyebrow">Works in</p><p>Oil · Acrylic · Charcoal · Graphite</p></div>
-          <div><p class="eyebrow">Follow</p><p><a href="${igUrl(settings)}" target="_blank" rel="noopener">@${esc(settings.instagram)}</a></p></div>
+          <div><p class="eyebrow">Follow</p><p>${socials(settings)}</p></div>
         </div>
-        ${verse}
+        ${verse(3)}
         <div class="hero__cta"><a class="btn" href="/oil-paintings">See the paintings</a><a class="btn btn--ghost" href="/contact?kind=commission">Commissions</a></div>
       </div>
       ${portrait ? `<a class="about__work" href="${workPath(portrait)}"><span class="work-card__frame">${img(portrait, { size: "full", sizes: "(min-width: 900px) 40vw, 100vw" })}</span><span class="hero__caption"><i>${esc(portrait.title)}</i> · ${esc(mediumFor(portrait))}</span></a>` : ""}
@@ -509,7 +546,7 @@ async function contactView(params) {
         ${christianOffer}
         <div><p class="eyebrow">Commissions</p><p>Portraits, pets, places and stories, painted in my style. Tell me the idea, the size you're imagining and any timing.</p></div>
         <div><p class="eyebrow">Collecting</p><p>Available works can be bought straight from each painting's page. Ask anything about framing, shipping or pickup.</p></div>
-        <div><p class="eyebrow">Elsewhere</p><p><a href="${igUrl(settings)}" target="_blank" rel="noopener">Instagram @${esc(settings.instagram)}</a>${settings.contact_email ? `<br><a href="mailto:${esc(settings.contact_email)}">${esc(settings.contact_email)}</a>` : ""}${settings.contact_phone ? `<br><a href="tel:${esc(settings.contact_phone.replace(/[^\d+]/g, ""))}">${esc(settings.contact_phone)}</a>` : ""}</p></div>
+        <div><p class="eyebrow">Elsewhere</p><p>${socials(settings)}${settings.contact_email ? `<br><a href="mailto:${esc(settings.contact_email)}">${esc(settings.contact_email)}</a>` : ""}${settings.contact_phone ? `<br><a href="tel:${esc(settings.contact_phone.replace(/[^\d+]/g, ""))}">${esc(settings.contact_phone)}</a>` : ""}</p></div>
       </aside>
     </section>`;
 }
@@ -521,7 +558,7 @@ async function cartView() {
   const gone = items.filter((w) => !canBuy(w));
   const buyable = items.filter(canBuy);
   if (gone.length) writeCart(buyable.map((w) => String(w.id)));
-  const total = buyable.reduce((t, w) => t + Number(w.price), 0);
+  const total = buyable.reduce((t, w) => t + salePrice(w), 0);
   setMeta({ title: "Cart", path: "/cart", description: "Your cart." });
   return `
     <section class="page-head"><p class="eyebrow">Checkout</p><h1>Your cart</h1></section>
@@ -534,15 +571,17 @@ async function cartView() {
                 (w) => `<li class="cart__item">
                   <a href="${workPath(w)}" class="cart__thumb">${img(w, { sizes: "120px" })}</a>
                   <div><a href="${workPath(w)}" class="cart__title"><i>${esc(w.title)}</i></a><p class="label__medium">${esc([mediumFor(w), w.dimensions].filter(Boolean).join(" · "))}</p><p class="label__medium">Original · 1 of 1</p></div>
-                  <div class="cart__right"><p class="cart__price">${esc(formatPrice(w.price))}</p><button class="linkish" type="button" data-remove="${esc(w.id)}">Remove</button></div>
+                  <div class="cart__right"><p class="cart__price">${salePriceHtml(w)}</p><button class="linkish" type="button" data-remove="${esc(w.id)}">Remove</button></div>
                 </li>`,
               )
               .join("")}</ul>
             <div class="cart__summary">
               <div class="cart__row"><span>Subtotal</span><strong>${esc(formatPrice(total))}</strong></div>
-              <p class="label__medium">Shipping and any tax are confirmed at checkout. Secure payment by Stripe.</p>
+              <p class="label__medium">Shipping is added after you order.</p>
               <p class="cart__error" role="alert" hidden></p>
-              <button class="btn" type="button" data-checkout>Checkout securely</button>
+              <a class="btn" href="${esc(smsLink(orderText(buyable)))}" data-text-order>Checkout — text my order</a>
+              <p class="label__medium">Opens a text to <a href="tel:${ORDER_PHONE}">+1 470-533-7922</a> with your order filled in. I'll reply to confirm and arrange payment and shipping.</p>
+              <button class="btn btn--ghost btn--small" type="button" data-checkout>Or pay online by card</button>
               <a class="link-arrow" href="/oil-paintings">Keep looking</a>
             </div>`
           : `<p class="empty">Your cart is empty.</p><a class="btn" href="/oil-paintings">Browse paintings</a>`
@@ -595,6 +634,21 @@ const RATES = [
 ];
 const usd = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }).format(n);
 
+async function collectionView() {
+  const works = (await getArtworks()).filter(inCollection);
+  setMeta({ title: "College Christianity", path: "/college-christianity", description: "College Christianity — oil paintings of biblical stories by Stevensosmoore. 25% off every piece and Christian commissions." });
+  return `
+    <section class="page-head page-head--collection">
+      ${cross}
+      <p class="eyebrow">Collection</p>
+      <h1>College Christianity</h1>
+      <p class="page-head__lede">Oil paintings of stories from Scripture, made while studying at Duke. <strong>25% off every piece</strong> in the collection and every Christian commission, before shipping.</p>
+    </section>
+    <section class="section section--tight">${grid(works)}</section>
+    <section class="section">${christianOffer}</section>
+    <section class="section">${verse(6)}</section>`;
+}
+
 async function commissionsView() {
   setMeta({ title: "Commissions", path: "/commissions", description: "Commission an original oil painting by Stevensosmoore. Rates from $250 (1 × 1 ft) to $3,000 (6 × 8 ft), before shipping." });
   return `
@@ -614,7 +668,8 @@ async function commissionsView() {
         <div class="field"><label for="rc-size">Canvas size</label><select class="select input" id="rc-size" data-rc-size>${RATES.map(([size], i) => `<option value="${i}" ${i === 4 ? "selected" : ""}>${size}</option>`).join("")}</select></div>
         <label class="check-row"><input type="checkbox" data-rc-christian> Christian painting (25% off)</label>
         <p class="rates__total"><span data-rc-total></span><small>before shipping</small></p>
-        <a class="btn" data-rc-go href="/contact?kind=commission">Request this commission</a>
+        <a class="btn" data-rc-text href="#">Text this request</a>
+        <a class="btn btn--ghost" data-rc-go href="/contact?kind=commission">Or send by email form</a>
       </aside>
     </section>
     <section class="section">${christianOffer}</section>`;
@@ -747,6 +802,7 @@ function match(pathname) {
   if (p === "/contact") return { key: "contact", run: contactView };
   if (p === "/cart") return { key: "cart", run: cartView };
   if (p === "/commissions") return { key: "commissions", run: commissionsView };
+  if (p === "/college-christianity") return { key: "collection", run: collectionView };
   if (p === "/thank-you") return { key: "thanks", run: thankYouView };
   const m = p.match(/^\/work\/(\d+)(?:-[a-z0-9-]*)?$/);
   if (m) return { key: "work", run: () => workView(m[1]) };
@@ -796,6 +852,7 @@ function enhance(settings) {
       const total = chk.checked ? price * 0.75 : price;
       view.querySelector("[data-rc-total]").textContent = usd(total);
       view.querySelectorAll("[data-rate]").forEach((r) => r.classList.toggle("is-on", r.dataset.rate === rcSize.value));
+      view.querySelector("[data-rc-text]").href = smsLink(`Hi! I'd like to commission a ${size} painting${chk.checked ? " (Christian commission — 25% off)" : ""}. Price: ${usd(total)} + shipping.\nMy idea:`);
       view.querySelector("[data-rc-go]").href = `/contact?kind=commission${chk.checked ? "&christian=partly" : ""}&size=${encodeURIComponent(size)}`;
     };
     rcSize.addEventListener("change", upd);
@@ -816,6 +873,23 @@ function enhance(settings) {
   );
   view.querySelectorAll("[data-zoom]").forEach((b) => b.addEventListener("click", () => openLightbox(b.dataset.zoom, b.dataset.zoomAlt, b)));
   playful();
+  view.querySelectorAll("[data-verses]").forEach((fig) => {
+    let i = Number(fig.dataset.start) || 0;
+    const show = (n) => {
+      i = (n + VERSES.length) % VERSES.length;
+      fig.classList.add("is-fading");
+      setTimeout(() => {
+        fig.querySelector("[data-verse-text]").textContent = `“${VERSES[i][0]}”`;
+        fig.querySelector("[data-verse-ref]").textContent = VERSES[i][1];
+        fig.querySelectorAll(".verse__dots span").forEach((d, k) => d.classList.toggle("on", k === i));
+        fig.classList.remove("is-fading");
+      }, reduceMotion ? 0 : 300);
+    };
+    fig.querySelector("[data-verse-next]").addEventListener("click", () => show(i + 1));
+    if (!reduceMotion) {
+      const t = setInterval(() => (document.body.contains(fig) ? show(i + 1) : clearInterval(t)), 9000);
+    }
+  });
   updateCartCount();
   view.querySelectorAll("[data-add]").forEach((b) =>
     b.addEventListener("click", () => {

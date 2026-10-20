@@ -34,6 +34,8 @@ export const DEFAULT_SETTINGS = {
   contact_phone: "470-533-7922",
   price_range: "Prices from $250 to $900",
   instagram: "stevensosmoore",
+  tiktok: "stevensosmoore",
+  tiktok_bible: "gibsonmoore1234",
   hero_artwork_id: null,
 };
 
@@ -55,7 +57,7 @@ export function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
-const priceFormat = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+const priceFormat = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2, minimumFractionDigits: 0 });
 /** "$1,200", or null when the price is on request. */
 export function formatPrice(price) {
   const n = Number(price);
@@ -137,6 +139,11 @@ export function getArtworks() {
   })();
   return artworksPromise;
 }
+
+export const COLLECTION = { id: "new", name: "College Christianity", discount: 0.25 };
+export const inCollection = (w) => w?.collection === COLLECTION.id;
+/** What the buyer pays: collection pieces are 25% off. */
+export const salePrice = (w) => (inCollection(w) ? Math.round(Number(w.price) * (1 - COLLECTION.discount) * 100) / 100 : Number(w.price));
 
 /** The work shown large on the home page: chosen in admin, else first featured, else first. */
 export function pickHero(works, settings) {

@@ -37,6 +37,10 @@
     {
       "source": "/commissions",
       "destination": "/index.html"
+    },
+    {
+      "source": "/college-christianity",
+      "destination": "/index.html"
     }
   ],
   "headers": [

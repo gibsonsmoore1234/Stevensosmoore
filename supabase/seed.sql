@@ -151,3 +151,10 @@ update public.artworks set price = 425 where image_url = '/images/works/the-red-
 
 -- New collection (coming soon); The Rainbow Field sold for $750 plus shipping.
 update public.artworks set status = 'sold', price = 750, collection = 'new', description = 'The first painting in a new collection, coming soon. Sold — $750 plus shipping.' where image_url = '/images/works/the-rainbow-field.jpg';
+
+-- College Christianity collection (25% off).
+update public.artworks set title = 'The First Plague of Egypt', alt_text = 'Moses’ staff touches the Nile and the river turns to blood, a swirl of red beneath a stormy sky, as a goat-headed figure and a pharaoh look on.', image_url = '/images/works/plague.jpg', thumb_url = '/images/works/plague.jpg', image_width = 1042, image_height = 1600, collection = 'new', featured = true where image_url = '/images/works/the-pink-whirlpool.jpg';
+update public.artworks set title = 'The Fiery Furnace', alt_text = 'Shadrach, Meshach and Abednego stand unharmed among the flames as a winged angel spreads its arms behind them.', image_url = '/images/works/furnace.jpg', thumb_url = '/images/works/furnace.jpg', image_width = 1134, image_height = 1600, collection = 'new', featured = true where image_url = '/images/works/angels-at-the-gate.jpg';
+insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published, dimensions, price, collection)
+select 'Daniel and the Lions’ Den', 'oil', 'Oil on canvas', 'Daniel, white-haired, stands calm in the dark den as lions roar and crouch around him.', '/images/works/daniel.jpg', '/images/works/daniel.jpg', 1226, 1600, true, 71, 'available', true, '24 × 36 in', 475, 'new'
+where not exists (select 1 from public.artworks where image_url = '/images/works/daniel.jpg');

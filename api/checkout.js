@@ -7,7 +7,7 @@ async function loadWorks(origin) {
   const url = env("SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_URL");
   const key = env("SUPABASE_ANON_KEY", "NEXT_PUBLIC_SUPABASE_ANON_KEY", "SUPABASE_PUBLISHABLE_KEY", "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
   if (url && key) {
-    const r = await fetch(`${url.replace(/\/+$/, "")}/rest/v1/artworks?select=id,title,medium,dimensions,price,status,published,image_url&published=eq.true`, {
+    const r = await fetch(`${url.replace(/\/+$/, "")}/rest/v1/artworks?select=id,title,medium,dimensions,price,status,published,image_url,collection&published=eq.true`, {
       headers: { apikey: key, Authorization: `Bearer ${key}` },
     });
     if (r.ok) {
@@ -59,8 +59,8 @@ export default async function handler(req, res) {
   chosen.forEach((w, i) => {
     form.set(`line_items[${i}][quantity]`, "1");
     form.set(`line_items[${i}][price_data][currency]`, "usd");
-    form.set(`line_items[${i}][price_data][unit_amount]`, String(Math.round(Number(w.price) * 100)));
-    form.set(`line_items[${i}][price_data][product_data][name]`, `${w.title} — original`);
+    form.set(`line_items[${i}][price_data][unit_amount]`, String(Math.round(Number(w.price) * (w.collection === "new" ? 0.75 : 1) * 100)));
+    form.set(`line_items[${i}][price_data][product_data][name]`, `${w.title} — original${w.collection === "new" ? " (College Christianity, 25% off)" : ""}`);
     const desc = [w.medium, w.dimensions].filter(Boolean).join(" · ");
     if (desc) form.set(`line_items[${i}][price_data][product_data][description]`, desc);
     if (w.image_url) form.set(`line_items[${i}][price_data][product_data][images][0]`, new URL(w.image_url, origin).href);
