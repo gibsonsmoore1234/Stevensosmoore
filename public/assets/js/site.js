@@ -521,19 +521,25 @@ async function aboutView() {
   const portrait = works.find((w) => w.category === "oil" && w.image_height > w.image_width) || works[0];
   setMeta({ title: "About", path: "/about", description: "Stevensosmoore is a painter and Duke University student working in oil, acrylic, charcoal and graphite." });
   return `
-    <section class="page-head"><p class="eyebrow">About</p><h1>The painter</h1></section>
+    <section class="page-head"><p class="eyebrow">About</p><h1>The painter</h1><p class="page-head__lede">Former Division I wrestler, Duke student, full-time painter — and a follower of Christ.</p></section>
     <section class="about">
       <div class="about__text">
         ${paragraphs(settings.about)}
         <div class="about__facts">
-          <div><p class="eyebrow">Studies</p><p>Duke University</p></div>
+          <div><p class="eyebrow">Age</p><p>19</p></div>
+          <div><p class="eyebrow">Studies</p><p>Duke University<br>Political science, minor in political economy</p></div>
+          <div><p class="eyebrow">Formerly</p><p>Division I wrestler, University of Northern Colorado (walk-on, earned scholarship)</p></div>
+          <div><p class="eyebrow">From</p><p>Georgia &amp; Florida</p></div>
           <div><p class="eyebrow">Works in</p><p>Oil · Acrylic · Charcoal · Graphite</p></div>
           <div><p class="eyebrow">Follow</p><p>${socials(settings)}</p></div>
         </div>
         ${verse(3)}
         <div class="hero__cta"><a class="btn" href="/oil-paintings">See the paintings</a><a class="btn btn--ghost" href="/contact?kind=commission">Commissions</a></div>
       </div>
-      ${portrait ? `<a class="about__work" href="${workPath(portrait)}"><span class="work-card__frame">${img(portrait, { size: "full", sizes: "(min-width: 900px) 40vw, 100vw" })}</span><span class="hero__caption"><i>${esc(portrait.title)}</i> · ${esc(mediumFor(portrait))}</span></a>` : ""}
+      <div class="about__photos">
+        <figure class="about__photo about__photo--main"><img src="/images/about/duke.jpg" alt="Stevensosmoore in a Duke T-shirt outside Duke Chapel" width="540" height="743" loading="lazy"><figcaption>At Duke Chapel</figcaption></figure>
+        <figure class="about__photo about__photo--side"><img src="/images/about/wrestling.jpg" alt="Stevensosmoore's University of Northern Colorado wrestling headshot" width="1019" height="1533" loading="lazy"><figcaption>Wrestling at the University of Northern Colorado</figcaption></figure>
+      </div>
     </section>`;
 }
 

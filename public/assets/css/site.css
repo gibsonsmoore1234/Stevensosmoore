@@ -652,3 +652,12 @@ body {
 .ig-band { background: linear-gradient(120deg, var(--rf-horse), var(--rf-red)) !important; }
 .verse { background: rgba(207,224,238,.7) !important; }
 .wordmark__name { background: none !important; color: var(--rf-horse) !important; -webkit-background-clip: border-box; background-clip: border-box; }
+.about__photos { position: sticky; top: 100px; display: grid; grid-template-columns: 1fr; }
+.about__photo { margin: 0; }
+.about__photo img { width: 100%; object-fit: cover; box-shadow: var(--shadow-hang); border: 8px solid var(--paper); }
+.about__photo figcaption { font-size: var(--step--1); color: var(--text-muted); margin-top: 6px; }
+.about__photo--main img { aspect-ratio: 4 / 5; transform: rotate(-1.2deg); }
+.about__photo--side { width: 52%; justify-self: end; margin-top: -28%; position: relative; }
+.about__photo--side img { aspect-ratio: 2 / 3; transform: rotate(2.5deg); border-color: #fff; }
+.about__facts { grid-template-columns: repeat(2, 1fr) !important; }
+@media (max-width: 860px) { .about__photos { position: static; } .about__facts { grid-template-columns: 1fr !important; } }

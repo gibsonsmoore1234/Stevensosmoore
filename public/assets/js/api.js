@@ -27,9 +27,9 @@ export const STATUSES = {
 export const DEFAULT_SETTINGS = {
   tagline: "Original oil paintings, charcoal and drawings by Stevensosmoore.",
   about:
-    "I'm a painter and a student at Duke University. I work mostly in oil, and also in acrylic, charcoal and graphite.\n\n" +
-    "My paintings are full of figures, animals and imagined landscapes. Every piece here is an original.\n\n" +
-    "If a work speaks to you, you can collect it directly or send an inquiry. I'm also open to commissions.",
+    "I'm 19 years old and I paint full time. My faith is the most important thing to me, and I want to be productive and not squander God's blessing of a healthy body and a mind eager to learn and improve.\n\n" +
+    "I grew up in Georgia and spent most of middle school and all of high school in Florida. I started wrestling my freshman year of high school and committed to wrestle Division I at the University of Northern Colorado as a preferred walk-on, where I earned a scholarship.\n\n" +
+    "I then transferred to Duke University, where I study political science with a minor in political economy, and stepped away from wrestling to pursue painting full time. I work mostly in oil, and also in acrylic, charcoal and graphite.",
   contact_email: "gibson.moore@duke.edu",
   contact_phone: "470-533-7922",
   price_range: "Prices from $250 to $900",
