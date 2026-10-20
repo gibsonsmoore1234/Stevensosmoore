@@ -33,6 +33,10 @@
     {
       "source": "/thank-you",
       "destination": "/index.html"
+    },
+    {
+      "source": "/commissions",
+      "destination": "/index.html"
     }
   ],
   "headers": [

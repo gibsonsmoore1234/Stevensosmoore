@@ -145,8 +145,8 @@ function wallWidth(work) {
 
 /* -------------------------------------------------------------- inquiry form */
 
-function inquiryForm({ work = null, kind = "general", christian = "", settings, compact = false }) {
-  const msg = work ? `Hi! I'm interested in "${work.title}". ` : "";
+function inquiryForm({ work = null, kind = "general", christian = "", size = "", settings, compact = false }) {
+  const msg = work ? `Hi! I'm interested in "${work.title}". ` : size ? `Hi! I'd like to commission a ${size} painting. ` : "";
   const email = settings.contact_email;
   return `
     <form class="inquiry ${compact ? "inquiry--compact" : ""}" data-inquiry novalidate>
@@ -313,7 +313,7 @@ async function homeView() {
       <div class="about-teaser__cta">
         <p class="eyebrow">Commissions</p>
         <p class="about-teaser__big">Want a painting made just for you? Ask about a commission.</p>
-        <a class="btn btn--amber" href="/contact?kind=commission">Ask about a commission</a>
+        <a class="btn btn--amber" href="/commissions">See commission prices</a>
       </div>
     </section>
 
@@ -498,12 +498,13 @@ async function contactView(params) {
   const work = params.get("work") ? works.find((w) => String(w.id) === params.get("work")) : null;
   const kind = ["general", "purchase", "commission"].includes(params.get("kind")) ? params.get("kind") : "general";
   const christian = ["partly", "fully"].includes(params.get("christian")) ? params.get("christian") : "";
+  const size = RATES.find(([s]) => s === params.get("size"))?.[0] || "";
   setMeta({ title: "Contact & Commissions", path: "/contact", description: "Inquire about an original painting or a commission from Stevensosmoore." });
   return `
     <section class="page-head"><p class="eyebrow">Contact</p><h1>Say hello</h1>
       <p class="page-head__lede">Questions about a painting or a commission? Send a message and I will get back to you.</p></section>
     <section class="contact">
-      <div class="contact__form">${work ? `<p class="contact__about">About: <a href="${workPath(work)}"><i>${esc(work.title)}</i></a></p>` : ""}${inquiryForm({ work, kind, christian, settings })}</div>
+      <div class="contact__form">${work ? `<p class="contact__about">About: <a href="${workPath(work)}"><i>${esc(work.title)}</i></a></p>` : ""}${inquiryForm({ work, kind, christian, size, settings })}</div>
       <aside class="contact__aside">
         ${christianOffer}
         <div><p class="eyebrow">Commissions</p><p>Portraits, pets, places and stories, painted in my style. Tell me the idea, the size you're imagining and any timing.</p></div>
@@ -585,6 +586,38 @@ async function startCheckout(ids, errEl, btn) {
   } catch {
     fail("Couldn't reach checkout. Please check your connection and try again.");
   }
+}
+
+const RATES = [
+  ["1 × 1 ft", 1, 250], ["1 × 2 ft", 2, 300], ["2 × 2 ft", 4, 350], ["2 × 3 ft", 6, 450], ["3 × 3 ft", 9, 600],
+  ["3 × 4 ft", 12, 750], ["4 × 4 ft", 16, 1000], ["4 × 5 ft", 20, 1250], ["4 × 6 ft", 24, 1500], ["5 × 5 ft", 25, 1562.5],
+  ["5 × 6 ft", 30, 1875], ["6 × 6 ft", 36, 2250], ["6 × 8 ft", 48, 3000],
+];
+const usd = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }).format(n);
+
+async function commissionsView() {
+  setMeta({ title: "Commissions", path: "/commissions", description: "Commission an original oil painting by Stevensosmoore. Rates from $250 (1 × 1 ft) to $3,000 (6 × 8 ft), before shipping." });
+  return `
+    <section class="page-head"><p class="eyebrow">Commissions</p><h1>Commission a painting</h1>
+      <p class="page-head__lede">An original painting made just for you — a portrait, a pet, a place or a story. Prices are by canvas size, before shipping.</p></section>
+    <section class="rates">
+      <div class="rates__table-wrap">
+        <table class="rates__table">
+          <caption class="visually-hidden">Commission rates by canvas size</caption>
+          <thead><tr><th scope="col">Canvas size</th><th scope="col">Sq ft</th><th scope="col">Price</th><th scope="col">Christian commission <span>(25% off)</span></th></tr></thead>
+          <tbody>${RATES.map(([size, sq, price], i) => `<tr data-rate="${i}"><th scope="row">${size}</th><td>${sq}</td><td>${usd(price)}</td><td>${usd(price * 0.75)}</td></tr>`).join("")}</tbody>
+        </table>
+        <p class="rates__note">All prices are before shipping. Christian commissions — partly or fully Christian — get 25% off the total before shipping.</p>
+      </div>
+      <aside class="rates__calc">
+        <p class="eyebrow">Price your painting</p>
+        <div class="field"><label for="rc-size">Canvas size</label><select class="select input" id="rc-size" data-rc-size>${RATES.map(([size], i) => `<option value="${i}" ${i === 4 ? "selected" : ""}>${size}</option>`).join("")}</select></div>
+        <label class="check-row"><input type="checkbox" data-rc-christian> Christian painting (25% off)</label>
+        <p class="rates__total"><span data-rc-total></span><small>before shipping</small></p>
+        <a class="btn" data-rc-go href="/contact?kind=commission">Request this commission</a>
+      </aside>
+    </section>
+    <section class="section">${christianOffer}</section>`;
 }
 
 function notFoundView() {
@@ -713,6 +746,7 @@ function match(pathname) {
   if (p === "/about") return { key: "about", run: aboutView };
   if (p === "/contact") return { key: "contact", run: contactView };
   if (p === "/cart") return { key: "cart", run: cartView };
+  if (p === "/commissions") return { key: "commissions", run: commissionsView };
   if (p === "/thank-you") return { key: "thanks", run: thankYouView };
   const m = p.match(/^\/work\/(\d+)(?:-[a-z0-9-]*)?$/);
   if (m) return { key: "work", run: () => workView(m[1]) };
@@ -754,6 +788,21 @@ async function render({ focus = false } = {}) {
 
 function enhance(settings) {
   bindInquiry(view, settings);
+  const rcSize = view.querySelector("[data-rc-size]");
+  if (rcSize) {
+    const chk = view.querySelector("[data-rc-christian]");
+    const upd = () => {
+      const [size, , price] = RATES[rcSize.value];
+      const total = chk.checked ? price * 0.75 : price;
+      view.querySelector("[data-rc-total]").textContent = usd(total);
+      view.querySelectorAll("[data-rate]").forEach((r) => r.classList.toggle("is-on", r.dataset.rate === rcSize.value));
+      view.querySelector("[data-rc-go]").href = `/contact?kind=commission${chk.checked ? "&christian=partly" : ""}&size=${encodeURIComponent(size)}`;
+    };
+    rcSize.addEventListener("change", upd);
+    chk.addEventListener("change", upd);
+    view.querySelectorAll("[data-rate]").forEach((r) => r.addEventListener("click", () => ((rcSize.value = r.dataset.rate), upd())));
+    upd();
+  }
   const kindSel = view.querySelector("#iq-kind");
   const chr = view.querySelector("[data-christian-field]");
   if (kindSel && chr) kindSel.addEventListener("change", () => (chr.hidden = kindSel.value !== "commission"));
