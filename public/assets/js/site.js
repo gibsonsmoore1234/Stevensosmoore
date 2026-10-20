@@ -538,7 +538,7 @@ async function aboutView() {
         <div class="hero__cta"><a class="btn" href="/oil-paintings">See the paintings</a><a class="btn btn--ghost" href="/contact?kind=commission">Commissions</a></div>
       </div>
       <div class="about__photos">
-        <figure class="about__photo about__photo--main"><img src="/images/about/duke.jpg" alt="Stevensosmoore in a Duke T-shirt outside Duke Chapel" width="540" height="743" loading="lazy"><figcaption>At Duke Chapel</figcaption></figure>
+        <figure class="about__photo about__photo--main"><img src="/images/about/duke.jpg" alt="Stevensosmoore and his dad outside Duke Chapel" width="1125" height="844" loading="lazy"><figcaption>With my dad at Duke Chapel</figcaption></figure>
         <figure class="about__photo about__photo--side"><img src="/images/about/wrestling.jpg" alt="Stevensosmoore's University of Northern Colorado wrestling headshot" width="1019" height="1533" loading="lazy"><figcaption>Wrestling at the University of Northern Colorado</figcaption></figure>
         <div class="about__wrestle">
           <figure class="about__photo"><img src="/images/about/state.jpg" alt="Stevensosmoore on the mat at the Florida state wrestling tournament" width="610" height="732" loading="lazy"><figcaption>Florida state tournament</figcaption></figure>

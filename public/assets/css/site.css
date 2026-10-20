@@ -666,3 +666,5 @@ body {
 .about__wrestle .about__photo:first-child img { transform: rotate(-1.5deg); }
 .about__wrestle .about__photo:last-child img { transform: rotate(1.5deg); }
 .about__photos { position: static !important; }
+.about__photo--main img { aspect-ratio: 4 / 3 !important; }
+.about__photo--side { width: 44% !important; margin-top: -12% !important; }
