@@ -521,7 +521,7 @@ async function aboutView() {
   const portrait = works.find((w) => w.category === "oil" && w.image_height > w.image_width) || works[0];
   setMeta({ title: "About", path: "/about", description: "Stevensosmoore is a painter and Duke University student working in oil, acrylic, charcoal and graphite." });
   return `
-    <section class="page-head"><p class="eyebrow">About</p><h1>The painter</h1><p class="page-head__lede">Former Division I wrestler, Duke student, full-time painter — and a follower of Christ.</p></section>
+    <section class="page-head"><p class="eyebrow">About</p><h1>The painter</h1><p class="page-head__lede">Former Division I wrestler, Duke student, full-time painter — and most importantly a follower of Christ.</p></section>
     <section class="about">
       <div class="about__text">
         ${paragraphs(settings.about)}
