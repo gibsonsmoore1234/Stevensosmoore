@@ -110,9 +110,10 @@ function wallLabel(work, tag = "h3") {
 
 function card(work, i = 0) {
   return `
-    <a class="work-card reveal" style="--i:${i % 6}" href="${workPath(work)}">
+    <a class="work-card reveal${inCollection(work) ? " work-card--gold" : ""}" style="--i:${i % 6}" href="${workPath(work)}">
       <span class="work-card__frame">${img(work)}${work.status === "sold" ? '<span class="red-dot" aria-hidden="true"></span>' : ""}</span>
       ${wallLabel(work)}
+      ${inCollection(work) ? `<span class="gold-btn${work.status === "sold" ? " gold-btn--sold" : ""}">${cross} College Christianity${work.status === "sold" ? " · Sold" : " · 25% off"}</span>` : ""}
     </a>`;
 }
 
@@ -157,7 +158,7 @@ const christianOffer = `
       <p>Commission a Christian painting and get <strong>25% off your total order</strong> (before shipping).</p>
       <ul>
         <li><strong>Partly Christian</strong> — for example, a family portrait with crosses and Christian symbols in the background.</li>
-        <li><strong>Fully Christian</strong> — a painting completely based on a biblical or historical Christian event.</li>
+        <li><strong>Fully Christian</strong> — a painting of a biblical or historical Christian event.</li>
       </ul>
       <div class="hero__cta"><a class="btn btn--amber" href="${smsLink("Hi! I'd like to request a Christian commission (25% off).\nSize:\nMy idea:")}">Text a Christian commission request</a><a class="btn btn--ghost-light" href="/commissions">See prices</a></div>
     </div>
@@ -199,7 +200,7 @@ function inquiryForm({ work = null, kind = "general", christian = "", size = "",
               <select class="select input" id="iq-christian" name="christian">
                 <option value="">No</option>
                 <option value="partly"${christian === "partly" ? " selected" : ""}>Partly Christian — e.g. crosses or Christian symbols in the background</option>
-                <option value="fully"${christian === "fully" ? " selected" : ""}>Fully Christian — based on a biblical or historical Christian event</option>
+                <option value="fully"${christian === "fully" ? " selected" : ""}>Fully Christian — a biblical or historical Christian event</option>
               </select></div>`
       }
       <div class="inquiry__row">
@@ -440,12 +441,13 @@ async function workView(id) {
   } else if (work.status === "reserved") {
     actions = `<button class="btn btn--ghost" type="button" data-open-inquiry>Join the waitlist</button>`;
   } else {
-    actions = `<a class="btn btn--ghost" href="/contact?kind=commission">Commission something similar</a>`;
+    actions = `<a class="btn${work.status === "sold" && inCollection(work) ? " btn--sold-gold" : ""}" href="${esc(smsLink(`Hi! I saw "${work.title}" on stevensosmoore.com (sold). I'd like to request something similar.\nSize:\nMy idea:`))}">Request something similar</a>
+      <p class="work__phone">Text or call <a href="tel:${ORDER_PHONE}">+1 470-533-7922</a></p>`;
   }
 
   return `
     <nav class="crumbs" aria-label="Breadcrumb"><a href="${galleryPath}">${isOil ? "Oil paintings" : "Other media"}</a><span aria-hidden="true">/</span><span>${esc(work.title)}</span></nav>
-    <article class="work">
+    <article class="work${inCollection(work) ? " work--gold" : ""}">
       <div class="work__stage">
         <button class="work__zoom" type="button" data-zoom="${esc(imageFor(work, "full"))}" data-zoom-alt="${esc(work.alt_text || work.title)}" aria-label="Enlarge ${esc(work.title)}">
           ${img(work, { size: "full", eager: true, sizes: "(min-width: 1000px) 60vw, 100vw" })}
@@ -477,7 +479,7 @@ async function workView(id) {
           <div><dt>Status</dt><dd><span class="status status--${esc(work.status)}">${esc(statusLabel(work.status))}</span></dd></div>
         </dl>
         ${work.status === "sold" && price ? `<p class="work__sold">Sold · ${esc(price)} plus shipping</p>` : ""}
-        ${inCollection(work) ? `<a class="tag-collection" href="/college-christianity">${cross} College Christianity · 25% off</a>` : ""}
+        ${inCollection(work) ? `<a class="gold-btn gold-btn--lg${work.status === "sold" ? " gold-btn--sold" : ""}" href="/college-christianity">${cross} College Christianity${work.status === "sold" ? " · Sold" : " · 25% off"}</a>` : ""}
         ${work.status === "available" || work.status === "reserved" ? `<p class="work__price">${salePriceHtml(work)}</p>` : ""}
         <div class="work__actions">${actions}</div>
         ${work.description ? `<div class="work__desc">${paragraphs(work.description)}</div>` : ""}

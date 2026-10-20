@@ -428,3 +428,23 @@ main > * { padding-inline: var(--gutter); }
 .verse__next { font-weight: 600; font-size: var(--step--1); color: var(--oxblood); padding: 8px; }
 .ig-band__links { display: flex; flex-wrap: wrap; gap: var(--space-xs); justify-content: center; margin-top: var(--space-m); }
 @media (max-width: 1100px) { .site-nav { gap: 1rem; } .site-nav a { font-size: var(--step--2); } }
+
+/* ---------- Golden collection ---------- */
+.work-card--gold .work-card__frame { background: linear-gradient(135deg, #f3d27a, #c9962b 45%, #f6dd8f 70%, #b5841f); padding: 6px; box-shadow: 0 0 0 1px rgba(154, 90, 18, 0.4), 0 14px 30px -12px rgba(201, 150, 43, 0.75); }
+.work-card--gold:hover .work-card__frame { box-shadow: 0 0 0 1px rgba(154, 90, 18, 0.5), 0 22px 40px -14px rgba(201, 150, 43, 0.95); }
+.gold-btn { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; padding: 7px 14px; border-radius: 999px; font-size: var(--step--2); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: var(--ink); background: linear-gradient(135deg, #f6dd8f, #d9a93a 55%, #f1cf6e); border: 1.5px solid #b5841f; box-shadow: 0 4px 12px -4px rgba(201, 150, 43, 0.8); }
+.gold-btn .cross { width: 9px; height: 12px; }
+.gold-btn--sold { background: linear-gradient(135deg, #ffe066, #f5c400); color: var(--red-dot); border-color: var(--red-dot); }
+.gold-btn--lg { font-size: var(--step--1); padding: 10px 18px; margin-top: var(--space-m); }
+.btn--sold-gold { --btn-bg: #f5c400; --btn-fg: #a1121a; --btn-bd: var(--red-dot); }
+.btn--sold-gold:hover { --btn-bg: var(--red-dot); --btn-fg: #ffe066; --btn-bd: var(--red-dot); }
+.work__phone { width: 100%; font-size: var(--step--1); color: var(--text-muted); }
+.work__phone a { font-weight: 700; color: var(--oxblood); }
+.collection-band { background: radial-gradient(ellipse 60% 70% at 80% 10%, rgba(255, 224, 140, 0.55), transparent 60%), linear-gradient(150deg, #9a6a14, #c9962b 35%, #7a4f12 75%, #4a2f0c) !important; }
+.collection-band .label__medium, .collection-band .was { color: #fbecc6; }
+.collection-band .sale { color: #fff3c4; }
+.collection-band .btn--amber { --btn-bg: var(--ink); --btn-fg: #f6dd8f; --btn-bd: var(--ink); }
+.page-head--collection { background: radial-gradient(ellipse 60% 90% at 85% 0%, rgba(255, 224, 140, 0.6), transparent 60%), linear-gradient(150deg, #9a6a14, #c9962b 45%, #6e4710) !important; }
+.page-head--collection .page-head__lede { color: #fff3d6 !important; }
+[data-route="collection"] main { background: linear-gradient(180deg, rgba(243, 210, 122, 0.25), transparent 60%); }
+.work--gold .work__zoom { background: linear-gradient(135deg, #f3d27a, #c9962b 45%, #f6dd8f 70%, #b5841f); box-shadow: 0 18px 40px -16px rgba(201, 150, 43, 0.9); }
