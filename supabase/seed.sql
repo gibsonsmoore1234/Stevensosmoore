@@ -90,28 +90,34 @@ select 'The Red Cyclops', 'oil', 'Oil on canvas', 'Against a churning crimson gr
 where not exists (select 1 from public.artworks where image_url = '/images/works/the-red-cyclops.jpg');
 update public.artworks set detail_urls = array['/images/details/moon-faces-1.jpg','/images/details/moon-faces-2.jpg','/images/details/moon-faces-3.jpg'] where image_url = '/images/works/moon-faces.jpg' and coalesce(cardinality(detail_urls),0) = 0;
 
+
+insert into public.artworks (title, category, medium, alt_text, image_url, thumb_url, image_width, image_height, featured, sort_order, status, published, dimensions, price, video_url)
+select 'The Rainbow Field', 'oil', 'Oil on canvas', 'A man in a blue hat points toward a setting sun under a rainbow while a figure in a pink-banded hat leads a red horse through a field of blue flowers.', '/images/works/the-rainbow-field.jpg', '/images/works/the-rainbow-field.jpg', 2000, 1452, true, 5, 'available', true, '36 × 48 in', 900, '/videos/the-rainbow-field.mp4'
+where not exists (select 1 from public.artworks where image_url = '/images/works/the-rainbow-field.jpg');
+
 -- Starter prices, sizes and status (only fills works that have no price yet).
-update public.artworks set dimensions = '30 × 52 in', price = 9500, status = 'available' where image_url = '/images/works/airship-over-the-glass-city.jpg' and price is null;
-update public.artworks set dimensions = '30 × 40 in', price = 4200, status = 'available' where image_url = '/images/works/teal-harlequin.jpg' and price is null;
-update public.artworks set dimensions = '36 × 48 in', price = 5800, status = 'available' where image_url = '/images/works/the-procession.jpg' and price is null;
-update public.artworks set dimensions = '30 × 40 in', price = 4800, status = 'available' where image_url = '/images/works/the-dragon-duel.jpg' and price is null;
-update public.artworks set dimensions = '11 × 14 in', price = 650, status = 'sold' where image_url = '/images/works/the-dog-pile.jpg' and price is null;
-update public.artworks set dimensions = '24 × 36 in', price = 3600, status = 'available' where image_url = '/images/works/angels-at-the-gate.jpg' and price is null;
-update public.artworks set dimensions = '24 × 36 in', price = 3200, status = 'sold' where image_url = '/images/works/cowboy-in-the-clouds.jpg' and price is null;
-update public.artworks set dimensions = '30 × 40 in', price = 6500, status = 'available' where image_url = '/images/works/the-garden-of-everything.jpg' and price is null;
-update public.artworks set dimensions = '12 × 12 in', price = 800, status = 'available' where image_url = '/images/works/master-in-a-suit.jpg' and price is null;
-update public.artworks set dimensions = '16 × 20 in', price = 1400, status = 'available' where image_url = '/images/works/striped-shirt.jpg' and price is null;
-update public.artworks set dimensions = '16 × 20 in', price = 1600, status = 'available' where image_url = '/images/works/pink-hat-and-hound.jpg' and price is null;
-update public.artworks set dimensions = '18 × 24 in', price = 1900, status = 'available' where image_url = '/images/works/golden-face.jpg' and price is null;
-update public.artworks set dimensions = '24 × 36 in', price = 2400, status = 'available' where image_url = '/images/works/the-pink-whirlpool.jpg' and price is null;
-update public.artworks set dimensions = '24 × 30 in', price = 2200, status = 'available' where image_url = '/images/works/riders-in-the-red.jpg' and price is null;
-update public.artworks set dimensions = '24 × 30 in', price = 2100, status = 'available' where image_url = '/images/works/falling-through-water.jpg' and price is null;
-update public.artworks set dimensions = '12 × 36 in', price = 1800, status = 'available' where image_url = '/images/works/the-long-fall.jpg' and price is null;
-update public.artworks set dimensions = '11 × 14 in', price = 450, status = 'available' where image_url = '/images/works/crowd-in-graphite.jpg' and price is null;
-update public.artworks set dimensions = '18 × 24 in', price = 550, status = 'available' where image_url = '/images/works/charcoal-figure.jpg' and price is null;
+update public.artworks set dimensions = '36 × 48 in', price = 900, status = 'available' where image_url = '/images/works/the-rainbow-field.jpg' and price is null;
+update public.artworks set dimensions = '30 × 52 in', price = 900, status = 'available' where image_url = '/images/works/airship-over-the-glass-city.jpg' and price is null;
+update public.artworks set dimensions = '30 × 40 in', price = 525, status = 'available' where image_url = '/images/works/teal-harlequin.jpg' and price is null;
+update public.artworks set dimensions = '36 × 48 in', price = 650, status = 'available' where image_url = '/images/works/the-procession.jpg' and price is null;
+update public.artworks set dimensions = '30 × 40 in', price = 575, status = 'available' where image_url = '/images/works/the-dragon-duel.jpg' and price is null;
+update public.artworks set dimensions = '11 × 14 in', price = 275, status = 'sold' where image_url = '/images/works/the-dog-pile.jpg' and price is null;
+update public.artworks set dimensions = '24 × 36 in', price = 475, status = 'available' where image_url = '/images/works/angels-at-the-gate.jpg' and price is null;
+update public.artworks set dimensions = '24 × 36 in', price = 450, status = 'sold' where image_url = '/images/works/cowboy-in-the-clouds.jpg' and price is null;
+update public.artworks set dimensions = '30 × 40 in', price = 700, status = 'available' where image_url = '/images/works/the-garden-of-everything.jpg' and price is null;
+update public.artworks set dimensions = '12 × 12 in', price = 300, status = 'available' where image_url = '/images/works/master-in-a-suit.jpg' and price is null;
+update public.artworks set dimensions = '16 × 20 in', price = 325, status = 'available' where image_url = '/images/works/striped-shirt.jpg' and price is null;
+update public.artworks set dimensions = '16 × 20 in', price = 350, status = 'available' where image_url = '/images/works/pink-hat-and-hound.jpg' and price is null;
+update public.artworks set dimensions = '18 × 24 in', price = 375, status = 'available' where image_url = '/images/works/golden-face.jpg' and price is null;
+update public.artworks set dimensions = '24 × 36 in', price = 400, status = 'available' where image_url = '/images/works/the-pink-whirlpool.jpg' and price is null;
+update public.artworks set dimensions = '24 × 30 in', price = 375, status = 'available' where image_url = '/images/works/riders-in-the-red.jpg' and price is null;
+update public.artworks set dimensions = '24 × 30 in', price = 375, status = 'available' where image_url = '/images/works/falling-through-water.jpg' and price is null;
+update public.artworks set dimensions = '12 × 36 in', price = 350, status = 'available' where image_url = '/images/works/the-long-fall.jpg' and price is null;
+update public.artworks set dimensions = '11 × 14 in', price = 275, status = 'available' where image_url = '/images/works/crowd-in-graphite.jpg' and price is null;
+update public.artworks set dimensions = '18 × 24 in', price = 275, status = 'available' where image_url = '/images/works/charcoal-figure.jpg' and price is null;
 update public.artworks set dimensions = '9 × 12 in', price = 250, status = 'available' where image_url = '/images/works/lady-with-a-tree-hat.jpg' and price is null;
-update public.artworks set dimensions = '11 × 14 in', price = 400, status = 'available' where image_url = '/images/works/moon-faces.jpg' and price is null;
-update public.artworks set dimensions = '16 × 20 in', price = 2800, status = 'available' where image_url = '/images/works/the-red-cyclops.jpg' and price is null;
+update public.artworks set dimensions = '11 × 14 in', price = 250, status = 'available' where image_url = '/images/works/moon-faces.jpg' and price is null;
+update public.artworks set dimensions = '16 × 20 in', price = 425, status = 'available' where image_url = '/images/works/the-red-cyclops.jpg' and price is null;
 
 -- Medium corrections from the artist.
 update public.artworks set category = 'acrylic', medium = 'Acrylic on canvas' where image_url = '/images/works/the-dragon-duel.jpg';
@@ -119,3 +125,26 @@ update public.artworks set category = 'acrylic', medium = 'Acrylic on canvas' wh
 update public.artworks set category = 'oil', medium = 'Oil on canvas' where image_url = '/images/works/the-pink-whirlpool.jpg';
 update public.artworks set category = 'oil', medium = 'Oil on canvas' where image_url = '/images/works/riders-in-the-red.jpg';
 update public.artworks set title = 'The Woman in Ice Cream World', category = 'charcoal', medium = 'Charcoal on paper' where image_url = '/images/works/crowd-in-graphite.jpg';
+-- Price cap: nothing over $900.
+update public.artworks set price = 900 where image_url = '/images/works/the-rainbow-field.jpg' and price > 900;
+update public.artworks set price = 900 where image_url = '/images/works/airship-over-the-glass-city.jpg' and price > 900;
+update public.artworks set price = 525 where image_url = '/images/works/teal-harlequin.jpg' and price > 900;
+update public.artworks set price = 650 where image_url = '/images/works/the-procession.jpg' and price > 900;
+update public.artworks set price = 575 where image_url = '/images/works/the-dragon-duel.jpg' and price > 900;
+update public.artworks set price = 275 where image_url = '/images/works/the-dog-pile.jpg' and price > 900;
+update public.artworks set price = 475 where image_url = '/images/works/angels-at-the-gate.jpg' and price > 900;
+update public.artworks set price = 450 where image_url = '/images/works/cowboy-in-the-clouds.jpg' and price > 900;
+update public.artworks set price = 700 where image_url = '/images/works/the-garden-of-everything.jpg' and price > 900;
+update public.artworks set price = 300 where image_url = '/images/works/master-in-a-suit.jpg' and price > 900;
+update public.artworks set price = 325 where image_url = '/images/works/striped-shirt.jpg' and price > 900;
+update public.artworks set price = 350 where image_url = '/images/works/pink-hat-and-hound.jpg' and price > 900;
+update public.artworks set price = 375 where image_url = '/images/works/golden-face.jpg' and price > 900;
+update public.artworks set price = 400 where image_url = '/images/works/the-pink-whirlpool.jpg' and price > 900;
+update public.artworks set price = 375 where image_url = '/images/works/riders-in-the-red.jpg' and price > 900;
+update public.artworks set price = 375 where image_url = '/images/works/falling-through-water.jpg' and price > 900;
+update public.artworks set price = 350 where image_url = '/images/works/the-long-fall.jpg' and price > 900;
+update public.artworks set price = 275 where image_url = '/images/works/crowd-in-graphite.jpg' and price > 900;
+update public.artworks set price = 275 where image_url = '/images/works/charcoal-figure.jpg' and price > 900;
+update public.artworks set price = 250 where image_url = '/images/works/lady-with-a-tree-hat.jpg' and price > 900;
+update public.artworks set price = 250 where image_url = '/images/works/moon-faces.jpg' and price > 900;
+update public.artworks set price = 425 where image_url = '/images/works/the-red-cyclops.jpg' and price > 900;

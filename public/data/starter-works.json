@@ -1,5 +1,30 @@
 [
   {
+    "id": 22,
+    "title": "The Rainbow Field",
+    "category": "oil",
+    "medium": "Oil on canvas",
+    "year": null,
+    "dimensions": "36 × 48 in",
+    "description": null,
+    "price": 900,
+    "status": "available",
+    "purchase_url": null,
+    "alt_text": "A man in a blue hat points toward a setting sun under a rainbow while a figure in a pink-banded hat leads a red horse through a field of blue flowers.",
+    "image_url": "/images/works/the-rainbow-field.jpg",
+    "thumb_url": "/images/works/the-rainbow-field.jpg",
+    "image_width": 2000,
+    "image_height": 1452,
+    "storage_path": null,
+    "featured": true,
+    "sort_order": 5,
+    "published": true,
+    "created_at": "2026-10-14T00:00:00Z",
+    "updated_at": "2026-10-14T00:00:00Z",
+    "detail_urls": [],
+    "video_url": "/videos/the-rainbow-field.mp4"
+  },
+  {
     "id": 1,
     "title": "Airship over the Glass City",
     "category": "oil",
@@ -7,7 +32,7 @@
     "year": null,
     "dimensions": "30 × 52 in",
     "description": null,
-    "price": 9500,
+    "price": 900,
     "status": "available",
     "purchase_url": null,
     "alt_text": "An amber sky with an airship over blue mountains, a winding oxblood road leading to a small city of pale glass blocks, and a giant seated figure holding a blimp.",
@@ -17,11 +42,12 @@
     "image_height": 510,
     "storage_path": null,
     "featured": true,
-    "sort_order": 10,
+    "sort_order": 20,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 2,
@@ -31,7 +57,7 @@
     "year": null,
     "dimensions": "30 × 40 in",
     "description": null,
-    "price": 4200,
+    "price": 525,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A figure in a patchwork suit of blue and grey squares reaches upward against teal, crystal-like towers.",
@@ -41,11 +67,12 @@
     "image_height": 820,
     "storage_path": null,
     "featured": true,
-    "sort_order": 20,
+    "sort_order": 30,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 3,
@@ -55,7 +82,7 @@
     "year": null,
     "dimensions": "36 × 48 in",
     "description": null,
-    "price": 5800,
+    "price": 650,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A blue-haired figure draped in pink blossoms stands before striped vertical bands under a pink sky, a small blond figure behind.",
@@ -65,11 +92,12 @@
     "image_height": 692,
     "storage_path": null,
     "featured": true,
-    "sort_order": 30,
+    "sort_order": 40,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 4,
@@ -79,7 +107,7 @@
     "year": null,
     "dimensions": "30 × 40 in",
     "description": null,
-    "price": 4800,
+    "price": 575,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A man in a red cap fires a laser from a hose at two green dragons breathing fire across a red canyon.",
@@ -89,11 +117,12 @@
     "image_height": 908,
     "storage_path": null,
     "featured": true,
-    "sort_order": 40,
+    "sort_order": 50,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 5,
@@ -103,7 +132,7 @@
     "year": null,
     "dimensions": "11 × 14 in",
     "description": null,
-    "price": 650,
+    "price": 275,
     "status": "sold",
     "purchase_url": null,
     "alt_text": "Three dogs — a yellow lab, a grey terrier on a blue leash and a black-and-white pup — sit side by side on a green ground, painted in thick impasto.",
@@ -113,11 +142,12 @@
     "image_height": 1122,
     "storage_path": null,
     "featured": true,
-    "sort_order": 50,
+    "sort_order": 60,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 6,
@@ -127,7 +157,7 @@
     "year": null,
     "dimensions": "24 × 36 in",
     "description": null,
-    "price": 3600,
+    "price": 475,
     "status": "available",
     "purchase_url": null,
     "alt_text": "Figures in blue and green gather beneath a winged angel in a dark, richly textured arch.",
@@ -137,11 +167,12 @@
     "image_height": 844,
     "storage_path": null,
     "featured": false,
-    "sort_order": 60,
+    "sort_order": 70,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 7,
@@ -151,7 +182,7 @@
     "year": null,
     "dimensions": "24 × 36 in",
     "description": null,
-    "price": 3200,
+    "price": 450,
     "status": "sold",
     "purchase_url": null,
     "alt_text": "A cowboy on a brown horse rides through white clouds in a deep blue sky.",
@@ -161,13 +192,14 @@
     "image_height": 959,
     "storage_path": null,
     "featured": true,
-    "sort_order": 70,
+    "sort_order": 80,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
     "detail_urls": [
       "/images/details/cowboy-in-the-clouds-1.jpg"
-    ]
+    ],
+    "video_url": null
   },
   {
     "id": 8,
@@ -177,7 +209,7 @@
     "year": null,
     "dimensions": "30 × 40 in",
     "description": null,
-    "price": 6500,
+    "price": 700,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A crowded, colourful scene of faces, a rainbow, animals and a tiny city spilling down the canvas.",
@@ -187,11 +219,12 @@
     "image_height": 738,
     "storage_path": null,
     "featured": false,
-    "sort_order": 80,
+    "sort_order": 90,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 9,
@@ -201,7 +234,7 @@
     "year": null,
     "dimensions": "12 × 12 in",
     "description": null,
-    "price": 800,
+    "price": 300,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A green, long-eared Yoda-like figure in a yellow suit and red tie raises a glass against grey.",
@@ -211,11 +244,12 @@
     "image_height": 432,
     "storage_path": null,
     "featured": false,
-    "sort_order": 90,
+    "sort_order": 100,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 10,
@@ -225,7 +259,7 @@
     "year": null,
     "dimensions": "16 × 20 in",
     "description": null,
-    "price": 1400,
+    "price": 325,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A red-faced figure in a striped shirt holds up a glass and a thin stick.",
@@ -235,11 +269,12 @@
     "image_height": 808,
     "storage_path": null,
     "featured": false,
-    "sort_order": 100,
+    "sort_order": 110,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 11,
@@ -249,7 +284,7 @@
     "year": null,
     "dimensions": "16 × 20 in",
     "description": null,
-    "price": 1600,
+    "price": 350,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A figure in a pink hat stands by a lake under a turquoise sky with a golden dog in pink foliage.",
@@ -259,11 +294,12 @@
     "image_height": 826,
     "storage_path": null,
     "featured": false,
-    "sort_order": 110,
+    "sort_order": 120,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 12,
@@ -273,7 +309,7 @@
     "year": null,
     "dimensions": "18 × 24 in",
     "description": null,
-    "price": 1900,
+    "price": 375,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A large ochre face with wide eyes framed by swirling grey and silver brushwork.",
@@ -283,11 +319,12 @@
     "image_height": 884,
     "storage_path": null,
     "featured": false,
-    "sort_order": 120,
+    "sort_order": 130,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 13,
@@ -297,7 +334,7 @@
     "year": null,
     "dimensions": "24 × 36 in",
     "description": null,
-    "price": 2400,
+    "price": 400,
     "status": "available",
     "purchase_url": null,
     "alt_text": "Three figures, one horned, one in blue, stand above a swirling pink pool under a grey sky.",
@@ -307,11 +344,12 @@
     "image_height": 730,
     "storage_path": null,
     "featured": false,
-    "sort_order": 130,
+    "sort_order": 140,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 14,
@@ -321,7 +359,7 @@
     "year": null,
     "dimensions": "24 × 30 in",
     "description": null,
-    "price": 2200,
+    "price": 375,
     "status": "available",
     "purchase_url": null,
     "alt_text": "An archer on a blue horse and a rider on a black horse cross a red plain beneath yellow clouds.",
@@ -331,11 +369,12 @@
     "image_height": 858,
     "storage_path": null,
     "featured": false,
-    "sort_order": 140,
+    "sort_order": 150,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 15,
@@ -345,7 +384,7 @@
     "year": null,
     "dimensions": "24 × 30 in",
     "description": null,
-    "price": 2100,
+    "price": 375,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A green figure tumbles through a rush of blue water against a confetti-speckled pink ground.",
@@ -355,11 +394,12 @@
     "image_height": 888,
     "storage_path": null,
     "featured": false,
-    "sort_order": 150,
+    "sort_order": 160,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 16,
@@ -369,7 +409,7 @@
     "year": null,
     "dimensions": "12 × 36 in",
     "description": null,
-    "price": 1800,
+    "price": 350,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A tall narrow canvas of a figure in green shorts falling through dark red and grey.",
@@ -379,14 +419,15 @@
     "image_height": 1400,
     "storage_path": null,
     "featured": false,
-    "sort_order": 160,
+    "sort_order": 170,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
     "detail_urls": [
       "/images/details/the-long-fall-1.jpg",
       "/images/details/the-long-fall-2.jpg"
-    ]
+    ],
+    "video_url": null
   },
   {
     "id": 17,
@@ -396,7 +437,7 @@
     "year": null,
     "dimensions": "11 × 14 in",
     "description": null,
-    "price": 450,
+    "price": 275,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A dense black-and-white drawing of tangled figures, hands and faces.",
@@ -406,11 +447,12 @@
     "image_height": 756,
     "storage_path": null,
     "featured": false,
-    "sort_order": 170,
+    "sort_order": 180,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 18,
@@ -420,7 +462,7 @@
     "year": null,
     "dimensions": "18 × 24 in",
     "description": null,
-    "price": 550,
+    "price": 275,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A crouching long-haired figure built from heavy charcoal scribbles.",
@@ -430,11 +472,12 @@
     "image_height": 720,
     "storage_path": null,
     "featured": false,
-    "sort_order": 180,
+    "sort_order": 190,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 19,
@@ -454,11 +497,12 @@
     "image_height": 664,
     "storage_path": null,
     "featured": false,
-    "sort_order": 190,
+    "sort_order": 200,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   },
   {
     "id": 20,
@@ -468,7 +512,7 @@
     "year": null,
     "dimensions": "11 × 14 in",
     "description": null,
-    "price": 400,
+    "price": 250,
     "status": "available",
     "purchase_url": null,
     "alt_text": "A charcoal drawing of a huge comet-like face streaking through a starry sky above a crowd of strange heads.",
@@ -478,7 +522,7 @@
     "image_height": 1261,
     "storage_path": null,
     "featured": false,
-    "sort_order": 200,
+    "sort_order": 210,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
@@ -486,7 +530,8 @@
       "/images/details/moon-faces-1.jpg",
       "/images/details/moon-faces-2.jpg",
       "/images/details/moon-faces-3.jpg"
-    ]
+    ],
+    "video_url": null
   },
   {
     "id": 21,
@@ -496,7 +541,7 @@
     "year": null,
     "dimensions": "16 × 20 in",
     "description": null,
-    "price": 2800,
+    "price": 425,
     "status": "available",
     "purchase_url": null,
     "alt_text": "Against a churning crimson ground, a bearded figure with a giant eye for a torso raises an arm above a huge sideways face and a small red-haired figure.",
@@ -506,10 +551,11 @@
     "image_height": 1400,
     "storage_path": null,
     "featured": true,
-    "sort_order": 15,
+    "sort_order": 25,
     "published": true,
     "created_at": "2026-10-14T00:00:00Z",
     "updated_at": "2026-10-14T00:00:00Z",
-    "detail_urls": []
+    "detail_urls": [],
+    "video_url": null
   }
 ]

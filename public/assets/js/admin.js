@@ -482,6 +482,7 @@ async function formView(main, id) {
           <div class="field"><label for="f-status">Status</label><select class="select input" id="f-status" name="status">${Object.entries(STATUSES).map(([k, l]) => `<option value="${k}" ${k === v.status ? "selected" : ""}>${l}</option>`).join("")}</select></div>
         </div>
         <div class="field"><label for="f-buy">Purchase link</label><input class="input" id="f-buy" name="purchase_url" type="url" value="${esc(v.purchase_url || "")}" placeholder="https://buy.stripe.com/…"><span class="hint">Optional — e.g. a Stripe Payment Link. Shows a "Purchase" button.</span><span class="error" data-err-purchase_url hidden></span></div>
+        <div class="field"><label for="f-video">Video link</label><input class="input" id="f-video" name="video_url" value="${esc(v.video_url || "")}" placeholder="https://… .mp4"><span class="hint">Optional — a link to an MP4 of the painting (shown on its page).</span></div>
         <div class="field"><label for="f-desc">Description</label><textarea class="textarea input" id="f-desc" name="description" maxlength="5000">${esc(v.description || "")}</textarea></div>
         <div class="field"><label for="f-alt">Image description (for screen readers)</label><textarea class="textarea input" id="f-alt" name="alt_text" maxlength="600" style="min-height:80px">${esc(v.alt_text || "")}</textarea><span class="hint">One sentence on what the painting shows.</span></div>
         <label class="check"><input type="checkbox" name="featured" ${v.featured ? "checked" : ""}> Feature on the home page</label>
@@ -563,6 +564,7 @@ async function formView(main, id) {
       price,
       status: d.status,
       purchase_url: buy || null,
+      video_url: (d.video_url || "").trim() || null,
       description: d.description.trim() || null,
       alt_text: d.alt_text.trim() || null,
       featured: !!d.featured,

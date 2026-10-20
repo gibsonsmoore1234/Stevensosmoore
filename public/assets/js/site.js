@@ -109,6 +109,14 @@ const airship = `
     <path d="M50 44l2 7h14l2-7" fill="#5c2a35" stroke="#1c1916" stroke-width="2.2" stroke-linejoin="round"/>
   </svg>`;
 
+const cross = `<svg class="cross" viewBox="0 0 24 32" aria-hidden="true"><path d="M12 2v28M4 10.5h16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>`;
+const verse = `
+  <figure class="verse reveal">
+    ${cross}
+    <blockquote>“Whatever you do, work at it with all your heart, as working for the Lord.”</blockquote>
+    <figcaption>Colossians 3:23</figcaption>
+  </figure>`;
+
 const road = (cls = "") => `<svg class="road ${cls}" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 90 C 180 20, 360 110, 600 60 S 980 0, 1210 70" /></svg>`;
 
 function wallWidth(work) {
@@ -179,7 +187,7 @@ function bindInquiry(root, settings) {
           <div class="sent" role="status" tabindex="-1">
             ${airship}
             <h3>Thank you, ${esc(data.name.trim().split(" ")[0])}.</h3>
-            <p>Your message is on its way. I'll reply to <strong>${esc(data.email)}</strong> soon.</p>
+            <p>Your message is on its way. I'll reply to <strong>${esc(data.email)}</strong> soon. God bless!</p>
           </div>`;
         root.querySelector(".sent")?.focus();
       } catch (ex) {
@@ -267,6 +275,8 @@ async function homeView() {
         <a class="btn btn--amber" href="/contact?kind=commission">Ask about a commission</a>
       </div>
     </section>
+
+    <section class="section">${verse}</section>
 
     <section class="ig-band">
       <div class="ig-band__inner">
@@ -366,6 +376,7 @@ async function workView(id) {
           <span class="loupe" aria-hidden="true" data-loupe style="background-image:url('${esc(imageFor(work, "full"))}')"></span>
         </button>
         ${(work.detail_urls || []).length ? `<div class="details"><p class="eyebrow">Details</p><div class="details__row">${work.detail_urls.map(safeUrl).filter(Boolean).map((u, i) => `<button type="button" class="details__btn" data-zoom="${esc(u)}" data-zoom-alt="Detail ${i + 1} of ${esc(work.title)}" aria-label="Enlarge detail ${i + 1}"><img src="${esc(u)}" alt="" loading="lazy"></button>`).join("")}</div></div>` : ""}
+        ${safeUrl(work.video_url) ? `<div class="work__video"><p class="eyebrow">Up close · video</p><video src="${esc(safeUrl(work.video_url))}" ${/\.mp4$/i.test(work.video_url) ? `poster="${esc(safeUrl(work.video_url.replace(/\.mp4$/i, ".jpg")))}"` : ""} controls muted loop playsinline preload="metadata"></video></div>` : ""}
         <div class="stage-tools">
           <button class="chip" type="button" data-wall aria-pressed="false">🛋 View on a wall</button>
           <button class="chip" type="button" data-wander>✦ Random painting</button>
@@ -432,6 +443,7 @@ async function aboutView() {
           <div><p class="eyebrow">Works in</p><p>Oil · Acrylic · Charcoal · Graphite</p></div>
           <div><p class="eyebrow">Follow</p><p><a href="${igUrl(settings)}" target="_blank" rel="noopener">@${esc(settings.instagram)}</a></p></div>
         </div>
+        ${verse}
         <div class="hero__cta"><a class="btn" href="/oil-paintings">See the paintings</a><a class="btn btn--ghost" href="/contact?kind=commission">Commissions</a></div>
       </div>
       ${portrait ? `<a class="about__work" href="${workPath(portrait)}"><span class="work-card__frame">${img(portrait, { size: "full", sizes: "(min-width: 900px) 40vw, 100vw" })}</span><span class="hero__caption"><i>${esc(portrait.title)}</i> · ${esc(mediumFor(portrait))}</span></a>` : ""}
