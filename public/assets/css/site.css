@@ -524,3 +524,116 @@ body { background: radial-gradient(ellipse 50% 40% at 0% 30%, rgba(163, 203, 191
 .collection-band .btn--ghost-light { --btn-fg: var(--ink); --btn-bd: var(--line-strong); }
 .collection-band .btn--ghost-light:hover { --btn-bg: var(--ink); --btn-fg: var(--linen); }
 .collection-band .btn--amber { --btn-bg: var(--oxblood); --btn-fg: var(--linen); --btn-bd: var(--oxblood); }
+
+/* ================= Rainbow Field palette ================= */
+:root {
+  --rf-sky: #5b8fc4;
+  --rf-sky-pale: #cfe0ee;
+  --rf-red: #b8434a;
+  --rf-pink: #e7a6b4;
+  --rf-sun: #f0b23c;
+  --rf-gold: #d9a93a;
+  --rf-hill: #7fa04f;
+  --rf-meadow: #3f6b38;
+  --rf-bonnet: #3d5fa8;
+  --rf-horse: #9c2f2f;
+  --rf-cloud: #e9ecec;
+  --rainbow: linear-gradient(90deg, var(--rf-red), var(--rf-pink), var(--rf-sun), var(--rf-hill), var(--rf-sky), var(--rf-bonnet));
+}
+
+/* whole page: soft sky-to-meadow wash */
+body {
+  background:
+    radial-gradient(ellipse 60% 35% at 85% 8%, rgba(240, 178, 60, 0.28), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 0% 40%, rgba(91, 143, 196, 0.22), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 100% 75%, rgba(127, 160, 79, 0.22), transparent 70%),
+    radial-gradient(ellipse 50% 30% at 10% 95%, rgba(231, 166, 180, 0.25), transparent 70%),
+    #f6f1e6;
+  background-attachment: fixed;
+}
+
+/* top bar + header */
+.glory-bar { background: var(--rainbow); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.35); font-weight: 600; }
+.site-header { border-image: var(--rainbow) 1; }
+.wordmark__name { background: linear-gradient(90deg, var(--rf-horse), var(--rf-bonnet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* hero: Rainbow Field sky with sun + rainbow arc */
+.hero__sky {
+  background:
+    radial-gradient(circle at 78% 62%, var(--rf-sun) 0 7%, rgba(240,178,60,.35) 7.5% 14%, transparent 22%),
+    radial-gradient(ellipse 120% 90% at 50% 120%, transparent 52%, rgba(184,67,74,.55) 53%, rgba(231,166,180,.6) 56%, rgba(240,178,60,.55) 59%, rgba(127,160,79,.55) 62%, rgba(91,143,196,.55) 65%, transparent 68%),
+    linear-gradient(180deg, var(--rf-sky) 0%, #8fb3d6 40%, var(--rf-sky-pale) 75%, #f6f1e6 100%) !important;
+}
+.hero__title em { color: var(--rf-horse); }
+.hero__text .eyebrow { color: #fff; opacity: 1; text-shadow: 0 1px 2px rgba(0,0,0,.3); }
+.road path { stroke: var(--rf-red); }
+
+/* buttons */
+.btn { --btn-bg: var(--rf-bonnet); --btn-bd: var(--rf-bonnet); }
+.btn:hover { --btn-bg: var(--rf-horse); --btn-bd: var(--rf-horse); }
+.btn--amber { --btn-bg: var(--rf-sun); --btn-fg: var(--ink); --btn-bd: var(--rf-sun); }
+.btn--ghost { --btn-bg: transparent; --btn-fg: var(--rf-bonnet); --btn-bd: var(--rf-bonnet); }
+.btn--ghost:hover { --btn-bg: var(--rf-bonnet); --btn-fg: #fff; }
+
+/* nav colors cycle through the painting */
+.site-nav a:nth-child(1)::after { background: var(--rf-red); }
+.site-nav a:nth-child(2)::after { background: var(--rf-sun); }
+.site-nav a:nth-child(3)::after { background: var(--rf-hill); }
+.site-nav a:nth-child(4)::after { background: var(--rf-sky); }
+.site-nav a:nth-child(5)::after { background: var(--rf-bonnet); }
+.site-nav a:nth-child(6)::after { background: var(--rf-pink); }
+
+/* sections */
+.section--glow { background: linear-gradient(180deg, rgba(207,224,238,.6), rgba(127,160,79,.18) 70%, transparent) !important; }
+.section--cobalt { background: linear-gradient(160deg, var(--rf-bonnet), #2b4683 55%, var(--rf-meadow)) !important; }
+.about-teaser__cta { background: linear-gradient(150deg, var(--rf-hill), var(--rf-meadow)) !important; }
+.about-teaser__cta::after { background: var(--rf-sun) !important; opacity: .45 !important; }
+.offer { background: linear-gradient(150deg, var(--rf-sky), var(--rf-bonnet) 60%, #2b4683) !important; }
+.verse { background: linear-gradient(135deg, rgba(207,224,238,.8), rgba(231,166,180,.45) 50%, rgba(240,178,60,.35)) !important; }
+.verse .cross { color: var(--rf-horse) !important; }
+.ig-band { background: linear-gradient(120deg, var(--rf-horse), var(--rf-red) 30%, var(--rf-bonnet) 75%, var(--rf-sky)) !important; }
+.site-footer { background: linear-gradient(180deg, #1c2333, #142030) !important; }
+.site-footer::before { content: ""; display: block; height: 6px; background: var(--rainbow); }
+.road--footer path { stroke: var(--rf-sun); }
+
+/* page heads */
+[data-route="oil"] .page-head { background: linear-gradient(180deg, rgba(240,178,60,.65), rgba(231,166,180,.3) 65%, transparent) !important; }
+[data-route="other"] .page-head { background: linear-gradient(180deg, rgba(91,143,196,.55), rgba(207,224,238,.4) 65%, transparent) !important; }
+[data-route="commissions"] .page-head { background: linear-gradient(180deg, rgba(127,160,79,.55), rgba(240,178,60,.25) 65%, transparent) !important; }
+[data-route="about"] .page-head { background: linear-gradient(180deg, rgba(231,166,180,.55), transparent) !important; }
+[data-route="contact"] .page-head, [data-route="cart"] .page-head { background: linear-gradient(180deg, rgba(207,224,238,.8), transparent) !important; }
+.page-head--collection::after, .collection-band::after { background: var(--rainbow) !important; }
+
+/* cards: colored mats under labels and title colors */
+.work-card:nth-child(6n+1) .label__title { color: var(--rf-horse); }
+.work-card:nth-child(6n+2) .label__title { color: var(--rf-bonnet); }
+.work-card:nth-child(6n+3) .label__title { color: var(--rf-meadow); }
+.work-card:nth-child(6n+4) .label__title { color: #a26a0e; }
+.work-card:nth-child(6n+5) .label__title { color: #2f6a9e; }
+.work-card:nth-child(6n+6) .label__title { color: #a8465c; }
+.work-card .label { border-top: 4px solid transparent; }
+.work-card:nth-child(6n+1) .label { border-image: linear-gradient(90deg, var(--rf-red), transparent) 1; }
+.work-card:nth-child(6n+2) .label { border-image: linear-gradient(90deg, var(--rf-bonnet), transparent) 1; }
+.work-card:nth-child(6n+3) .label { border-image: linear-gradient(90deg, var(--rf-hill), transparent) 1; }
+.work-card:nth-child(6n+4) .label { border-image: linear-gradient(90deg, var(--rf-sun), transparent) 1; }
+.work-card:nth-child(6n+5) .label { border-image: linear-gradient(90deg, var(--rf-sky), transparent) 1; }
+.work-card:nth-child(6n+6) .label { border-image: linear-gradient(90deg, var(--rf-pink), transparent) 1; }
+.section--cobalt .work-card .label__title { color: #fff !important; }
+
+/* chips */
+.chip { background: rgba(255,255,255,.6); }
+.chip:nth-child(1)[aria-current="true"] { background: var(--rf-horse); border-color: var(--rf-horse); }
+.chip:nth-child(2)[aria-current="true"] { background: var(--rf-meadow); border-color: var(--rf-meadow); }
+.chip:nth-child(3)[aria-current="true"] { background: var(--rf-bonnet); border-color: var(--rf-bonnet); }
+.chip:nth-child(4)[aria-current="true"] { background: #a26a0e; border-color: #a26a0e; }
+
+/* commissions + cart */
+.rates__table tbody tr:nth-child(6n+1) th { color: var(--rf-horse); }
+.rates__table tbody tr:nth-child(6n+2) th { color: #a26a0e; }
+.rates__table tbody tr:nth-child(6n+3) th { color: var(--rf-meadow); }
+.rates__table tbody tr:nth-child(6n+4) th { color: #2f6a9e; }
+.rates__table tbody tr:nth-child(6n+5) th { color: var(--rf-bonnet); }
+.rates__table tbody tr:nth-child(6n+6) th { color: #a8465c; }
+.rates__calc, .cart__summary, .contact__aside { border-top: 6px solid transparent !important; border-image: var(--rainbow) 1 !important; }
+.cart-count { background: var(--rf-red); }
+.btn--ghost-light { --btn-bg: transparent; }
