@@ -142,7 +142,7 @@ export function getArtworks() {
 export function pickHero(works, settings) {
   return (
     works.find((w) => settings?.hero_artwork_id != null && String(w.id) === String(settings.hero_artwork_id)) ||
-    works.find((w) => w.featured) ||
+    works.find((w) => w.featured && w.status !== "sold") ||
     works[0] ||
     null
   );

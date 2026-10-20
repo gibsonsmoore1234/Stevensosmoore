@@ -210,9 +210,10 @@ function bindInquiry(root, settings) {
 async function homeView() {
   const [works, settings] = await Promise.all([getArtworks(), getSettings()]);
   const hero = pickHero(works, settings);
-  const featured = works.filter((w) => w.featured && w !== hero).slice(0, 6);
+  const featured = works.filter((w) => w.featured && w !== hero && w.collection !== "new").slice(0, 6);
   const selected = featured.length >= 3 ? featured : works.filter((w) => w !== hero && w.category === "oil").slice(0, 6);
   const other = works.filter((w) => w.category !== "oil").slice(0, 4);
+  const fresh = works.filter((w) => w.collection === "new");
   setMeta({ path: "/", description: settings.tagline });
 
   return `
@@ -241,6 +242,20 @@ async function homeView() {
       </div>
       ${road("road--hero")}
     </section>
+
+    ${
+      fresh.length
+        ? `<section class="section collection">
+            <div class="collection__text">
+              <p class="eyebrow">New collection</p>
+              <h2>Coming <em>soon.</em></h2>
+              <p>A new series of oil paintings is on the easel. The first piece, <i>${esc(fresh[0].title)}</i>, has already found a home.</p>
+              <a class="btn btn--amber" href="/contact?kind=purchase">Get first look at new work</a>
+            </div>
+            <div class="collection__works">${fresh.map(card).join("")}<div class="collection__ghost" aria-hidden="true"><span>Next painting<br>coming soon</span></div></div>
+          </section>`
+        : ""
+    }
 
     <section class="section">
       <div class="section__head">
@@ -398,6 +413,7 @@ async function workView(id) {
           ${work.dimensions ? `<div><dt>Size</dt><dd>${esc(work.dimensions)}</dd></div>` : ""}
           <div><dt>Status</dt><dd><span class="status status--${esc(work.status)}">${esc(statusLabel(work.status))}</span></dd></div>
         </dl>
+        ${work.status === "sold" && price ? `<p class="work__sold">Sold · ${esc(price)} plus shipping</p>` : ""}
         ${work.status === "available" || work.status === "reserved" ? `<p class="work__price">${esc(price || "Price on request")}</p>` : ""}
         <div class="work__actions">${actions}</div>
         ${work.description ? `<div class="work__desc">${paragraphs(work.description)}</div>` : ""}

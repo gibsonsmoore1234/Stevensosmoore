@@ -148,3 +148,6 @@ update public.artworks set price = 275 where image_url = '/images/works/charcoal
 update public.artworks set price = 250 where image_url = '/images/works/lady-with-a-tree-hat.jpg' and price > 900;
 update public.artworks set price = 250 where image_url = '/images/works/moon-faces.jpg' and price > 900;
 update public.artworks set price = 425 where image_url = '/images/works/the-red-cyclops.jpg' and price > 900;
+
+-- New collection (coming soon); The Rainbow Field sold for $750 plus shipping.
+update public.artworks set status = 'sold', price = 750, collection = 'new', description = 'The first painting in a new collection, coming soon. Sold — $750 plus shipping.' where image_url = '/images/works/the-rainbow-field.jpg';

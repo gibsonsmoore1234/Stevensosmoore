@@ -334,3 +334,14 @@ main > * { padding-inline: var(--gutter); }
 .about__text .verse { text-align: left; justify-items: start; margin: var(--space-l) 0; padding: var(--space-m) 0 var(--space-m) var(--space-m); border-left: 3px solid var(--amber); }
 .about__text .verse blockquote { font-size: var(--step-2); }
 .site-footer__sdg { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-style: italic; color: var(--amber-glow); }
+
+/* ---------- New collection ---------- */
+.collection { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+.collection h2 { font-size: var(--step-5); margin: var(--space-xs) 0 var(--space-m); font-variation-settings: "SOFT" 100, "WONK" 1; }
+.collection h2 em { color: var(--oxblood); }
+.collection__text p:not(.eyebrow) { max-width: 44ch; margin-bottom: var(--space-l); font-size: var(--step-1); }
+.collection__works { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--space-m); align-items: start; }
+.collection__works .work-card { margin: 0; }
+.collection__ghost { aspect-ratio: 3 / 4; border: 2px dashed var(--line-strong); display: grid; place-items: center; text-align: center; font-family: var(--font-display); font-style: italic; font-size: var(--step-1); color: var(--text-muted); background: repeating-linear-gradient(-45deg, transparent 0 12px, rgba(28,25,22,.03) 12px 24px); }
+.work__sold { margin-top: var(--space-m); font-family: var(--font-display); font-size: var(--step-2); color: var(--red-dot); }
+@media (max-width: 860px) { .collection { grid-template-columns: 1fr; } }
