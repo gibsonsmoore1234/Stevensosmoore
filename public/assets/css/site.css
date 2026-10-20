@@ -463,3 +463,31 @@ main > * { padding-inline: var(--gutter); }
 .page-head--collection { background: linear-gradient(150deg, var(--oxblood), var(--plum)) !important; border-bottom: 3px solid #d9a93a; }
 .page-head--collection .page-head__lede { color: var(--celadon) !important; }
 [data-route="collection"] main { background: none; }
+
+/* ---------- More color from the paintings ---------- */
+.site-header { background: color-mix(in srgb, var(--linen) 82%, transparent); border-bottom: 3px solid transparent; border-image: linear-gradient(90deg, var(--amber), var(--mustard), var(--sap), var(--celadon), var(--cobalt), var(--oxblood)) 1; }
+.site-nav a:nth-child(1):hover, .site-nav a:nth-child(1)[aria-current="page"] { color: var(--amber-ink); }
+.site-nav a:nth-child(3):hover, .site-nav a:nth-child(3)[aria-current="page"] { color: var(--cobalt); }
+.site-nav a:nth-child(4):hover, .site-nav a:nth-child(4)[aria-current="page"] { color: var(--sap); }
+.site-nav a:nth-child(1)::after { background: var(--amber); }
+.site-nav a:nth-child(3)::after { background: var(--cobalt); }
+.site-nav a:nth-child(4)::after { background: var(--sap); }
+.site-nav__ig:hover { color: var(--oxblood); }
+body { background: radial-gradient(ellipse 50% 40% at 0% 30%, rgba(163, 203, 191, 0.25), transparent 70%), radial-gradient(ellipse 50% 40% at 100% 65%, rgba(235, 182, 111, 0.22), transparent 70%), var(--linen); background-attachment: fixed; }
+.work-card:nth-child(4n+1) .label__title { color: var(--oxblood); }
+.work-card:nth-child(4n+2) .label__title { color: var(--cobalt); }
+.work-card:nth-child(4n+3) .label__title { color: #3f6b32; }
+.work-card:nth-child(4n+4) .label__title { color: var(--amber-ink); }
+.section--cobalt .work-card .label__title, .collection-band .work-card .label__title { color: var(--linen); }
+.chip[aria-current="true"] { background: var(--oxblood); border-color: var(--oxblood); }
+.chip:nth-child(2)[aria-current="true"] { background: var(--sap); border-color: var(--sap); }
+.chip:nth-child(3)[aria-current="true"] { background: var(--cobalt); border-color: var(--cobalt); }
+.about-teaser__cta { background: linear-gradient(150deg, var(--sap), var(--moss)); }
+.verse { background: linear-gradient(135deg, rgba(163, 203, 191, 0.35), rgba(235, 182, 111, 0.3)); border-radius: 8px; padding: var(--space-l) var(--space-m); }
+.about__text .verse { background: rgba(163, 203, 191, 0.25); border-radius: 0; }
+.offer { background: linear-gradient(150deg, var(--cobalt), #1f3a50 60%, var(--plum)); }
+.ig-band { background: linear-gradient(120deg, var(--oxblood), var(--plum) 40%, var(--cobalt)); }
+.rates__table tbody tr:nth-child(odd) { background: rgba(163, 203, 191, 0.15); }
+.rates__calc { border-top-color: var(--sap); }
+.cart__summary, .contact__aside { border-top: 6px solid var(--celadon); }
+.site-footer { background: linear-gradient(180deg, var(--ink), #1d2a33); }
