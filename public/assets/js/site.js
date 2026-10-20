@@ -117,6 +117,21 @@ const verse = `
     <figcaption>Colossians 3:23</figcaption>
   </figure>`;
 
+const christianOffer = `
+  <div class="offer">
+    ${cross}
+    <div>
+      <p class="eyebrow">College Christianity · Commission offer</p>
+      <h3>25% off Christian commissions</h3>
+      <p>Commission a Christian painting and get <strong>25% off your total order</strong> (before shipping).</p>
+      <ul>
+        <li><strong>Partly Christian</strong> — for example, a family portrait with crosses and Christian symbols in the background.</li>
+        <li><strong>Fully Christian</strong> — a painting completely based on a biblical or historical Christian event.</li>
+      </ul>
+      <a class="btn btn--amber" href="/contact?kind=commission&christian=partly">Request a Christian commission</a>
+    </div>
+  </div>`;
+
 const road = (cls = "") => `<svg class="road ${cls}" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 90 C 180 20, 360 110, 600 60 S 980 0, 1210 70" /></svg>`;
 
 function wallWidth(work) {
@@ -130,7 +145,7 @@ function wallWidth(work) {
 
 /* -------------------------------------------------------------- inquiry form */
 
-function inquiryForm({ work = null, kind = "general", settings, compact = false }) {
+function inquiryForm({ work = null, kind = "general", christian = "", settings, compact = false }) {
   const msg = work ? `Hi! I'm interested in "${work.title}". ` : "";
   const email = settings.contact_email;
   return `
@@ -144,6 +159,16 @@ function inquiryForm({ work = null, kind = "general", settings, compact = false 
                 <option value="general"${kind === "general" ? " selected" : ""}>A question or hello</option>
                 <option value="purchase"${kind === "purchase" ? " selected" : ""}>Buying a painting</option>
                 <option value="commission"${kind === "commission" ? " selected" : ""}>A commission</option>
+              </select></div>`
+      }
+      ${
+        work
+          ? ""
+          : `<div class="field" data-christian-field ${kind === "commission" ? "" : "hidden"}><label for="iq-christian">Christian painting? (25% off)</label>
+              <select class="select input" id="iq-christian" name="christian">
+                <option value="">No</option>
+                <option value="partly"${christian === "partly" ? " selected" : ""}>Partly Christian — e.g. crosses or Christian symbols in the background</option>
+                <option value="fully"${christian === "fully" ? " selected" : ""}>Fully Christian — based on a biblical or historical Christian event</option>
               </select></div>`
       }
       <div class="inquiry__row">
@@ -182,7 +207,8 @@ function bindInquiry(root, settings) {
       btn.disabled = true;
       btn.textContent = "Sending…";
       try {
-        await submitInquiry({ artwork_id: data.artwork_id || null, kind: data.kind || "general", name: data.name, email: data.email, message: data.message });
+        const tag = data.kind === "commission" && data.christian ? `[College Christianity — ${data.christian === "fully" ? "FULLY" : "PARTLY"} Christian commission, 25% off before shipping]\n` : "";
+        await submitInquiry({ artwork_id: data.artwork_id || null, kind: data.kind || "general", name: data.name, email: data.email, message: tag + (data.message || "") });
         form.outerHTML = `
           <div class="sent" role="status" tabindex="-1">
             ${airship}
@@ -247,9 +273,9 @@ async function homeView() {
       fresh.length
         ? `<section class="section collection">
             <div class="collection__text">
-              <p class="eyebrow">New collection</p>
-              <h2>Coming <em>soon.</em></h2>
-              <p>A new series of oil paintings is on the easel. The first piece, <i>${esc(fresh[0].title)}</i>, has already found a home.</p>
+              <p class="eyebrow">New collection · Coming soon</p>
+              <h2>College <em>Christianity.</em></h2>
+              <p>A new series of faith-centered oil paintings is on the easel. The first piece, <i>${esc(fresh[0].title)}</i>, has already found a home.</p>
               <a class="btn btn--amber" href="/contact?kind=purchase">Get first look at new work</a>
             </div>
             <div class="collection__works">${fresh.map(card).join("")}<div class="collection__ghost" aria-hidden="true"><span>Next painting<br>coming soon</span></div></div>
@@ -291,6 +317,7 @@ async function homeView() {
       </div>
     </section>
 
+    <section class="section">${christianOffer}</section>
     <section class="section">${verse}</section>
 
     <section class="ig-band">
@@ -470,13 +497,15 @@ async function contactView(params) {
   const [works, settings] = await Promise.all([getArtworks(), getSettings()]);
   const work = params.get("work") ? works.find((w) => String(w.id) === params.get("work")) : null;
   const kind = ["general", "purchase", "commission"].includes(params.get("kind")) ? params.get("kind") : "general";
+  const christian = ["partly", "fully"].includes(params.get("christian")) ? params.get("christian") : "";
   setMeta({ title: "Contact & Commissions", path: "/contact", description: "Inquire about an original painting or a commission from Stevensosmoore." });
   return `
     <section class="page-head"><p class="eyebrow">Contact</p><h1>Say hello</h1>
       <p class="page-head__lede">Questions about a painting or a commission? Send a message and I will get back to you.</p></section>
     <section class="contact">
-      <div class="contact__form">${work ? `<p class="contact__about">About: <a href="${workPath(work)}"><i>${esc(work.title)}</i></a></p>` : ""}${inquiryForm({ work, kind, settings })}</div>
+      <div class="contact__form">${work ? `<p class="contact__about">About: <a href="${workPath(work)}"><i>${esc(work.title)}</i></a></p>` : ""}${inquiryForm({ work, kind, christian, settings })}</div>
       <aside class="contact__aside">
+        ${christianOffer}
         <div><p class="eyebrow">Commissions</p><p>Portraits, pets, places and stories, painted in my style. Tell me the idea, the size you're imagining and any timing.</p></div>
         <div><p class="eyebrow">Collecting</p><p>Available works can be bought straight from each painting's page. Ask anything about framing, shipping or pickup.</p></div>
         <div><p class="eyebrow">Elsewhere</p><p><a href="${igUrl(settings)}" target="_blank" rel="noopener">Instagram @${esc(settings.instagram)}</a>${settings.contact_email ? `<br><a href="mailto:${esc(settings.contact_email)}">${esc(settings.contact_email)}</a>` : ""}${settings.contact_phone ? `<br><a href="tel:${esc(settings.contact_phone.replace(/[^\d+]/g, ""))}">${esc(settings.contact_phone)}</a>` : ""}</p></div>
@@ -725,6 +754,9 @@ async function render({ focus = false } = {}) {
 
 function enhance(settings) {
   bindInquiry(view, settings);
+  const kindSel = view.querySelector("#iq-kind");
+  const chr = view.querySelector("[data-christian-field]");
+  if (kindSel && chr) kindSel.addEventListener("change", () => (chr.hidden = kindSel.value !== "commission"));
   view.querySelectorAll("[data-open-inquiry]").forEach((b) =>
     b.addEventListener("click", () => {
       const wrap = view.querySelector("[data-inquiry-wrap]");
