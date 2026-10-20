@@ -637,3 +637,18 @@ body {
 .rates__calc, .cart__summary, .contact__aside { border-top: 6px solid transparent !important; border-image: var(--rainbow) 1 !important; }
 .cart-count { background: var(--rf-red); }
 .btn--ghost-light { --btn-bg: transparent; }
+
+/* ---------- No rainbows: solid colors only ---------- */
+.glory-bar { background: var(--rf-bonnet) !important; color: #fff; }
+.site-header { border-image: none !important; border-bottom: 3px solid var(--rf-sky) !important; }
+.hero__sky {
+  background:
+    radial-gradient(circle at 78% 62%, var(--rf-sun) 0 7%, rgba(240,178,60,.35) 7.5% 14%, transparent 22%),
+    linear-gradient(180deg, var(--rf-sky) 0%, #8fb3d6 40%, var(--rf-sky-pale) 75%, #f6f1e6 100%) !important;
+}
+.site-footer::before { background: var(--rf-sun) !important; }
+.page-head--collection::after, .collection-band::after { background: var(--rf-sun) !important; }
+.rates__calc, .cart__summary, .contact__aside { border-image: none !important; border-top: 6px solid var(--rf-hill) !important; }
+.ig-band { background: linear-gradient(120deg, var(--rf-horse), var(--rf-red)) !important; }
+.verse { background: rgba(207,224,238,.7) !important; }
+.wordmark__name { background: none !important; color: var(--rf-horse) !important; -webkit-background-clip: border-box; background-clip: border-box; }
