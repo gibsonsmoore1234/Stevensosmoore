@@ -28,7 +28,7 @@ export const DEFAULT_SETTINGS = {
   tagline: "Original oil paintings, charcoal and drawings by Stevensosmoore.",
   about:
     "I'm 19 years old and I paint full time. My faith is the most important thing to me, and I want to be productive and not squander God's blessing of a healthy body and a mind eager to learn and improve.\n\n" +
-    "I grew up in Georgia and spent most of middle school and all of high school in Florida. I started wrestling my freshman year of high school and committed to wrestle Division I at the University of Northern Colorado as a preferred walk-on, where I earned a scholarship.\n\n" +
+    "I grew up in Georgia and spent most of middle school and all of high school in Florida. I started wrestling my freshman year of high school, placed 4th in the Florida 1A state tournament as a junior, and was a Florida 1A state finalist as a senior. I then committed to wrestle Division I at the University of Northern Colorado as a preferred walk-on, where I earned a scholarship.\n\n" +
     "I then transferred to Duke University, where I study political science with a minor in political economy, and stepped away from wrestling to pursue painting full time. I work mostly in oil, and also in acrylic, charcoal and graphite.",
   contact_email: "gibson.moore@duke.edu",
   contact_phone: "470-533-7922",
