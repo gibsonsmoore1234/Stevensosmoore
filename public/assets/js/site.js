@@ -527,7 +527,7 @@ async function aboutView() {
         ${paragraphs(settings.about)}
         <div class="about__facts">
           <div><p class="eyebrow">Age</p><p>19</p></div>
-          <div><p class="eyebrow">Studies</p><p>Duke University student<br>Political science, minor in political economy</p></div>
+          <div><p class="eyebrow">Studies</p><p>Duke University student<br>Double major in political science and visual arts<br>Minor in political economy</p></div>
           <div><p class="eyebrow">Formerly</p><p>Division I wrestler, University of Northern Colorado (walk-on, earned scholarship)</p></div>
           <div><p class="eyebrow">From</p><p>Georgia &amp; Florida</p></div>
           <div><p class="eyebrow">High school wrestling</p><p>Florida 1A state 4th place (junior) · State finalist (senior)</p></div>
