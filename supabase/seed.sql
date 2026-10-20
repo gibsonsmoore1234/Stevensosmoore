@@ -159,3 +159,4 @@ insert into public.artworks (title, category, medium, alt_text, image_url, thumb
 select 'Daniel and the Lions’ Den', 'oil', 'Oil on canvas', 'Daniel, white-haired, stands calm in the dark den as lions roar and crouch around him.', '/images/works/daniel.jpg', '/images/works/daniel.jpg', 1226, 1600, true, 71, 'available', true, '24 × 36 in', 475, 'new'
 where not exists (select 1 from public.artworks where image_url = '/images/works/daniel.jpg');
 update public.artworks set dimensions = '30 × 40 in' where image_url = '/images/works/plague.jpg';
+update public.artworks set dimensions = '4 × 6 ft' where image_url = '/images/works/airship-over-the-glass-city.jpg';

@@ -169,10 +169,11 @@ const christianOffer = `
 const road = (cls = "") => `<svg class="road ${cls}" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 90 C 180 20, 360 110, 600 60 S 980 0, 1210 70" /></svg>`;
 
 function wallWidth(work) {
-  const m = String(work.dimensions || "").match(/(\d+(?:\.\d+)?)\s*[x×]\s*(\d+(?:\.\d+)?)\s*(cm|in|")?/i);
+  const m = String(work.dimensions || "").match(/(\d+(?:\.\d+)?)\s*[x×]\s*(\d+(?:\.\d+)?)\s*(cm|in|ft|")?/i);
   if (!m) return 34;
   let [a, b] = [Number(m[1]), Number(m[2])];
   if (/cm/i.test(m[3] || "")) (a /= 2.54), (b /= 2.54);
+  if (/ft/i.test(m[3] || "")) (a *= 12), (b *= 12);
   const widthIn = (work.image_width || 1) >= (work.image_height || 1) ? Math.max(a, b) : Math.min(a, b);
   return Math.max(8, Math.min(90, (widthIn / 84) * 70));
 }
