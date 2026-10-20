@@ -527,7 +527,7 @@ async function aboutView() {
         ${paragraphs(settings.about)}
         <div class="about__facts">
           <div><p class="eyebrow">Age</p><p>19</p></div>
-          <div><p class="eyebrow">Studies</p><p>Duke University<br>Political science, minor in political economy</p></div>
+          <div><p class="eyebrow">Studies</p><p>Duke University student<br>Political science, minor in political economy</p></div>
           <div><p class="eyebrow">Formerly</p><p>Division I wrestler, University of Northern Colorado (walk-on, earned scholarship)</p></div>
           <div><p class="eyebrow">From</p><p>Georgia &amp; Florida</p></div>
           <div><p class="eyebrow">High school wrestling</p><p>Florida 1A state 4th place (junior) · State finalist (senior)</p></div>
@@ -540,6 +540,10 @@ async function aboutView() {
       <div class="about__photos">
         <figure class="about__photo about__photo--main"><img src="/images/about/duke.jpg" alt="Stevensosmoore in a Duke T-shirt outside Duke Chapel" width="540" height="743" loading="lazy"><figcaption>At Duke Chapel</figcaption></figure>
         <figure class="about__photo about__photo--side"><img src="/images/about/wrestling.jpg" alt="Stevensosmoore's University of Northern Colorado wrestling headshot" width="1019" height="1533" loading="lazy"><figcaption>Wrestling at the University of Northern Colorado</figcaption></figure>
+        <div class="about__wrestle">
+          <figure class="about__photo"><img src="/images/about/state.jpg" alt="Stevensosmoore on the mat at the Florida state wrestling tournament" width="610" height="732" loading="lazy"><figcaption>Florida state tournament</figcaption></figure>
+          <figure class="about__photo"><img src="/images/about/unco-flag.jpg" alt="Stevensosmoore wrapped in a University of Northern Colorado Bears flag" width="1024" height="1543" loading="lazy"><figcaption>University of Northern Colorado</figcaption></figure>
+        </div>
       </div>
     </section>`;
 }

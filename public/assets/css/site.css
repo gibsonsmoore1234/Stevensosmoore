@@ -661,3 +661,8 @@ body {
 .about__photo--side img { aspect-ratio: 2 / 3; transform: rotate(2.5deg); border-color: #fff; }
 .about__facts { grid-template-columns: repeat(2, 1fr) !important; }
 @media (max-width: 860px) { .about__photos { position: static; } .about__facts { grid-template-columns: 1fr !important; } }
+.about__wrestle { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-m); margin-top: var(--space-l); }
+.about__wrestle img { aspect-ratio: 3 / 4; object-fit: cover; border: 6px solid #fff; transform: none; }
+.about__wrestle .about__photo:first-child img { transform: rotate(-1.5deg); }
+.about__wrestle .about__photo:last-child img { transform: rotate(1.5deg); }
+.about__photos { position: static !important; }
