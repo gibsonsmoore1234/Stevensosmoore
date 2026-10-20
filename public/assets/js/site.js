@@ -59,6 +59,8 @@ const socials = (s) => `
 const salePriceHtml = (w) =>
   inCollection(w) ? `<s class="was">${esc(formatPrice(w.price))}</s> <span class="sale">${esc(formatPrice(salePrice(w)))}</span>` : esc(formatPrice(w.price) || "Price on request");
 const ORDER_PHONE = "+14705337922";
+const ORDER_EMAIL = "gibson.moore@duke.edu";
+const mailLink = (body, subject = "Stevensosmoore") => `mailto:${ORDER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 const smsLink = (body) => `sms:${ORDER_PHONE}?&body=${encodeURIComponent(body)}`;
 const orderText = (items) => {
   const lines = items.map((w) => `• ${w.title} (${[mediumFor(w), w.dimensions].filter(Boolean).join(", ")}) — ${formatPrice(salePrice(w))}${inCollection(w) ? " (25% off)" : ""}`);
@@ -160,7 +162,7 @@ const christianOffer = `
         <li><strong>Partly Christian</strong> — for example, a family portrait with crosses and Christian symbols in the background.</li>
         <li><strong>Fully Christian</strong> — a painting of a biblical or historical Christian event.</li>
       </ul>
-      <div class="hero__cta"><a class="btn btn--amber" href="${smsLink("Hi! I'd like to request a Christian commission (25% off).\nSize:\nMy idea:")}">Text a Christian commission request</a><a class="btn btn--ghost-light" href="/commissions">See prices</a></div>
+      <div class="hero__cta"><a class="btn btn--amber" href="${smsLink("Hi! I'd like to request a Christian commission (25% off).\nSize:\nMy idea:")}">Text a Christian commission request</a><a class="btn btn--ghost-light" href="${mailLink("Hi! I'd like to request a Christian commission (25% off).\nSize:\nMy idea:", "Christian commission request")}">Email a request</a><a class="btn btn--ghost-light" href="/commissions">See prices</a></div>
     </div>
   </div>`;
 
@@ -213,6 +215,7 @@ function inquiryForm({ work = null, kind = "general", christian = "", size = "",
       <div class="inquiry__actions">
         <button class="btn" type="submit">Send message</button>
         <a class="btn btn--ghost" href="${esc(smsLink(work ? `Hi! I'm interested in "${work.title}".` : "Hi!"))}">Text me instead</a>
+        <a class="btn btn--ghost" href="${esc(mailLink(work ? `Hi! I'm interested in "${work.title}".` : "Hi!", work ? `About ${work.title}` : "Hello"))}">Email me instead</a>
         <span class="inquiry__alt">or ${email ? `email <a href="mailto:${esc(email)}">${esc(email)}</a> · ` : ""}${settings.contact_phone ? `call/text <a href="tel:${esc(settings.contact_phone.replace(/[^\d+]/g, ""))}">${esc(settings.contact_phone)}</a> · ` : ""}DM <a href="${igUrl(settings)}" target="_blank" rel="noopener">@${esc(settings.instagram || "stevensosmoore")}</a></span>
       </div>
     </form>`;
@@ -435,14 +438,15 @@ async function workView(id) {
   } else if (canBuy(work)) {
     actions = readCart().includes(String(work.id))
       ? `<a class="btn" href="/cart">In your cart — view cart</a><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`
-      : `<button class="btn" type="button" data-add="${esc(work.id)}">Add to cart — ${esc(formatPrice(salePrice(work)))}</button><a class="btn btn--ghost" href="${esc(smsLink(orderText([work])))}">Buy now — text me</a><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`;
+      : `<button class="btn" type="button" data-add="${esc(work.id)}">Add to cart — ${esc(formatPrice(salePrice(work)))}</button><a class="btn btn--ghost" href="${esc(smsLink(orderText([work])))}">Buy now — text me</a><a class="btn btn--ghost" href="${esc(mailLink(orderText([work]), `Order: ${work.title}`))}">Buy now — email me</a><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`;
   } else if (work.status === "available") {
     actions = `<button class="btn" type="button" data-open-inquiry>Inquire about this work</button>`;
   } else if (work.status === "reserved") {
     actions = `<button class="btn btn--ghost" type="button" data-open-inquiry>Join the waitlist</button>`;
   } else {
     actions = `<a class="btn${work.status === "sold" && inCollection(work) ? " btn--sold-gold" : ""}" href="${esc(smsLink(`Hi! I saw "${work.title}" on stevensosmoore.com (sold). I'd like to request something similar.\nSize:\nMy idea:`))}">Request something similar</a>
-      <p class="work__phone">Text or call <a href="tel:${ORDER_PHONE}">+1 470-533-7922</a></p>`;
+      <a class="btn btn--ghost" href="${esc(mailLink(`Hi! I saw "${work.title}" on stevensosmoore.com (sold). I'd like to request something similar.\nSize:\nMy idea:`, `Something similar to ${work.title}`))}">Email a request</a>
+      <p class="work__phone">Text or call <a href="tel:${ORDER_PHONE}">+1 470-533-7922</a> · Email <a href="mailto:${ORDER_EMAIL}">${ORDER_EMAIL}</a></p>`;
   }
 
   return `
@@ -582,7 +586,8 @@ async function cartView() {
               <p class="label__medium">Shipping is added after you order.</p>
               <p class="cart__error" role="alert" hidden></p>
               <a class="btn" href="${esc(smsLink(orderText(buyable)))}" data-text-order>Checkout — text my order</a>
-              <p class="label__medium">Opens a text to <a href="tel:${ORDER_PHONE}">+1 470-533-7922</a> with your order filled in. I'll reply to confirm and arrange payment and shipping.</p>
+              <a class="btn btn--ghost" href="${esc(mailLink(orderText(buyable), "Order from stevensosmoore.com"))}" data-email-order>Checkout — email my order</a>
+              <p class="label__medium">Opens a text to <a href="tel:${ORDER_PHONE}">+1 470-533-7922</a> or an email to <a href="mailto:${ORDER_EMAIL}">${ORDER_EMAIL}</a> with your order filled in. I'll reply to confirm and arrange payment and shipping.</p>
               <button class="btn btn--ghost btn--small" type="button" data-checkout>Or pay online by card</button>
               <a class="link-arrow" href="/oil-paintings">Keep looking</a>
             </div>`
@@ -671,7 +676,8 @@ async function commissionsView() {
         <label class="check-row"><input type="checkbox" data-rc-christian> Christian painting (25% off)</label>
         <p class="rates__total"><span data-rc-total></span><small>before shipping</small></p>
         <a class="btn" data-rc-text href="#">Text this request</a>
-        <a class="btn btn--ghost" data-rc-go href="/contact?kind=commission">Or send by email form</a>
+        <a class="btn btn--ghost" data-rc-mail href="#">Email this request</a>
+        <a class="linkish" data-rc-go href="/contact?kind=commission">Or use the contact form</a>
       </aside>
     </section>
     <section class="section">${christianOffer}</section>`;
@@ -855,6 +861,7 @@ function enhance(settings) {
       view.querySelector("[data-rc-total]").textContent = usd(total);
       view.querySelectorAll("[data-rate]").forEach((r) => r.classList.toggle("is-on", r.dataset.rate === rcSize.value));
       view.querySelector("[data-rc-text]").href = smsLink(`Hi! I'd like to commission a ${size} painting${chk.checked ? " (Christian commission — 25% off)" : ""}. Price: ${usd(total)} + shipping.\nMy idea:`);
+      view.querySelector("[data-rc-mail]").href = mailLink(`Hi! I'd like to commission a ${size} painting${chk.checked ? " (Christian commission — 25% off)" : ""}. Price: ${usd(total)} + shipping.\nMy idea:`, `Commission request: ${size}`);
       view.querySelector("[data-rc-go]").href = `/contact?kind=commission${chk.checked ? "&christian=partly" : ""}&size=${encodeURIComponent(size)}`;
     };
     rcSize.addEventListener("change", upd);
