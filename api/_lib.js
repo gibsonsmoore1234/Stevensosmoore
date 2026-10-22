@@ -2,6 +2,8 @@
 import crypto from "node:crypto";
 
 export const env = (...names) => names.map((n) => process.env[n]).find((v) => v && v.trim())?.trim() || "";
+export const STRIPE_KEY_NAMES = ["STRIPE_SECRET_KEY", "STRIPE_API_KEY", "STRIPE_SECRET", "STRIPE_SK", "STRIPE_KEY", "STRIPE_TEST_SECRET_KEY", "STRIPE_LIVE_SECRET_KEY"];
+export const stripeKey = () => env(...STRIPE_KEY_NAMES);
 export const STRIPE_VERSION = "2026-09-30.endive";
 
 export function originOf(req) {
@@ -10,7 +12,7 @@ export function originOf(req) {
 }
 
 export async function stripe(path, { method = "GET", form, idempotencyKey } = {}) {
-  const headers = { Authorization: `Bearer ${env("STRIPE_SECRET_KEY")}`, "Stripe-Version": STRIPE_VERSION };
+  const headers = { Authorization: `Bearer ${stripeKey()}`, "Stripe-Version": STRIPE_VERSION };
   if (form) headers["Content-Type"] = "application/x-www-form-urlencoded";
   if (idempotencyKey) headers["Idempotency-Key"] = idempotencyKey;
   const r = await fetch(`https://api.stripe.com/v1/${path}`, { method, headers, body: form });

@@ -1,7 +1,7 @@
 // Creates a Stripe Checkout Session for the works in the cart.
 // Prices and availability are always looked up server-side — never trusted from the browser.
 
-import { env, originOf, stripe, setStatus, newKey } from "./_lib.js";
+import { env, stripeKey, originOf, stripe, setStatus, newKey } from "./_lib.js";
 
 async function loadWorks(origin) {
   const url = env("SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_URL");
@@ -20,8 +20,24 @@ async function loadWorks(origin) {
 }
 
 export default async function handler(req, res) {
+  if (req.method === "GET") {
+    // Status check: open /api/checkout in a browser. Never reveals key values.
+    const k = stripeKey();
+    let stripeOk = null;
+    if (k) {
+      try { await stripe("balance"); stripeOk = true; } catch (e) { stripeOk = e.message; }
+    }
+    res.setHeader("Cache-Control", "no-store");
+    return res.status(200).json({
+      stripe_key_found: Boolean(k),
+      stripe_key_mode: k.startsWith("sk_live_") ? "live" : k.startsWith("sk_test_") ? "test" : k.startsWith("rk_") ? "restricted" : k ? "unknown format" : "missing",
+      stripe_connection: stripeOk,
+      webhook_secret_found: Boolean(env("STRIPE_WEBHOOK_SECRET")),
+      supabase_service_key_found: Boolean(env("SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_SECRET_KEY")),
+    });
+  }
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
-  const secret = env("STRIPE_SECRET_KEY");
+  const secret = stripeKey();
   if (!secret) return res.status(503).json({ error: "Checkout isn't set up yet." });
 
   let body = req.body;
@@ -72,7 +88,7 @@ export default async function handler(req, res) {
     session = await stripe("checkout/sessions", { method: "POST", form, idempotencyKey: newKey() });
   } catch (err) {
     console.error("Stripe error", err.message);
-    return res.status(502).json({ error: "Couldn't start checkout. Please try again." });
+    return res.status(502).json({ error: `Stripe: ${err.message}` });
   }
   // Hold the works so nobody else can buy them while this buyer pays (released on cancel/expiry).
   await setStatus(chosen.map((w) => w.id), "available", "reserved").catch(() => {});

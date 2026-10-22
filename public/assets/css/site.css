@@ -673,3 +673,4 @@ body {
 .order-list { list-style: none; padding: 0; width: min(100%, 460px); margin: var(--space-s) 0; text-align: left; border-top: 1px solid var(--line-strong); }
 .order-list li { display: flex; justify-content: space-between; gap: 1rem; padding: 10px 0; border-bottom: 1px solid var(--line); }
 .order-total { font-size: var(--step-1); }
+.work__actions .cart__error { width: 100%; }

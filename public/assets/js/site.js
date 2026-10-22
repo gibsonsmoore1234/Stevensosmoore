@@ -645,8 +645,13 @@ async function startCheckout(ids, errEl, btn) {
   const fail = (m) => {
     btn.disabled = false;
     btn.textContent = label;
-    if (errEl) (errEl.textContent = m), (errEl.hidden = false);
-    else toast(m);
+    if (!errEl) {
+      errEl = btn.parentElement.querySelector(".cart__error") || Object.assign(document.createElement("p"), { className: "cart__error" });
+      errEl.setAttribute("role", "alert");
+      btn.parentElement.append(errEl);
+    }
+    errEl.textContent = m;
+    errEl.hidden = false;
   };
   try {
     const r = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ids }) });
@@ -656,7 +661,8 @@ async function startCheckout(ids, errEl, btn) {
       writeCart(readCart().filter((id) => !data.unavailable.includes(id)));
       return fail("Sorry — something in your cart just sold. Please review your cart.");
     }
-    if (r.status === 503 || r.status === 404) return fail("Card checkout isn't available right now — please text +1 470-533-7922 or email gibson.moore@duke.edu to buy.");
+    if (r.status === 503) return fail("Card checkout isn't connected yet (no Stripe key on the server). Please text +1 470-533-7922 or email gibson.moore@duke.edu to buy.");
+    if (r.status === 404 || r.status === 405) return fail("Card checkout isn't deployed yet. Please text +1 470-533-7922 or email gibson.moore@duke.edu to buy.");
     fail(data.error || "Couldn't start checkout. Please try again.");
   } catch {
     fail("Couldn't reach checkout. Please check your connection and try again.");

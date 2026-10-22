@@ -1,9 +1,9 @@
 // Order summary for the thank-you page. Only returns details for paid sessions.
-import { env, stripe } from "./_lib.js";
+import { env, stripeKey, stripe } from "./_lib.js";
 
 export default async function handler(req, res) {
   const id = String(req.query?.session_id || "");
-  if (!env("STRIPE_SECRET_KEY") || !/^cs_[A-Za-z0-9_]+$/.test(id)) return res.status(400).json({ error: "Bad request" });
+  if (!stripeKey() || !/^cs_[A-Za-z0-9_]+$/.test(id)) return res.status(400).json({ error: "Bad request" });
   try {
     const s = await stripe(`checkout/sessions/${id}?expand[]=line_items`);
     if (s.payment_status !== "paid") return res.status(402).json({ paid: false });
