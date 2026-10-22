@@ -95,7 +95,7 @@ The site has a full cart: **Add to cart / Buy now** on every available work with
 
 1. Create a Stripe account at [dashboard.stripe.com](https://dashboard.stripe.com) and finish activation (bank account for payouts).
 2. **Developers → API keys** → copy the **Secret key** (`sk_live_…`, or `sk_test_…` to try it first).
-3. **Developers → Webhooks → Add endpoint**: URL `https://www.stevensosmoore.com/api/stripe-webhook`, event `checkout.session.completed`. Copy its **Signing secret** (`whsec_…`).
+3. **Developers → Webhooks → Add endpoint**: URL `https://www.stevensosmoore.com/api/stripe-webhook`, events `checkout.session.completed`, `checkout.session.expired` and `checkout.session.async_payment_succeeded`. Copy its **Signing secret** (`whsec_…`).
 4. In Supabase → **Project Settings → API Keys**, copy the **service_role / secret** key (server-only — it never reaches browsers).
 5. In Vercel → **Settings → Environment Variables**, add:
    - `STRIPE_SECRET_KEY` = `sk_…`

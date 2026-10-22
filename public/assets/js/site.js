@@ -439,7 +439,8 @@ async function workView(id) {
   } else if (canBuy(work)) {
     actions = readCart().includes(String(work.id))
       ? `<a class="btn" href="/cart">In your cart — view cart</a><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`
-      : `<button class="btn" type="button" data-add="${esc(work.id)}">Add to cart — ${esc(formatPrice(salePrice(work)))}</button><a class="btn btn--ghost" href="${esc(smsLink(orderText([work])))}">Buy now — text me</a><a class="btn btn--ghost" href="${esc(mailLink(orderText([work]), `Order: ${work.title}`))}">Buy now — email me</a><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`;
+      : `<button class="btn" type="button" data-buy="${esc(work.id)}">Buy now — ${esc(formatPrice(salePrice(work)))}</button><button class="btn btn--ghost" type="button" data-add="${esc(work.id)}">Add to cart</button>
+        <p class="work__alt">Secure card payment by Stripe. Prefer to talk first? <a href="${esc(smsLink(orderText([work])))}">Text</a> or <a href="${esc(mailLink(orderText([work]), `Order: ${work.title}`))}">email</a> me.</p><button class="btn btn--ghost" type="button" data-open-inquiry>Ask a question</button>`;
   } else if (work.status === "available") {
     actions = `<button class="btn" type="button" data-open-inquiry>Inquire about this work</button>`;
   } else if (work.status === "reserved") {
@@ -595,12 +596,14 @@ async function cartView() {
               .join("")}</ul>
             <div class="cart__summary">
               <div class="cart__row"><span>Subtotal</span><strong>${esc(formatPrice(total))}</strong></div>
-              <p class="label__medium">Shipping is added after you order.</p>
+              <p class="label__medium">Shipping is arranged after you order.</p>
               <p class="cart__error" role="alert" hidden></p>
-              <a class="btn" href="${esc(smsLink(orderText(buyable)))}" data-text-order>Checkout — text my order</a>
-              <a class="btn btn--ghost" href="${esc(mailLink(orderText(buyable), "Order from stevensosmoore.com"))}" data-email-order>Checkout — email my order</a>
-              <p class="label__medium">Opens a text to <a href="tel:${ORDER_PHONE}">+1 470-533-7922</a> or an email to <a href="mailto:${ORDER_EMAIL}">${ORDER_EMAIL}</a> with your order filled in. I'll reply to confirm and arrange payment and shipping.</p>
-              <button class="btn btn--ghost btn--small" type="button" data-checkout>Or pay online by card</button>
+              <button class="btn" type="button" data-checkout>Checkout securely</button>
+              <p class="label__medium">Card, Apple Pay or Google Pay through Stripe. Each painting is held for you for 30 minutes while you pay.</p>
+              <a class="btn btn--ghost btn--small" href="${esc(smsLink(orderText(buyable)))}" data-text-order>Or text my order</a>
+              <a class="btn btn--ghost btn--small" href="${esc(mailLink(orderText(buyable), "Order from stevensosmoore.com"))}" data-email-order>Or email my order</a>
+              <p class="label__medium">Text and email open a message to <a href="tel:${ORDER_PHONE}">+1 470-533-7922</a> or an email to <a href="mailto:${ORDER_EMAIL}">${ORDER_EMAIL}</a> with your order filled in. I'll reply to confirm and arrange payment and shipping.</p>
+
               <a class="link-arrow" href="/oil-paintings">Keep looking</a>
             </div>`
           : `<p class="empty">Your cart is empty.</p><a class="btn" href="/oil-paintings">Browse paintings</a>`
@@ -608,15 +611,29 @@ async function cartView() {
     </section>`;
 }
 
-async function thankYouView() {
+async function thankYouView(params) {
   writeCart([]);
   setMeta({ title: "Thank you", path: "/thank-you", description: "Thank you for your purchase." });
+  let order = null;
+  const sid = params.get("session_id") || "";
+  if (/^cs_[A-Za-z0-9_]+$/.test(sid)) {
+    try {
+      const r = await fetch(`/api/order?session_id=${encodeURIComponent(sid)}`);
+      if (r.ok) order = await r.json();
+    } catch {}
+  }
   return `
     <section class="lost">
       ${airship}
-      <p class="eyebrow">Order confirmed</p>
-      <h1>Thank you!</h1>
-      <p>Your payment went through and a receipt is on its way to your email. I'll be in touch about shipping soon.</p>
+      <p class="eyebrow">${order ? `Order #${esc(order.order)} confirmed` : "Order received"}</p>
+      <h1>Thank you${order?.name ? `, ${esc(order.name.split(" ")[0])}` : ""}!</h1>
+      ${
+        order
+          ? `<ul class="order-list">${order.items.map((i) => `<li><span>${esc(i.name)}</span><strong>${esc(formatPrice(i.amount))}</strong></li>`).join("")}<li class="order-total"><span>Total paid</span><strong>${esc(formatPrice(order.total))}</strong></li></ul>
+             <p>A receipt is on its way to <strong>${esc(order.email)}</strong>. I'll be in touch about shipping soon. God bless!</p>`
+          : `<p>Your payment went through and a receipt is on its way to your email. I'll be in touch about shipping soon. God bless!</p>`
+      }
+      <p class="label__medium">Questions? Text <a href="tel:${ORDER_PHONE}">+1 470-533-7922</a> or email <a href="mailto:${ORDER_EMAIL}">${ORDER_EMAIL}</a>.</p>
       <a class="btn" href="/oil-paintings">Back to the paintings</a>
     </section>`;
 }
@@ -639,7 +656,7 @@ async function startCheckout(ids, errEl, btn) {
       writeCart(readCart().filter((id) => !data.unavailable.includes(id)));
       return fail("Sorry — something in your cart just sold. Please review your cart.");
     }
-    if (r.status === 503 || r.status === 404) return fail("Online checkout is coming soon. Please send an inquiry and I'll send you a payment link.");
+    if (r.status === 503 || r.status === 404) return fail("Card checkout isn't available right now — please text +1 470-533-7922 or email gibson.moore@duke.edu to buy.");
     fail(data.error || "Couldn't start checkout. Please try again.");
   } catch {
     fail("Couldn't reach checkout. Please check your connection and try again.");

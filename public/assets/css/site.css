@@ -668,3 +668,8 @@ body {
 .about__photos { position: static !important; }
 .about__photo--main img { aspect-ratio: 4 / 3 !important; }
 .about__photo--side { width: 44% !important; margin-top: -12% !important; }
+.work__alt { width: 100%; font-size: var(--step--1); color: var(--text-muted); }
+.work__alt a { font-weight: 600; }
+.order-list { list-style: none; padding: 0; width: min(100%, 460px); margin: var(--space-s) 0; text-align: left; border-top: 1px solid var(--line-strong); }
+.order-list li { display: flex; justify-content: space-between; gap: 1rem; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.order-total { font-size: var(--step-1); }

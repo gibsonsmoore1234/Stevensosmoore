@@ -1,7 +1,7 @@
 // Creates a Stripe Checkout Session for the works in the cart.
 // Prices and availability are always looked up server-side — never trusted from the browser.
 
-const env = (...names) => names.map((n) => process.env[n]).find((v) => v && v.trim())?.trim() || "";
+import { env, originOf, stripe, setStatus, newKey } from "./_lib.js";
 
 async function loadWorks(origin) {
   const url = env("SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_URL");
@@ -29,8 +29,7 @@ export default async function handler(req, res) {
   const ids = [...new Set((body?.ids || []).map(String))].slice(0, 20);
   if (!ids.length) return res.status(400).json({ error: "Your cart is empty." });
 
-  const proto = req.headers["x-forwarded-proto"] || "https";
-  const origin = `${proto}://${req.headers["x-forwarded-host"] || req.headers.host}`;
+  const origin = originOf(req);
 
   let works;
   try {
@@ -50,7 +49,8 @@ export default async function handler(req, res) {
   const form = new URLSearchParams();
   form.set("mode", "payment");
   form.set("success_url", `${origin}/thank-you?session_id={CHECKOUT_SESSION_ID}`);
-  form.set("cancel_url", `${origin}/cart`);
+  form.set("cancel_url", `${origin}/api/checkout-cancel?session_id={CHECKOUT_SESSION_ID}`);
+  form.set("expires_at", String(Math.floor(Date.now() / 1000) + 30 * 60));
   form.set("billing_address_collection", "auto");
   form.set("shipping_address_collection[allowed_countries][0]", "US");
   form.set("phone_number_collection[enabled]", "true");
@@ -67,15 +67,14 @@ export default async function handler(req, res) {
     form.set(`line_items[${i}][price_data][product_data][metadata][artwork_id]`, String(w.id));
   });
 
-  const r = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${secret}`, "Content-Type": "application/x-www-form-urlencoded" },
-    body: form,
-  });
-  const data = await r.json();
-  if (!r.ok) {
-    console.error("Stripe error", data?.error?.message);
+  let session;
+  try {
+    session = await stripe("checkout/sessions", { method: "POST", form, idempotencyKey: newKey() });
+  } catch (err) {
+    console.error("Stripe error", err.message);
     return res.status(502).json({ error: "Couldn't start checkout. Please try again." });
   }
-  return res.status(200).json({ url: data.url });
+  // Hold the works so nobody else can buy them while this buyer pays (released on cancel/expiry).
+  await setStatus(chosen.map((w) => w.id), "available", "reserved").catch(() => {});
+  return res.status(200).json({ url: session.url });
 }
