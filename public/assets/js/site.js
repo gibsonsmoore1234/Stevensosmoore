@@ -599,7 +599,7 @@ async function cartView() {
               <p class="label__medium">Shipping is arranged after you order.</p>
               <p class="cart__error" role="alert" hidden></p>
               <button class="btn" type="button" data-checkout>Checkout securely</button>
-              <p class="label__medium">Card, Apple Pay or Google Pay through Stripe. Each painting is held for you for 30 minutes while you pay.</p>
+              <p class="label__medium">Card, Apple Pay or Google Pay through Stripe.</p>
               <a class="btn btn--ghost btn--small" href="${esc(smsLink(orderText(buyable)))}" data-text-order>Or text my order</a>
               <a class="btn btn--ghost btn--small" href="${esc(mailLink(orderText(buyable), "Order from stevensosmoore.com"))}" data-email-order>Or email my order</a>
               <p class="label__medium">Text and email open a message to <a href="tel:${ORDER_PHONE}">+1 470-533-7922</a> or an email to <a href="mailto:${ORDER_EMAIL}">${ORDER_EMAIL}</a> with your order filled in. I'll reply to confirm and arrange payment and shipping.</p>
