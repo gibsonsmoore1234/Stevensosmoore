@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gibson Moore Art Commission — Student Petition</title>
+  <meta name="description" content="Sign the student petition asking Duke Arts, DSG and Campus Facilities to fund a $30,000, 10-piece permanent painting series by student artist Gibson Moore.">
+  <meta property="og:title" content="A $30,000 Student Legacy Art Series for Duke Public Spaces">
+  <meta property="og:description" content="Sign the petition for permanent, student-created art on campus.">
+  <meta property="og:image" content="/images/details/cowboy-in-the-clouds-1.jpg">
+  <meta name="theme-color" content="#012169">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/site.css">
+  <script src="/env.js"></script>
+  <script src="/assets/vendor/supabase-2.115.0.js"></script>
+  <script type="module" src="/assets/app.js"></script>
+</head>
+<body>
+  <div id="preview-banner" class="preview-banner" hidden>Preview mode — signatures are saved only in this browser until the database is connected.</div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a href="#top" class="brand">
+        <span class="brand-title">Duke University Gibson Moore Art Commission</span>
+        <span class="brand-sub">Empowering Student Visual Culture Through Permanent Campus Art</span>
+      </a>
+      <a href="#sign" class="btn btn-small">Sign</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- 1. Hero -->
+    <section class="hero">
+      <img class="hero-img" src="/images/details/cowboy-in-the-clouds-1.jpg" alt="Close-up of oil brushwork from Gibson Moore's painting Cowboy in the Clouds">
+      <div class="hero-shade"></div>
+      <div class="wrap hero-content">
+        <p class="eyebrow">Student petition</p>
+        <h1>A $30,000 Student Legacy Art Series for Duke Public Spaces.</h1>
+        <p class="lede">We are calling on Duke Arts, Duke Student Government (DSG), and Campus Facilities to fully fund and install a 10-piece large-scale painting series created by student artist Gibson Moore. Sign the petition below to show university leadership that Duke students support investing campus funds into permanent, student-created visual art.</p>
+        <div class="hero-actions">
+          <a href="#sign" class="btn btn-light">Sign the petition</a>
+          <div class="hero-count" aria-live="polite"><strong data-count>—</strong> signatures so far</div>
+        </div>
+      </div>
+      <p class="hero-credit">Detail, <em>Cowboy in the Clouds</em>, oil on canvas</p>
+    </section>
+
+    <!-- Work strip -->
+    <section class="strip" aria-label="Selected work by Gibson Moore">
+      <div class="strip-track" id="strip"></div>
+    </section>
+
+    <!-- 2. Project breakdown -->
+    <section class="section" id="project">
+      <div class="wrap">
+        <div class="grid-2">
+          <article class="card vision">
+            <p class="eyebrow">The vision</p>
+            <h2>Ten paintings. Permanent homes on campus.</h2>
+            <p>A cohesive series of ten large-scale paintings in varied canvas sizes, made with archival oil and acrylic so they hold their color for decades.</p>
+            <p>The series is planned for permanent or semi-permanent installation in the places students actually pass every day:</p>
+            <ul class="places">
+              <li><strong>Bryan Center</strong></li>
+              <li><strong>Brodhead Center</strong></li>
+              <li><strong>Rubenstein Arts Center</strong></li>
+            </ul>
+          </article>
+
+          <article class="card budget">
+            <p class="eyebrow">Budget transparency</p>
+            <h2>Where every dollar of the $30,000 goes</h2>
+            <div class="budget-bar" id="budget-bar" role="img" aria-label="Budget split as a bar"></div>
+            <table class="budget-table" id="budget-table">
+              <tbody></tbody>
+              <tfoot><tr><th>Total</th><td>$30,000</td></tr></tfoot>
+            </table>
+          </article>
+        </div>
+
+        <article class="why">
+          <p class="eyebrow">Why this matters to students</p>
+          <h2>Duke's walls should show Duke's own students.</h2>
+          <div class="why-grid">
+            <p><strong>Keep it in the community.</strong> Major campus art commissions should go to Duke's own student creators, not be outsourced to outside contractors.</p>
+            <p><strong>Leave a legacy.</strong> Permanent student work tells every future class that what they make here matters enough to hang on the walls.</p>
+            <p><strong>Spend visibly.</strong> A fixed, published budget means students can see exactly what campus funds are buying.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 3 + 4. Petition and progress -->
+    <section class="section section-blue" id="sign">
+      <div class="wrap grid-petition">
+        <div class="progress-col">
+          <p class="eyebrow eyebrow-light">Live progress</p>
+          <h2>Add your name.</h2>
+          <div class="tracker">
+            <div class="tracker-bar"><i id="tracker-fill"></i></div>
+            <p class="tracker-label" aria-live="polite"><strong data-count>—</strong> / <span id="goal">10,000</span> signatures collected</p>
+          </div>
+          <h3>Recent supporters</h3>
+          <ul class="feed" id="feed"><li class="muted">Loading…</li></ul>
+        </div>
+
+        <form id="petition" class="card form" novalidate>
+          <div id="form-body">
+            <label class="field">Full name <span class="req">*</span>
+              <input name="full_name" required minlength="3" maxlength="80" autocomplete="name" placeholder="First and Last Name">
+            </label>
+            <label class="field">Duke email address <span class="req">*</span>
+              <input name="email" type="email" required autocomplete="email" placeholder="netid@duke.edu" pattern="^[^@\s]+@duke\.edu$">
+              <small>Used solely to verify current Duke student/community status. Your email will not be shared or spammed.</small>
+            </label>
+            <label class="field">Affiliation <span class="req">*</span>
+              <select name="affiliation" required>
+                <option value="" disabled selected>Choose one</option>
+                <option value="undergrad">Undergraduate Student</option>
+                <option value="grad">Graduate Student</option>
+                <option value="faculty_staff">Duke Faculty &amp; Staff</option>
+                <option value="alumni">Alumni</option>
+              </select>
+            </label>
+
+            <fieldset class="field sig">
+              <legend>Signature</legend>
+              <label class="check"><input type="checkbox" name="authorized"> I authorize my name to be included in the petition presented to DSG and Duke Arts.</label>
+              <p class="or">and/or draw your signature</p>
+              <div class="pad-wrap">
+                <canvas id="pad" aria-label="Signature pad: draw with your finger or mouse"></canvas>
+                <button type="button" class="link" id="pad-clear">Clear</button>
+              </div>
+            </fieldset>
+
+            <label class="field">Why do you want to see more student-created art in Duke buildings? <span class="opt">(optional)</span>
+              <textarea name="comment" rows="3" maxlength="500"></textarea>
+            </label>
+            <label class="check small"><input type="checkbox" name="comment_public" checked> Show my comment (with my first name and last initial) on this page</label>
+
+            <p class="err" id="form-err" hidden></p>
+            <button class="btn btn-block" id="submit">Add my signature to the commission</button>
+          </div>
+          <div id="form-done" class="done" hidden></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Endorsements -->
+    <section class="section" id="voices">
+      <div class="wrap">
+        <p class="eyebrow">In their words</p>
+        <h2>Why students are signing</h2>
+        <div class="quotes" id="quotes"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 5. Footer -->
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div>
+        <h3>Share the petition</h3>
+        <div class="share">
+          <button class="btn btn-outline" data-share="instagram">Instagram Story</button>
+          <button class="btn btn-outline" data-share="groupme">GroupMe</button>
+          <a class="btn btn-outline" id="share-reddit" target="_blank" rel="noopener">Post to r/duke</a>
+        </div>
+        <p class="share-note" id="share-note" aria-live="polite"></p>
+      </div>
+      <div>
+        <h3>Press</h3>
+        <p id="press">The Duke Chronicle feature — link coming once it's published.</p>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Departmental co-sponsorship or faculty advising? <a href="mailto:gibson.moore@duke.edu?subject=Art%20Commission%20co-sponsorship">Email Gibson Moore</a>.</p>
+        <p>See more work at <a href="https://www.stevensosmoore.com" target="_blank" rel="noopener">stevensosmoore.com</a> and <a href="https://instagram.com/stevensosmoore" target="_blank" rel="noopener">@stevensosmoore</a>.</p>
+      </div>
+    </div>
+    <p class="wrap disclaimer">This is an independent, student-led petition. It is not an official Duke University website and is not endorsed by Duke University, Duke Arts, Duke Student Government or Campus Facilities.</p>
+  </footer>
+</body>
+</html>

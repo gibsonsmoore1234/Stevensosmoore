@@ -1,0 +1,12 @@
+{
+  "name": "gibson-moore-art-commission",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Student petition for a $30,000, 10-piece permanent painting series at Duke by Gibson Moore.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev.mjs"
+  },
+  "engines": { "node": ">=18" }
+}
