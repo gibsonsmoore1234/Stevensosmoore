@@ -161,3 +161,4 @@ where not exists (select 1 from public.artworks where image_url = '/images/works
 update public.artworks set dimensions = '30 × 40 in' where image_url = '/images/works/plague.jpg';
 update public.artworks set dimensions = '4 × 6 ft' where image_url = '/images/works/airship-over-the-glass-city.jpg';
 update public.artworks set price = 666.67 where image_url = '/images/works/plague.jpg';
+update public.artworks set dimensions = '16 × 12 in', price = 175, status = 'sold' where image_url = '/images/works/charcoal-figure.jpg';
